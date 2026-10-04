@@ -146,6 +146,8 @@ function AdminPage() {
           <p className="text-sm text-muted-foreground">Loading…</p>
         ) : workspaces.length === 0 ? (
           <CreateWorkspace />
+        ) : creating ? (
+          <CreateWorkspace onCreated={(id) => { setCreating(false); setWorkspaceId(id); }} />
         ) : !workspace || !role ? (
           <div className="mx-auto max-w-md rounded-2xl border bg-card p-8 text-center">
             <h1 className="text-xl font-extrabold">Waiting for access</h1>
@@ -167,7 +169,7 @@ function AdminPage() {
   );
 }
 
-function CreateWorkspace() {
+function CreateWorkspace({ onCreated }: { onCreated?: (id: string) => void }) {
   const queryClient = useQueryClient();
   const { user } = Route.useRouteContext();
   const [name, setName] = useState("");
@@ -190,6 +192,7 @@ function CreateWorkspace() {
     setName("");
     setBusy(false);
     queryClient.invalidateQueries({ queryKey: ["workspaces", user.id] });
+    onCreated?.(ws.id);
   }
 
   return (
