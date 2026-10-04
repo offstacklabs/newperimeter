@@ -94,9 +94,9 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => BlogRoute,
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersIndexRoute = CustomersIndexRouteImport.update({
   id: '/customers/',
@@ -104,9 +104,9 @@ const CustomersIndexRoute = CustomersIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersSlugRoute = CustomersSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => CustomersRoute,
+  id: '/customers/$slug',
+  path: '/customers/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const SolutionsAiPlatformRoute = SolutionsAiPlatformRouteImport.update({
   id: '/solutions/ai-platform',
@@ -263,6 +263,8 @@ export interface RootRouteChildren {
   McpGatewayRoute: typeof McpGatewayRoute
   VisibilityRoute: typeof VisibilityRoute
   WatchRoute: typeof WatchRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  CustomersSlugRoute: typeof CustomersSlugRoute
   SolutionsAiPlatformRoute: typeof SolutionsAiPlatformRoute
   SolutionsAiTransformationRoute: typeof SolutionsAiTransformationRoute
   SolutionsItSecurityRoute: typeof SolutionsItSecurityRoute
@@ -365,10 +367,10 @@ declare module '@tanstack/react-router' {
     }
     '/blog/$slug': {
       id: '/blog/$slug'
-      path: '/$slug'
+      path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/customers/': {
       id: '/customers/'
@@ -379,10 +381,10 @@ declare module '@tanstack/react-router' {
     }
     '/customers/$slug': {
       id: '/customers/$slug'
-      path: '/$slug'
+      path: '/customers/$slug'
       fullPath: '/customers/$slug'
       preLoaderRoute: typeof CustomersSlugRouteImport
-      parentRoute: typeof CustomersRoute
+      parentRoute: typeof rootRouteImport
     }
     '/solutions/ai-platform': {
       id: '/solutions/ai-platform'
@@ -431,6 +433,8 @@ const rootRouteChildren: RootRouteChildren = {
   McpGatewayRoute: McpGatewayRoute,
   VisibilityRoute: VisibilityRoute,
   WatchRoute: WatchRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  CustomersSlugRoute: CustomersSlugRoute,
   SolutionsAiPlatformRoute: SolutionsAiPlatformRoute,
   SolutionsAiTransformationRoute: SolutionsAiTransformationRoute,
   SolutionsItSecurityRoute: SolutionsItSecurityRoute,
