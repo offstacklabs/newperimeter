@@ -14,7 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          actor: string
+          created_at: string
+          detail: string | null
+          id: string
+          outcome: string
+          server: string
+          tool: string
+        }
+        Insert: {
+          actor: string
+          created_at?: string
+          detail?: string | null
+          id?: string
+          outcome: string
+          server: string
+          tool: string
+        }
+        Update: {
+          actor?: string
+          created_at?: string
+          detail?: string | null
+          id?: string
+          outcome?: string
+          server?: string
+          tool?: string
+        }
+        Relationships: []
+      }
+      mcp_servers: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          status: string
+          url: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          status?: string
+          url: string
+          version?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          status?: string
+          url?: string
+          version?: string
+        }
+        Relationships: []
+      }
+      policies: {
+        Row: {
+          created_at: string
+          effect: string
+          enabled: boolean
+          id: string
+          name: string
+          scope: string
+          tool_pattern: string
+        }
+        Insert: {
+          created_at?: string
+          effect?: string
+          enabled?: boolean
+          id?: string
+          name: string
+          scope?: string
+          tool_pattern: string
+        }
+        Update: {
+          created_at?: string
+          effect?: string
+          enabled?: boolean
+          id?: string
+          name?: string
+          scope?: string
+          tool_pattern?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
