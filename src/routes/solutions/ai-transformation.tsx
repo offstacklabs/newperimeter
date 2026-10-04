@@ -45,7 +45,7 @@ function AiTransformationPage() {
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-        <Link to="/customers" className="rounded-full border bg-background px-6 py-3 font-semibold">Read customer stories</Link>
+        <Link to="/blog" className="rounded-full border bg-background px-6 py-3 font-semibold">Read the blog</Link>
       </PageHero>
 
       <Section eyebrow="The playbook" title="Three moves, in order.">

@@ -80,7 +80,7 @@ function Index() {
           <p className="mt-3 text-muted-foreground">30-minute walkthrough with our team, tailored to your stack.</p>
           <div className="mt-8 flex justify-center gap-3">
             <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-            <Link to="/customers" className="rounded-full border bg-background px-6 py-3 font-semibold">Read customer stories</Link>
+            <Link to="/blog" className="rounded-full border bg-background px-6 py-3 font-semibold">Read the blog</Link>
           </div>
         </div>
       </section>

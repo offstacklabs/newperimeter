@@ -32,7 +32,7 @@ const capabilities: [string, string][] = [
 ];
 
 const stats: [string, string][] = [
-  ["2.4M", "tool calls governed per month, median customer"],
+  ["2.4M", "tool calls governed per month"],
   ["1 day/week", "of platform time reclaimed from config churn"],
   ["Minutes", "to answer 'who did what' — not days of log archaeology"],
 ];
