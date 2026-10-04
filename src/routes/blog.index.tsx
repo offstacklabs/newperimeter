@@ -7,7 +7,7 @@ import { blogPosts } from "@/lib/content";
 const T = "Blog — Agentwall";
 const D = "Essays and engineering notes on MCP security, agent governance and enterprise AI adoption.";
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: T },

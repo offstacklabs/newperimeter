@@ -7,7 +7,7 @@ import { caseStudies } from "@/lib/content";
 const T = "Customers — Agentwall";
 const D = "How platform, security and IT teams use Agentwall to roll out governed AI agents across the enterprise.";
 
-export const Route = createFileRoute("/customers")({
+export const Route = createFileRoute("/customers/")({
   head: () => ({
     meta: [
       { title: T },
