@@ -8,6 +8,13 @@
       "when": 1791137605187,
       "tag": "0000_create_admin_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791141514775,
+      "tag": "0001_roles_access_control",
+      "breakpoints": true
     }
   ]
 }
