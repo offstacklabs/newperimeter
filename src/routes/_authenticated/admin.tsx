@@ -112,6 +112,7 @@ function AdminPage() {
                     {w.name}
                   </option>
                 ))}
+                <option value="__new__">+ New workspace</option>
               </select>
             )}
             {role && <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs">{role}</span>}
