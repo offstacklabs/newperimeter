@@ -15,6 +15,41 @@
       "when": 1791141514775,
       "tag": "0001_roles_access_control",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791142031072,
+      "tag": "0002_multi_team_workspaces",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791142154204,
+      "tag": "0003_workspace_creator_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791142180376,
+      "tag": "0004_workspace_created_by_default",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791142211732,
+      "tag": "0005_fix_first_member_policy",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791142258388,
+      "tag": "0006_workspace_member_read_own",
+      "breakpoints": true
     }
   ]
 }

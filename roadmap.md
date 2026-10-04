@@ -1,7 +1,8 @@
 # Roadmap
 
 ## Production-ready Agentwall
-- [ ] Security & roles: admin/viewer roles, tighter RLS, restricted sign-up (paused — awaiting user priority)
+- [x] Security & roles: admin/viewer roles, tighter RLS, restricted sign-up
+- [x] Multi-team workspaces: per-workspace servers/policies/audit log, team switcher, per-workspace members (creation flow + isolation browser-verified)
 - [ ] Real MCP proxy/enforcement layer
 - [ ] Audit log search/filters, CSV export, alerts
 - [ ] Launch prep: security scan, custom domain, publish

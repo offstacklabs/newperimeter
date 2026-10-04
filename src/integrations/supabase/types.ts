@@ -23,6 +23,7 @@ export type Database = {
           outcome: string
           server: string
           tool: string
+          workspace_id: string | null
         }
         Insert: {
           actor: string
@@ -32,6 +33,7 @@ export type Database = {
           outcome: string
           server: string
           tool: string
+          workspace_id?: string | null
         }
         Update: {
           actor?: string
@@ -41,8 +43,17 @@ export type Database = {
           outcome?: string
           server?: string
           tool?: string
+          workspace_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       mcp_servers: {
         Row: {
@@ -53,6 +64,7 @@ export type Database = {
           status: string
           url: string
           version: string
+          workspace_id: string | null
         }
         Insert: {
           created_at?: string
@@ -62,6 +74,7 @@ export type Database = {
           status?: string
           url: string
           version?: string
+          workspace_id?: string | null
         }
         Update: {
           created_at?: string
@@ -71,8 +84,17 @@ export type Database = {
           status?: string
           url?: string
           version?: string
+          workspace_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "mcp_servers_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       policies: {
         Row: {
@@ -83,6 +105,7 @@ export type Database = {
           name: string
           scope: string
           tool_pattern: string
+          workspace_id: string | null
         }
         Insert: {
           created_at?: string
@@ -92,6 +115,7 @@ export type Database = {
           name: string
           scope?: string
           tool_pattern: string
+          workspace_id?: string | null
         }
         Update: {
           created_at?: string
@@ -101,8 +125,17 @@ export type Database = {
           name?: string
           scope?: string
           tool_pattern?: string
+          workspace_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "policies_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -125,6 +158,59 @@ export type Database = {
         }
         Relationships: []
       }
+      workspace_members: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_members_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workspaces: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -142,7 +228,27 @@ export type Database = {
         }
         Returns: boolean
       }
+      has_workspace_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user: string
+          _ws: string
+        }
+        Returns: boolean
+      }
+      invite_to_workspace: {
+        Args: {
+          _email: string
+          _role: Database["public"]["Enums"]["app_role"]
+          _ws: string
+        }
+        Returns: undefined
+      }
       is_member: { Args: { _user_id: string }; Returns: boolean }
+      is_workspace_member: {
+        Args: { _user: string; _ws: string }
+        Returns: boolean
+      }
       list_members: {
         Args: never
         Returns: {
@@ -151,6 +257,19 @@ export type Database = {
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }[]
+      }
+      list_workspace_members: {
+        Args: { _ws: string }
+        Returns: {
+          created_at: string
+          email: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }[]
+      }
+      remove_from_workspace: {
+        Args: { _user: string; _ws: string }
+        Returns: undefined
       }
     }
     Enums: {
