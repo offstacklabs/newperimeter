@@ -27,7 +27,7 @@ const columns: { title: string; links: { to: string; name: string }[] }[] = [
       { to: "/customers", name: "Customers" },
       { to: "/blog", name: "Blog" },
       { to: "/book-a-demo", name: "Book a demo" },
-et    ],
+    ],
   },
 ];
 

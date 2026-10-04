@@ -1,4 +1,4 @@
-import { Link, type AnyRouteMatch } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 
 type Pair = readonly [string, string];
