@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 const T = "Agentwall — Secure MCP for the enterprise";
@@ -43,7 +43,10 @@ function Index() {
           <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
           Agentwall
         </div>
-        <a href="#demo" className="rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background">Book a demo</a>
+        <div className="flex items-center gap-3">
+          <Link to="/admin" className="text-sm font-semibold text-muted-foreground hover:text-foreground">Console</Link>
+          <a href="#demo" className="rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background">Book a demo</a>
+        </div>
       </header>
 
       <section className="grid-bg border-y">
