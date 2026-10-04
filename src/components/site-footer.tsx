@@ -1,0 +1,68 @@
+import { Link } from "@tanstack/react-router";
+
+const columns: { title: string; links: { to: string; name: string }[] }[] = [
+  {
+    title: "Product",
+    links: [
+      { to: "/mcp-gateway", name: "MCP Gateway" },
+      { to: "/identity-policy", name: "Agent IAM & Policy" },
+      { to: "/guard", name: "Runtime Security" },
+      { to: "/catalog", name: "Catalog" },
+      { to: "/visibility", name: "Observability & ROI" },
+      { to: "/watch", name: "Shadow AI" },
+    ],
+  },
+  {
+    title: "Solutions",
+    links: [
+      { to: "/solutions/ai-transformation", name: "AI Transformation" },
+      { to: "/solutions/ai-platform", name: "AI Platform Teams" },
+      { to: "/solutions/it-security", name: "IT & Security" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { to: "/about", name: "About" },
+      { to: "/customers", name: "Customers" },
+      { to: "/blog", name: "Blog" },
+      { to: "/book-a-demo", name: "Book a demo" },
+et    ],
+  },
+];
+
+export function SiteFooter() {
+  return (
+    <footer className="border-t bg-muted">
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-4">
+        <div>
+          <div className="flex items-center gap-2 font-extrabold tracking-tight">
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
+            Agentwall
+          </div>
+          <p className="mt-4 max-w-xs text-sm text-muted-foreground">
+            Secure MCP for the enterprise. One control plane for every server, agent and tool call.
+          </p>
+        </div>
+        {columns.map((col) => (
+          <div key={col.title}>
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">{col.title}</p>
+            <ul className="mt-4 space-y-2">
+              {col.links.map((l) => (
+                <li key={l.to}>
+                  <Link to={l.to} className="text-sm text-muted-foreground hover:text-foreground">{l.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="border-t">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 py-6 text-sm text-muted-foreground">
+          <span>© 2026 Agentwall, Inc.</span>
+          <span className="font-mono text-xs">SOC 2 Type II · GDPR ready · Self-host or cloud</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
