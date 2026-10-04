@@ -236,6 +236,7 @@ function Overview() {
 
 function Servers() {
   const queryClient = useQueryClient();
+  const isAdmin = useIsAdmin();
   const { data: servers = [] } = useQuery({
     queryKey: ["servers"],
     queryFn: async () =>
@@ -247,20 +248,22 @@ function Servers() {
   async function addServer(e: React.FormEvent) {
     e.preventDefault();
     const { data: userData } = await supabase.auth.getUser();
-    await supabase.from("mcp_servers").insert({ name, url, created_by: userData.user?.id ?? null });
+    const { error } = await supabase.from("mcp_servers").insert({ name, url, created_by: userData.user?.id ?? null });
+    if (!check(error, "Server registered")) return;
     setName("");
     setUrl("");
     queryClient.invalidateQueries({ queryKey: ["servers"] });
   }
 
   async function setStatus(id: string, status: "approved" | "blocked" | "pending") {
-    await supabase.from("mcp_servers").update({ status }).eq("id", id);
+    const { error } = await supabase.from("mcp_servers").update({ status }).eq("id", id);
+    check(error);
     queryClient.invalidateQueries({ queryKey: ["servers"] });
   }
 
   return (
     <div>
-      <form onSubmit={addServer} className="flex flex-col gap-2 rounded-2xl border bg-card p-4 sm:flex-row">
+      {isAdmin && <form onSubmit={addServer} className="flex flex-col gap-2 rounded-2xl border bg-card p-4 sm:flex-row">
         <input
           required
           placeholder="Server name"
@@ -276,7 +279,7 @@ function Servers() {
           className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
         />
         <button className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground">Register</button>
-      </form>
+      </form>}
       <div className="mt-6 overflow-hidden rounded-2xl border bg-card">
         {servers.map((s) => (
           <div key={s.id} className="flex flex-wrap items-center gap-3 border-t px-5 py-4 first:border-t-0">
@@ -295,10 +298,10 @@ function Servers() {
             >
               {s.status}
             </span>
-            <div className="flex gap-2">
+            {isAdmin && <div className="flex gap-2">
               <button onClick={() => setStatus(s.id, "approved")} className="rounded border px-3 py-1 text-xs font-semibold hover:bg-accent">Approve</button>
               <button onClick={() => setStatus(s.id, "blocked")} className="rounded border px-3 py-1 text-xs font-semibold hover:bg-accent">Block</button>
-            </div>
+            </div>}
           </div>
         ))}
       </div>
@@ -308,6 +311,7 @@ function Servers() {
 
 function Policies() {
   const queryClient = useQueryClient();
+  const isAdmin = useIsAdmin();
   const { data: policies = [] } = useQuery({
     queryKey: ["policies"],
     queryFn: async () =>
@@ -319,20 +323,22 @@ function Policies() {
 
   async function addPolicy(e: React.FormEvent) {
     e.preventDefault();
-    await supabase.from("policies").insert({ name, tool_pattern: pattern, effect });
+    const { error } = await supabase.from("policies").insert({ name, tool_pattern: pattern, effect });
+    if (!check(error, "Policy added")) return;
     setName("");
     setPattern("");
     queryClient.invalidateQueries({ queryKey: ["policies"] });
   }
 
   async function toggle(id: string, enabled: boolean) {
-    await supabase.from("policies").update({ enabled: !enabled }).eq("id", id);
+    const { error } = await supabase.from("policies").update({ enabled: !enabled }).eq("id", id);
+    check(error);
     queryClient.invalidateQueries({ queryKey: ["policies"] });
   }
 
   return (
     <div>
-      <form onSubmit={addPolicy} className="flex flex-col gap-2 rounded-2xl border bg-card p-4 sm:flex-row">
+      {isAdmin && <form onSubmit={addPolicy} className="flex flex-col gap-2 rounded-2xl border bg-card p-4 sm:flex-row">
         <input
           required
           placeholder="Policy name"
@@ -357,7 +363,7 @@ function Policies() {
           <option value="flag">flag</option>
         </select>
         <button className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground">Add</button>
-      </form>
+      </form>}
       <div className="mt-6 overflow-hidden rounded-2xl border bg-card">
         {policies.map((p) => (
           <div key={p.id} className="flex flex-wrap items-center gap-3 border-t px-5 py-4 first:border-t-0">
@@ -367,6 +373,7 @@ function Policies() {
             </div>
             <span className={`rounded px-2 py-0.5 font-mono text-xs ${outcomeStyles[p.effect]}`}>{p.effect}</span>
             <button
+              disabled={!isAdmin}
               onClick={() => toggle(p.id, p.enabled)}
               className={`rounded-full px-3 py-1 text-xs font-semibold ${
                 p.enabled ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
