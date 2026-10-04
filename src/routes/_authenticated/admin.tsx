@@ -42,6 +42,7 @@ const outcomeStyles: Record<string, string> = {
 
 function AdminPage() {
   const [tab, setTab] = useState<Tab>("overview");
+  const [creating, setCreating] = useState(false);
   const [workspaceId, setWorkspaceId] = useState<string | null>(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -95,7 +96,14 @@ function AdminPage() {
             {workspaces.length > 0 && (
               <select
                 value={workspace?.id ?? ""}
-                onChange={(e) => setWorkspaceId(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === "__new__") {
+                    setCreating(true);
+                    return;
+                  }
+                  setCreating(false);
+                  setWorkspaceId(e.target.value);
+                }}
                 className="rounded-lg border bg-background px-3 py-1.5 text-sm font-semibold outline-none focus:border-primary"
                 aria-label="Workspace"
               >
@@ -104,6 +112,7 @@ function AdminPage() {
                     {w.name}
                   </option>
                 ))}
+                <option value="__new__">+ New workspace</option>
               </select>
             )}
             {role && <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs">{role}</span>}
@@ -137,6 +146,8 @@ function AdminPage() {
           <p className="text-sm text-muted-foreground">Loading…</p>
         ) : workspaces.length === 0 ? (
           <CreateWorkspace />
+        ) : creating ? (
+          <CreateWorkspace onCreated={(id) => { setCreating(false); setWorkspaceId(id); }} />
         ) : !workspace || !role ? (
           <div className="mx-auto max-w-md rounded-2xl border bg-card p-8 text-center">
             <h1 className="text-xl font-extrabold">Waiting for access</h1>
@@ -158,7 +169,7 @@ function AdminPage() {
   );
 }
 
-function CreateWorkspace() {
+function CreateWorkspace({ onCreated }: { onCreated?: (id: string) => void }) {
   const queryClient = useQueryClient();
   const { user } = Route.useRouteContext();
   const [name, setName] = useState("");
@@ -181,6 +192,7 @@ function CreateWorkspace() {
     setName("");
     setBusy(false);
     queryClient.invalidateQueries({ queryKey: ["workspaces", user.id] });
+    onCreated?.(ws.id);
   }
 
   return (
