@@ -42,6 +42,7 @@ const outcomeStyles: Record<string, string> = {
 
 function AdminPage() {
   const [tab, setTab] = useState<Tab>("overview");
+  const [creating, setCreating] = useState(false);
   const [workspaceId, setWorkspaceId] = useState<string | null>(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -95,7 +96,14 @@ function AdminPage() {
             {workspaces.length > 0 && (
               <select
                 value={workspace?.id ?? ""}
-                onChange={(e) => setWorkspaceId(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === "__new__") {
+                    setCreating(true);
+                    return;
+                  }
+                  setCreating(false);
+                  setWorkspaceId(e.target.value);
+                }}
                 className="rounded-lg border bg-background px-3 py-1.5 text-sm font-semibold outline-none focus:border-primary"
                 aria-label="Workspace"
               >
