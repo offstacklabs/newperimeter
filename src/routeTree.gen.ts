@@ -12,6 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CatalogRouteImport } from './routes/catalog'
+import { Route as GuardRouteImport } from './routes/guard'
+import { Route as IdentityPolicyRouteImport } from './routes/identity-policy'
+import { Route as McpGatewayRouteImport } from './routes/mcp-gateway'
+import { Route as VisibilityRouteImport } from './routes/visibility'
+import { Route as WatchRouteImport } from './routes/watch'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
 const IndexRoute = IndexRouteImport.update({
@@ -28,6 +34,36 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogRoute = CatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuardRoute = GuardRouteImport.update({
+  id: '/guard',
+  path: '/guard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdentityPolicyRoute = IdentityPolicyRouteImport.update({
+  id: '/identity-policy',
+  path: '/identity-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpGatewayRoute = McpGatewayRouteImport.update({
+  id: '/mcp-gateway',
+  path: '/mcp-gateway',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VisibilityRoute = VisibilityRouteImport.update({
+  id: '/visibility',
+  path: '/visibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WatchRoute = WatchRouteImport.update({
+  id: '/watch',
+  path: '/watch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -37,11 +73,23 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/catalog': typeof CatalogRoute
+  '/guard': typeof GuardRoute
+  '/identity-policy': typeof IdentityPolicyRoute
+  '/mcp-gateway': typeof McpGatewayRoute
+  '/visibility': typeof VisibilityRoute
+  '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/catalog': typeof CatalogRoute
+  '/guard': typeof GuardRoute
+  '/identity-policy': typeof IdentityPolicyRoute
+  '/mcp-gateway': typeof McpGatewayRoute
+  '/visibility': typeof VisibilityRoute
+  '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesById {
@@ -49,20 +97,61 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/catalog': typeof CatalogRoute
+  '/guard': typeof GuardRoute
+  '/identity-policy': typeof IdentityPolicyRoute
+  '/mcp-gateway': typeof McpGatewayRoute
+  '/visibility': typeof VisibilityRoute
+  '/watch': typeof WatchRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/admin'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/catalog'
+    | '/guard'
+    | '/identity-policy'
+    | '/mcp-gateway'
+    | '/visibility'
+    | '/watch'
+    | '/admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/admin'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/admin'
+  to:
+    | '/'
+    | '/auth'
+    | '/catalog'
+    | '/guard'
+    | '/identity-policy'
+    | '/mcp-gateway'
+    | '/visibility'
+    | '/watch'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/catalog'
+    | '/guard'
+    | '/identity-policy'
+    | '/mcp-gateway'
+    | '/visibility'
+    | '/watch'
+    | '/_authenticated/admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CatalogRoute: typeof CatalogRoute
+  GuardRoute: typeof GuardRoute
+  IdentityPolicyRoute: typeof IdentityPolicyRoute
+  McpGatewayRoute: typeof McpGatewayRoute
+  VisibilityRoute: typeof VisibilityRoute
+  WatchRoute: typeof WatchRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -86,6 +175,48 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog': {
+      id: '/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof CatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guard': {
+      id: '/guard'
+      path: '/guard'
+      fullPath: '/guard'
+      preLoaderRoute: typeof GuardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/identity-policy': {
+      id: '/identity-policy'
+      path: '/identity-policy'
+      fullPath: '/identity-policy'
+      preLoaderRoute: typeof IdentityPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp-gateway': {
+      id: '/mcp-gateway'
+      path: '/mcp-gateway'
+      fullPath: '/mcp-gateway'
+      preLoaderRoute: typeof McpGatewayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visibility': {
+      id: '/visibility'
+      path: '/visibility'
+      fullPath: '/visibility'
+      preLoaderRoute: typeof VisibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watch': {
+      id: '/watch'
+      path: '/watch'
+      fullPath: '/watch'
+      preLoaderRoute: typeof WatchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -113,6 +244,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CatalogRoute: CatalogRoute,
+  GuardRoute: GuardRoute,
+  IdentityPolicyRoute: IdentityPolicyRoute,
+  McpGatewayRoute: McpGatewayRoute,
+  VisibilityRoute: VisibilityRoute,
+  WatchRoute: WatchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
