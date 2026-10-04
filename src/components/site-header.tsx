@@ -17,7 +17,6 @@ const solutions = [
 
 const company = [
   { to: "/about", name: "About" },
-  { to: "/customers", name: "Customers" },
   { to: "/blog", name: "Blog" },
   { to: "/book-a-demo", name: "Book a demo" },
 ] as const;

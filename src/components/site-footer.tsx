@@ -24,7 +24,6 @@ const columns: { title: string; links: { to: string; name: string }[] }[] = [
     title: "Company",
     links: [
       { to: "/about", name: "About" },
-      { to: "/customers", name: "Customers" },
       { to: "/blog", name: "Blog" },
       { to: "/book-a-demo", name: "Book a demo" },
     ],

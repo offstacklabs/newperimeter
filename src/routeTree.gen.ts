@@ -23,8 +23,6 @@ import { Route as WatchRouteImport } from './routes/watch'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as CustomersIndexRouteImport } from './routes/customers.index'
-import { Route as CustomersSlugRouteImport } from './routes/customers.$slug'
 import { Route as SolutionsAiPlatformRouteImport } from './routes/solutions/ai-platform'
 import { Route as SolutionsAiTransformationRouteImport } from './routes/solutions/ai-transformation'
 import { Route as SolutionsItSecurityRouteImport } from './routes/solutions/it-security'
@@ -98,16 +96,6 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CustomersIndexRoute = CustomersIndexRouteImport.update({
-  id: '/customers/',
-  path: '/customers/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CustomersSlugRoute = CustomersSlugRouteImport.update({
-  id: '/customers/$slug',
-  path: '/customers/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SolutionsAiPlatformRoute = SolutionsAiPlatformRouteImport.update({
   id: '/solutions/ai-platform',
   path: '/solutions/ai-platform',
@@ -138,12 +126,10 @@ export interface FileRoutesByFullPath {
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/customers/$slug': typeof CustomersSlugRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog/': typeof BlogIndexRoute
-  '/customers/': typeof CustomersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -158,12 +144,10 @@ export interface FileRoutesByTo {
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/customers/$slug': typeof CustomersSlugRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog': typeof BlogIndexRoute
-  '/customers': typeof CustomersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -180,12 +164,10 @@ export interface FileRoutesById {
   '/watch': typeof WatchRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/customers/$slug': typeof CustomersSlugRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog/': typeof BlogIndexRoute
-  '/customers/': typeof CustomersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -202,12 +184,10 @@ export interface FileRouteTypes {
     | '/watch'
     | '/admin'
     | '/blog/$slug'
-    | '/customers/$slug'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog/'
-    | '/customers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -222,12 +202,10 @@ export interface FileRouteTypes {
     | '/watch'
     | '/admin'
     | '/blog/$slug'
-    | '/customers/$slug'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog'
-    | '/customers'
   id:
     | '__root__'
     | '/'
@@ -243,12 +221,10 @@ export interface FileRouteTypes {
     | '/watch'
     | '/_authenticated/admin'
     | '/blog/$slug'
-    | '/customers/$slug'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog/'
-    | '/customers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -264,12 +240,10 @@ export interface RootRouteChildren {
   VisibilityRoute: typeof VisibilityRoute
   WatchRoute: typeof WatchRoute
   BlogSlugRoute: typeof BlogSlugRoute
-  CustomersSlugRoute: typeof CustomersSlugRoute
   SolutionsAiPlatformRoute: typeof SolutionsAiPlatformRoute
   SolutionsAiTransformationRoute: typeof SolutionsAiTransformationRoute
   SolutionsItSecurityRoute: typeof SolutionsItSecurityRoute
   BlogIndexRoute: typeof BlogIndexRoute
-  CustomersIndexRoute: typeof CustomersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -372,20 +346,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/customers/': {
-      id: '/customers/'
-      path: '/customers'
-      fullPath: '/customers/'
-      preLoaderRoute: typeof CustomersIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/customers/$slug': {
-      id: '/customers/$slug'
-      path: '/customers/$slug'
-      fullPath: '/customers/$slug'
-      preLoaderRoute: typeof CustomersSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/solutions/ai-platform': {
       id: '/solutions/ai-platform'
       path: '/solutions/ai-platform'
@@ -434,12 +394,10 @@ const rootRouteChildren: RootRouteChildren = {
   VisibilityRoute: VisibilityRoute,
   WatchRoute: WatchRoute,
   BlogSlugRoute: BlogSlugRoute,
-  CustomersSlugRoute: CustomersSlugRoute,
   SolutionsAiPlatformRoute: SolutionsAiPlatformRoute,
   SolutionsAiTransformationRoute: SolutionsAiTransformationRoute,
   SolutionsItSecurityRoute: SolutionsItSecurityRoute,
   BlogIndexRoute: BlogIndexRoute,
-  CustomersIndexRoute: CustomersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
