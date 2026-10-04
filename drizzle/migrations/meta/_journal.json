@@ -43,6 +43,13 @@
       "when": 1791142211732,
       "tag": "0005_fix_first_member_policy",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791142258388,
+      "tag": "0006_workspace_member_read_own",
+      "breakpoints": true
     }
   ]
 }
