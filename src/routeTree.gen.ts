@@ -11,14 +11,23 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as BookADemoRouteImport } from './routes/book-a-demo'
 import { Route as CatalogRouteImport } from './routes/catalog'
+import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as GuardRouteImport } from './routes/guard'
 import { Route as IdentityPolicyRouteImport } from './routes/identity-policy'
 import { Route as McpGatewayRouteImport } from './routes/mcp-gateway'
 import { Route as VisibilityRouteImport } from './routes/visibility'
 import { Route as WatchRouteImport } from './routes/watch'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as CustomersSlugRouteImport } from './routes/customers.$slug'
+import { Route as SolutionsAiPlatformRouteImport } from './routes/solutions/ai-platform'
+import { Route as SolutionsAiTransformationRouteImport } from './routes/solutions/ai-transformation'
+import { Route as SolutionsItSecurityRouteImport } from './routes/solutions/it-security'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,14 +38,34 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookADemoRoute = BookADemoRouteImport.update({
+  id: '/book-a-demo',
+  path: '/book-a-demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CatalogRoute = CatalogRouteImport.update({
   id: '/catalog',
   path: '/catalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomersRoute = CustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuardRoute = GuardRouteImport.update({
@@ -69,89 +98,176 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
+const CustomersSlugRoute = CustomersSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CustomersRoute,
+} as any)
+const SolutionsAiPlatformRoute = SolutionsAiPlatformRouteImport.update({
+  id: '/solutions/ai-platform',
+  path: '/solutions/ai-platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsAiTransformationRoute =
+  SolutionsAiTransformationRouteImport.update({
+    id: '/solutions/ai-transformation',
+    path: '/solutions/ai-transformation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SolutionsItSecurityRoute = SolutionsItSecurityRouteImport.update({
+  id: '/solutions/it-security',
+  path: '/solutions/it-security',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/book-a-demo': typeof BookADemoRoute
   '/catalog': typeof CatalogRoute
+  '/customers': typeof CustomersRouteWithChildren
   '/guard': typeof GuardRoute
   '/identity-policy': typeof IdentityPolicyRoute
   '/mcp-gateway': typeof McpGatewayRoute
   '/visibility': typeof VisibilityRoute
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/customers/$slug': typeof CustomersSlugRoute
+  '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
+  '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
+  '/solutions/it-security': typeof SolutionsItSecurityRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/book-a-demo': typeof BookADemoRoute
   '/catalog': typeof CatalogRoute
+  '/customers': typeof CustomersRouteWithChildren
   '/guard': typeof GuardRoute
   '/identity-policy': typeof IdentityPolicyRoute
   '/mcp-gateway': typeof McpGatewayRoute
   '/visibility': typeof VisibilityRoute
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/customers/$slug': typeof CustomersSlugRoute
+  '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
+  '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
+  '/solutions/it-security': typeof SolutionsItSecurityRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/book-a-demo': typeof BookADemoRoute
   '/catalog': typeof CatalogRoute
+  '/customers': typeof CustomersRouteWithChildren
   '/guard': typeof GuardRoute
   '/identity-policy': typeof IdentityPolicyRoute
   '/mcp-gateway': typeof McpGatewayRoute
   '/visibility': typeof VisibilityRoute
   '/watch': typeof WatchRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/customers/$slug': typeof CustomersSlugRoute
+  '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
+  '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
+  '/solutions/it-security': typeof SolutionsItSecurityRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/auth'
+    | '/blog'
+    | '/book-a-demo'
     | '/catalog'
+    | '/customers'
     | '/guard'
     | '/identity-policy'
     | '/mcp-gateway'
     | '/visibility'
     | '/watch'
     | '/admin'
+    | '/blog/$slug'
+    | '/customers/$slug'
+    | '/solutions/ai-platform'
+    | '/solutions/ai-transformation'
+    | '/solutions/it-security'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/auth'
+    | '/blog'
+    | '/book-a-demo'
     | '/catalog'
+    | '/customers'
     | '/guard'
     | '/identity-policy'
     | '/mcp-gateway'
     | '/visibility'
     | '/watch'
     | '/admin'
+    | '/blog/$slug'
+    | '/customers/$slug'
+    | '/solutions/ai-platform'
+    | '/solutions/ai-transformation'
+    | '/solutions/it-security'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/about'
     | '/auth'
+    | '/blog'
+    | '/book-a-demo'
     | '/catalog'
+    | '/customers'
     | '/guard'
     | '/identity-policy'
     | '/mcp-gateway'
     | '/visibility'
     | '/watch'
     | '/_authenticated/admin'
+    | '/blog/$slug'
+    | '/customers/$slug'
+    | '/solutions/ai-platform'
+    | '/solutions/ai-transformation'
+    | '/solutions/it-security'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
+  BookADemoRoute: typeof BookADemoRoute
   CatalogRoute: typeof CatalogRoute
+  CustomersRoute: typeof CustomersRouteWithChildren
   GuardRoute: typeof GuardRoute
   IdentityPolicyRoute: typeof IdentityPolicyRoute
   McpGatewayRoute: typeof McpGatewayRoute
   VisibilityRoute: typeof VisibilityRoute
   WatchRoute: typeof WatchRoute
+  SolutionsAiPlatformRoute: typeof SolutionsAiPlatformRoute
+  SolutionsAiTransformationRoute: typeof SolutionsAiTransformationRoute
+  SolutionsItSecurityRoute: typeof SolutionsItSecurityRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -170,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -177,11 +300,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-a-demo': {
+      id: '/book-a-demo'
+      path: '/book-a-demo'
+      fullPath: '/book-a-demo'
+      preLoaderRoute: typeof BookADemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/catalog': {
       id: '/catalog'
       path: '/catalog'
       fullPath: '/catalog'
       preLoaderRoute: typeof CatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customers': {
+      id: '/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof CustomersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guard': {
@@ -226,6 +370,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/customers/$slug': {
+      id: '/customers/$slug'
+      path: '/$slug'
+      fullPath: '/customers/$slug'
+      preLoaderRoute: typeof CustomersSlugRouteImport
+      parentRoute: typeof CustomersRoute
+    }
+    '/solutions/ai-platform': {
+      id: '/solutions/ai-platform'
+      path: '/solutions/ai-platform'
+      fullPath: '/solutions/ai-platform'
+      preLoaderRoute: typeof SolutionsAiPlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/ai-transformation': {
+      id: '/solutions/ai-transformation'
+      path: '/solutions/ai-transformation'
+      fullPath: '/solutions/ai-transformation'
+      preLoaderRoute: typeof SolutionsAiTransformationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/it-security': {
+      id: '/solutions/it-security'
+      path: '/solutions/it-security'
+      fullPath: '/solutions/it-security'
+      preLoaderRoute: typeof SolutionsItSecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -240,16 +419,45 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
+interface CustomersRouteChildren {
+  CustomersSlugRoute: typeof CustomersSlugRoute
+}
+
+const CustomersRouteChildren: CustomersRouteChildren = {
+  CustomersSlugRoute: CustomersSlugRoute,
+}
+
+const CustomersRouteWithChildren = CustomersRoute._addFileChildren(
+  CustomersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
+  BookADemoRoute: BookADemoRoute,
   CatalogRoute: CatalogRoute,
+  CustomersRoute: CustomersRouteWithChildren,
   GuardRoute: GuardRoute,
   IdentityPolicyRoute: IdentityPolicyRoute,
   McpGatewayRoute: McpGatewayRoute,
   VisibilityRoute: VisibilityRoute,
   WatchRoute: WatchRoute,
+  SolutionsAiPlatformRoute: SolutionsAiPlatformRoute,
+  SolutionsAiTransformationRoute: SolutionsAiTransformationRoute,
+  SolutionsItSecurityRoute: SolutionsItSecurityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
