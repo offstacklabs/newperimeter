@@ -78,7 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Gatehouse — Secure MCP for the enterprise" },
+      { title: "Agentwall — Secure MCP for the enterprise" },
       { name: "description", content: "Govern every MCP server and AI agent in one place." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
