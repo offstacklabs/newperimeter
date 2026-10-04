@@ -13,17 +13,17 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BookADemoRouteImport } from './routes/book-a-demo'
 import { Route as CatalogRouteImport } from './routes/catalog'
-import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as GuardRouteImport } from './routes/guard'
 import { Route as IdentityPolicyRouteImport } from './routes/identity-policy'
 import { Route as McpGatewayRouteImport } from './routes/mcp-gateway'
 import { Route as VisibilityRouteImport } from './routes/visibility'
 import { Route as WatchRouteImport } from './routes/watch'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as CustomersIndexRouteImport } from './routes/customers.index'
 import { Route as CustomersSlugRouteImport } from './routes/customers.$slug'
 import { Route as SolutionsAiPlatformRouteImport } from './routes/solutions/ai-platform'
 import { Route as SolutionsAiTransformationRouteImport } from './routes/solutions/ai-transformation'
@@ -48,11 +48,6 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BookADemoRoute = BookADemoRouteImport.update({
   id: '/book-a-demo',
   path: '/book-a-demo',
@@ -61,11 +56,6 @@ const BookADemoRoute = BookADemoRouteImport.update({
 const CatalogRoute = CatalogRouteImport.update({
   id: '/catalog',
   path: '/catalog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CustomersRoute = CustomersRouteImport.update({
-  id: '/customers',
-  path: '/customers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuardRoute = GuardRouteImport.update({
@@ -98,10 +88,20 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => BlogRoute,
+} as any)
+const CustomersIndexRoute = CustomersIndexRouteImport.update({
+  id: '/customers/',
+  path: '/customers/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersSlugRoute = CustomersSlugRouteImport.update({
   id: '/$slug',
@@ -129,10 +129,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRouteWithChildren
   '/book-a-demo': typeof BookADemoRoute
   '/catalog': typeof CatalogRoute
-  '/customers': typeof CustomersRouteWithChildren
   '/guard': typeof GuardRoute
   '/identity-policy': typeof IdentityPolicyRoute
   '/mcp-gateway': typeof McpGatewayRoute
@@ -144,15 +142,15 @@ export interface FileRoutesByFullPath {
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
+  '/blog/': typeof BlogIndexRoute
+  '/customers/': typeof CustomersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRouteWithChildren
   '/book-a-demo': typeof BookADemoRoute
   '/catalog': typeof CatalogRoute
-  '/customers': typeof CustomersRouteWithChildren
   '/guard': typeof GuardRoute
   '/identity-policy': typeof IdentityPolicyRoute
   '/mcp-gateway': typeof McpGatewayRoute
@@ -164,6 +162,8 @@ export interface FileRoutesByTo {
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
+  '/blog': typeof BlogIndexRoute
+  '/customers': typeof CustomersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -171,10 +171,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRouteWithChildren
   '/book-a-demo': typeof BookADemoRoute
   '/catalog': typeof CatalogRoute
-  '/customers': typeof CustomersRouteWithChildren
   '/guard': typeof GuardRoute
   '/identity-policy': typeof IdentityPolicyRoute
   '/mcp-gateway': typeof McpGatewayRoute
@@ -186,6 +184,8 @@ export interface FileRoutesById {
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
+  '/blog/': typeof BlogIndexRoute
+  '/customers/': typeof CustomersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -193,10 +193,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
-    | '/blog'
     | '/book-a-demo'
     | '/catalog'
-    | '/customers'
     | '/guard'
     | '/identity-policy'
     | '/mcp-gateway'
@@ -208,15 +206,15 @@ export interface FileRouteTypes {
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
+    | '/blog/'
+    | '/customers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
-    | '/blog'
     | '/book-a-demo'
     | '/catalog'
-    | '/customers'
     | '/guard'
     | '/identity-policy'
     | '/mcp-gateway'
@@ -228,16 +226,16 @@ export interface FileRouteTypes {
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
+    | '/blog'
+    | '/customers'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/about'
     | '/auth'
-    | '/blog'
     | '/book-a-demo'
     | '/catalog'
-    | '/customers'
     | '/guard'
     | '/identity-policy'
     | '/mcp-gateway'
@@ -249,6 +247,8 @@ export interface FileRouteTypes {
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
+    | '/blog/'
+    | '/customers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -256,10 +256,8 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
-  BlogRoute: typeof BlogRouteWithChildren
   BookADemoRoute: typeof BookADemoRoute
   CatalogRoute: typeof CatalogRoute
-  CustomersRoute: typeof CustomersRouteWithChildren
   GuardRoute: typeof GuardRoute
   IdentityPolicyRoute: typeof IdentityPolicyRoute
   McpGatewayRoute: typeof McpGatewayRoute
@@ -268,6 +266,8 @@ export interface RootRouteChildren {
   SolutionsAiPlatformRoute: typeof SolutionsAiPlatformRoute
   SolutionsAiTransformationRoute: typeof SolutionsAiTransformationRoute
   SolutionsItSecurityRoute: typeof SolutionsItSecurityRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  CustomersIndexRoute: typeof CustomersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -300,13 +300,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/book-a-demo': {
       id: '/book-a-demo'
       path: '/book-a-demo'
@@ -319,13 +312,6 @@ declare module '@tanstack/react-router' {
       path: '/catalog'
       fullPath: '/catalog'
       preLoaderRoute: typeof CatalogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/customers': {
-      id: '/customers'
-      path: '/customers'
-      fullPath: '/customers'
-      preLoaderRoute: typeof CustomersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guard': {
@@ -370,12 +356,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof BlogRoute
+    }
+    '/customers/': {
+      id: '/customers/'
+      path: '/customers'
+      fullPath: '/customers/'
+      preLoaderRoute: typeof CustomersIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/customers/$slug': {
       id: '/customers/$slug'
@@ -419,37 +419,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface BlogRouteChildren {
-  BlogSlugRoute: typeof BlogSlugRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogSlugRoute: BlogSlugRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
-interface CustomersRouteChildren {
-  CustomersSlugRoute: typeof CustomersSlugRoute
-}
-
-const CustomersRouteChildren: CustomersRouteChildren = {
-  CustomersSlugRoute: CustomersSlugRoute,
-}
-
-const CustomersRouteWithChildren = CustomersRoute._addFileChildren(
-  CustomersRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
-  BlogRoute: BlogRouteWithChildren,
   BookADemoRoute: BookADemoRoute,
   CatalogRoute: CatalogRoute,
-  CustomersRoute: CustomersRouteWithChildren,
   GuardRoute: GuardRoute,
   IdentityPolicyRoute: IdentityPolicyRoute,
   McpGatewayRoute: McpGatewayRoute,
@@ -458,6 +434,8 @@ const rootRouteChildren: RootRouteChildren = {
   SolutionsAiPlatformRoute: SolutionsAiPlatformRoute,
   SolutionsAiTransformationRoute: SolutionsAiTransformationRoute,
   SolutionsItSecurityRoute: SolutionsItSecurityRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  CustomersIndexRoute: CustomersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
