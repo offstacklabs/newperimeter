@@ -172,7 +172,7 @@ function CreateWorkspace() {
       .insert({ name, created_by: user.id })
       .select("id")
       .single();
-    if (!check(wsError)) return setBusy(false);
+    if (!check(wsError) || !ws) return setBusy(false);
     const { error: memberError } = await supabase
       .from("workspace_members")
       .insert({ workspace_id: ws.id, user_id: user.id, role: "admin" });
