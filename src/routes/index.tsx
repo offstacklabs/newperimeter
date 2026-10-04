@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-const T = "Gatehouse — Secure MCP for the enterprise";
+const T = "Agentwall — Secure MCP for the enterprise";
 const D = "One control plane for every MCP server and AI agent: access policies, threat detection and full audit logs.";
 
 export const Route = createFileRoute("/")({
@@ -40,8 +40,8 @@ function Index() {
     <div className="min-h-screen">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <div className="flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">G</span>
-          Gatehouse
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
+          Agentwall
         </div>
         <a href="#demo" className="rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background">Book a demo</a>
       </header>
@@ -87,7 +87,7 @@ function Index() {
 
       <section id="demo" className="border-t bg-muted">
         <div className="mx-auto max-w-xl px-6 py-24 text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight">See Gatehouse in action</h2>
+          <h2 className="text-4xl font-extrabold tracking-tight">See Agentwall in action</h2>
           <p className="mt-3 text-muted-foreground">30-minute walkthrough with our team.</p>
           {sent ? (
             <p className="mt-8 font-semibold text-primary">Thanks — we'll be in touch shortly.</p>
@@ -100,7 +100,7 @@ function Index() {
         </div>
       </section>
 
-      <footer className="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground">© 2026 Gatehouse</footer>
+      <footer className="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground">© 2026 Agentwall</footer>
     </div>
   );
 }
