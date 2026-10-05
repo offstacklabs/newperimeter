@@ -26,6 +26,7 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as SolutionsAiPlatformRouteImport } from './routes/solutions/ai-platform'
 import { Route as SolutionsAiTransformationRouteImport } from './routes/solutions/ai-transformation'
 import { Route as SolutionsItSecurityRouteImport } from './routes/solutions/it-security'
+import { Route as ApiPublicMcpServerIdRouteImport } from './routes/api/public/mcp.$serverId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -112,6 +113,11 @@ const SolutionsItSecurityRoute = SolutionsItSecurityRouteImport.update({
   path: '/solutions/it-security',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMcpServerIdRoute = ApiPublicMcpServerIdRouteImport.update({
+  id: '/api/public/mcp/$serverId',
+  path: '/api/public/mcp/$serverId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog/': typeof BlogIndexRoute
+  '/api/public/mcp/$serverId': typeof ApiPublicMcpServerIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog': typeof BlogIndexRoute
+  '/api/public/mcp/$serverId': typeof ApiPublicMcpServerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog/': typeof BlogIndexRoute
+  '/api/public/mcp/$serverId': typeof ApiPublicMcpServerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog/'
+    | '/api/public/mcp/$serverId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog'
+    | '/api/public/mcp/$serverId'
   id:
     | '__root__'
     | '/'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog/'
+    | '/api/public/mcp/$serverId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -244,6 +256,7 @@ export interface RootRouteChildren {
   SolutionsAiTransformationRoute: typeof SolutionsAiTransformationRoute
   SolutionsItSecurityRoute: typeof SolutionsItSecurityRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  ApiPublicMcpServerIdRoute: typeof ApiPublicMcpServerIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -367,6 +380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsItSecurityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/mcp/$serverId': {
+      id: '/api/public/mcp/$serverId'
+      path: '/api/public/mcp/$serverId'
+      fullPath: '/api/public/mcp/$serverId'
+      preLoaderRoute: typeof ApiPublicMcpServerIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -398,6 +418,7 @@ const rootRouteChildren: RootRouteChildren = {
   SolutionsAiTransformationRoute: SolutionsAiTransformationRoute,
   SolutionsItSecurityRoute: SolutionsItSecurityRoute,
   BlogIndexRoute: BlogIndexRoute,
+  ApiPublicMcpServerIdRoute: ApiPublicMcpServerIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
