@@ -2,14 +2,17 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-type AuthSearch = { redirect?: string; mode?: "signin" | "signup"; email?: string };
+type AuthSearch = { redirect?: string | undefined; mode?: "signin" | "signup" | undefined; email?: string | undefined };
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>): AuthSearch => ({
-    redirect: typeof s.redirect === "string" && /^\/invite\/[a-f0-9]+$/.test(s.redirect) ? s.redirect : undefined,
-    mode: s.mode === "signup" ? "signup" : undefined,
-    email: typeof s.email === "string" ? s.email : undefined,
-  }),
+  validateSearch: (s: Record<string, unknown>): AuthSearch => {
+    const r = s["redirect"], m = s["mode"], e = s["email"];
+    return {
+      redirect: typeof r === "string" && /^\/invite\/[a-f0-9]+$/.test(r) ? r : undefined,
+      mode: m === "signup" ? "signup" : undefined,
+      email: typeof e === "string" ? e : undefined,
+    };
+  },
   head: () => ({
     meta: [
       { title: "Sign in — Agentwall" },
