@@ -44,7 +44,11 @@ const outcomeStyles: Record<string, string> = {
 function AdminPage() {
   const [tab, setTab] = useState<Tab>("overview");
   const [creating, setCreating] = useState(false);
-  const [workspaceId, setWorkspaceId] = useState<string | null>(null);
+  const [workspaceId, setWorkspaceId] = useState<string | null>(() => {
+    const ws = sessionStorage.getItem("aw_ws");
+    sessionStorage.removeItem("aw_ws");
+    return ws;
+  });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user } = Route.useRouteContext();
@@ -241,14 +245,48 @@ function Team({ currentUserId }: { currentUserId: string }) {
       return data ?? [];
     },
   });
+  const { data: invites = [] } = useQuery({
+    queryKey: ["invites", workspaceId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("workspace_invitations")
+        .select("id, email, role, token, expires_at")
+        .eq("workspace_id", workspaceId)
+        .is("accepted_at", null)
+        .is("revoked_at", null)
+        .gt("expires_at", new Date().toISOString())
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<Role>("viewer");
 
+  const linkFor = (token: string) => `${window.location.origin}/invite/${token}`;
+  async function copyLink(token: string) {
+    await navigator.clipboard.writeText(linkFor(token));
+    toast.success("Invite link copied");
+  }
+
   async function grant(e: React.FormEvent) {
     e.preventDefault();
-    const { error } = await supabase.rpc("invite_to_workspace", { _ws: workspaceId, _email: email, _role: role });
-    if (check(error, `Access granted to ${email}`)) setEmail("");
-    queryClient.invalidateQueries({ queryKey: ["members", workspaceId] });
+    const { data, error } = await supabase
+      .from("workspace_invitations")
+      .insert({ workspace_id: workspaceId, email: email.trim().toLowerCase(), role })
+      .select("token")
+      .single();
+    if (check(error, `Invite created for ${email} — link copied, send it to them`)) {
+      setEmail("");
+      if (data) navigator.clipboard.writeText(linkFor(data.token)).catch(() => {});
+    }
+    queryClient.invalidateQueries({ queryKey: ["invites", workspaceId] });
+  }
+
+  async function revokeInvite(id: string) {
+    const { error } = await supabase.from("workspace_invitations").update({ revoked_at: new Date().toISOString() }).eq("id", id);
+    check(error, "Invite revoked");
+    queryClient.invalidateQueries({ queryKey: ["invites", workspaceId] });
   }
 
   async function revoke(userId: string) {
@@ -263,7 +301,7 @@ function Team({ currentUserId }: { currentUserId: string }) {
         <input
           required
           type="email"
-          placeholder="teammate@company.com (must have signed up)"
+          placeholder="teammate@company.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
@@ -272,8 +310,24 @@ function Team({ currentUserId }: { currentUserId: string }) {
           <option value="viewer">viewer</option>
           <option value="admin">admin</option>
         </select>
-        <button className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground">Grant access</button>
+        <button className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground">Create invite</button>
       </form>
+      {invites.length > 0 && (
+        <div className="mt-6">
+          <h3 className="mb-2 text-sm font-semibold text-muted-foreground">Pending invites (expire after 7 days)</h3>
+          <div className="overflow-hidden rounded-2xl border bg-card">
+            {invites.map((i) => (
+              <div key={i.id} className="flex items-center gap-3 border-t px-5 py-3 first:border-t-0">
+                <span className="flex-1 text-sm">{i.email}</span>
+                <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs">{i.role}</span>
+                <button onClick={() => copyLink(i.token)} className="rounded border px-3 py-1 text-xs font-semibold hover:bg-accent">Copy link</button>
+                <button onClick={() => revokeInvite(i.id)} className="rounded border px-3 py-1 text-xs font-semibold hover:bg-accent">Revoke</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <h3 className="mb-2 mt-6 text-sm font-semibold text-muted-foreground">Members</h3>
       <div className="mt-6 overflow-hidden rounded-2xl border bg-card">
         {members.map((m) => (
           <div key={m.user_id + m.role} className="flex items-center gap-3 border-t px-5 py-4 first:border-t-0">
