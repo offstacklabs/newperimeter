@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { sha256Hex } from "@/lib/policy-engine";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -614,7 +615,7 @@ function Policies() {
         />
         <input
           required
-          placeholder="tool.pattern_*"
+          placeholder="write_file or filesystem.* or *.drop_*"
           value={pattern}
           onChange={(e) => setPattern(e.target.value)}
           className="flex-1 rounded-lg border bg-background px-4 py-2 font-mono text-sm outline-none focus:border-primary"
@@ -674,6 +675,102 @@ function AuditLog() {
         </div>
       ))}
       {logs.length === 0 && <p className="p-5 text-sm text-muted-foreground">No events logged yet.</p>}
+    </div>
+  );
+}
+
+function ApiKeys() {
+  const { workspaceId } = useWs();
+  const queryClient = useQueryClient();
+  const { data: keys = [] } = useQuery({
+    queryKey: ["api-keys", workspaceId],
+    queryFn: async () =>
+      (await supabase
+        .from("workspace_api_keys")
+        .select("id, name, key_prefix, created_at, last_used_at, revoked_at")
+        .eq("workspace_id", workspaceId)
+        .order("created_at", { ascending: false })).data ?? [],
+  });
+  const [name, setName] = useState("");
+  const [fresh, setFresh] = useState<string | null>(null);
+
+  async function create(e: React.FormEvent) {
+    e.preventDefault();
+    const bytes = crypto.getRandomValues(new Uint8Array(24));
+    const key = "aw_" + Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+    const { error } = await supabase.from("workspace_api_keys").insert({
+      workspace_id: workspaceId,
+      name,
+      key_prefix: key.slice(0, 10),
+      key_hash: await sha256Hex(key),
+    });
+    if (!check(error, "API key created")) return;
+    setFresh(key);
+    setName("");
+    queryClient.invalidateQueries({ queryKey: ["api-keys", workspaceId] });
+  }
+
+  async function revoke(id: string) {
+    const { error } = await supabase
+      .from("workspace_api_keys")
+      .update({ revoked_at: new Date().toISOString() })
+      .eq("id", id)
+      .eq("workspace_id", workspaceId);
+    check(error, "Key revoked");
+    queryClient.invalidateQueries({ queryKey: ["api-keys", workspaceId] });
+  }
+
+  return (
+    <div>
+      <div className="rounded-2xl border bg-card p-5 text-sm text-muted-foreground">
+        Point agents at a server's <span className="font-semibold text-foreground">Gateway URL</span> (Servers tab) and send{" "}
+        <code className="font-mono text-foreground">Authorization: Bearer &lt;key&gt;</code>. Every tool call is checked against your
+        policies and logged. If the real server needs its own token, send it as{" "}
+        <code className="font-mono text-foreground">X-Upstream-Authorization</code>.
+      </div>
+      <form onSubmit={create} className="mt-4 flex flex-col gap-2 rounded-2xl border bg-card p-4 sm:flex-row">
+        <input
+          required
+          placeholder="Key name (e.g. cursor-prod)"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
+        />
+        <button className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground">Create key</button>
+      </form>
+      {fresh && (
+        <div className="mt-4 rounded-2xl border border-primary bg-card p-4">
+          <p className="text-sm font-semibold">Copy this key now — it won't be shown again.</p>
+          <div className="mt-2 flex gap-2">
+            <code className="flex-1 overflow-x-auto rounded bg-muted px-3 py-2 font-mono text-xs" data-testid="new-key">{fresh}</code>
+            <button
+              onClick={() => { navigator.clipboard.writeText(fresh); toast.success("Copied"); }}
+              className="rounded border px-3 text-xs font-semibold hover:bg-accent"
+            >
+              Copy
+            </button>
+            <button onClick={() => setFresh(null)} className="rounded border px-3 text-xs font-semibold hover:bg-accent">Done</button>
+          </div>
+        </div>
+      )}
+      <div className="mt-6 overflow-hidden rounded-2xl border bg-card">
+        {keys.length === 0 && <p className="px-5 py-4 text-sm text-muted-foreground">No keys yet.</p>}
+        {keys.map((k) => (
+          <div key={k.id} className="flex flex-wrap items-center gap-3 border-t px-5 py-4 first:border-t-0">
+            <div className="min-w-40 flex-1">
+              <p className="font-semibold">{k.name}</p>
+              <p className="font-mono text-xs text-muted-foreground">
+                {k.key_prefix}… · last used {k.last_used_at ? new Date(k.last_used_at).toLocaleString() : "never"}
+              </p>
+            </div>
+            {k.revoked_at ? (
+              <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs">revoked</span>
+            ) : (
+              <button onClick={() => revoke(k.id)} className="rounded border px-3 py-1 text-xs font-semibold hover:bg-accent">Revoke</button>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
