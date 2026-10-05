@@ -16,9 +16,9 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type Tab = "overview" | "servers" | "policies" | "audit" | "team";
+type Tab = "overview" | "servers" | "policies" | "audit" | "team" | "settings";
 type Role = "admin" | "viewer";
-type Workspace = { id: string; name: string; created_by: string | null };
+type Workspace = { id: string; name: string; created_by: string | null; default_action: "allow" | "flag" | "block"; audit_retention_days: number };
 
 type WorkspaceContextValue = { workspaceId: string; role: Role };
 const WorkspaceContext = createContext<WorkspaceContextValue>({ workspaceId: "", role: "viewer" });
@@ -51,7 +51,7 @@ function AdminPage() {
   const { data: workspaces = [], isLoading } = useQuery({
     queryKey: ["workspaces", user.id],
     queryFn: async (): Promise<Workspace[]> => {
-      const { data, error } = await supabase.from("workspaces").select("id, name, created_by").order("created_at");
+      const { data, error } = await supabase.from("workspaces").select("id, name, created_by, default_action, audit_retention_days").order("created_at");
       if (error) throw error;
       return data ?? [];
     },
@@ -81,7 +81,7 @@ function AdminPage() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const tabs: Tab[] = role === "admin" ? ["overview", "servers", "policies", "audit", "team"] : ["overview", "servers", "policies", "audit"];
+  const tabs: Tab[] = role === "admin" ? ["overview", "servers", "policies", "audit", "team", "settings"] : ["overview", "servers", "policies", "audit"];
 
   return (
     <div className="min-h-screen bg-muted">
@@ -162,6 +162,17 @@ function AdminPage() {
             {tab === "policies" && <Policies />}
             {tab === "audit" && <AuditLog />}
             {tab === "team" && role === "admin" && <Team currentUserId={user.id} />}
+            {tab === "settings" && role === "admin" && (
+              <Settings
+                key={workspace.id}
+                workspace={workspace}
+                onDeleted={() => {
+                  setWorkspaceId(null);
+                  setCreating(false);
+                  setTab("overview");
+                }}
+              />
+            )}
           </WorkspaceContext.Provider>
         )}
       </main>
