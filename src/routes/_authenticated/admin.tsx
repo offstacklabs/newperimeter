@@ -53,7 +53,7 @@ function AdminPage() {
     queryFn: async (): Promise<Workspace[]> => {
       const { data, error } = await supabase.from("workspaces").select("id, name, created_by, default_action, audit_retention_days").order("created_at");
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []) as Workspace[];
     },
   });
 
