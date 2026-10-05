@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type Tab = "overview" | "servers" | "policies" | "audit" | "team" | "settings";
+type Tab = "overview" | "servers" | "policies" | "audit" | "keys" | "team" | "settings";
 type Role = "admin" | "viewer";
 type Workspace = { id: string; name: string; created_by: string | null; default_action: "allow" | "flag" | "block"; audit_retention_days: number };
 
@@ -81,7 +81,7 @@ function AdminPage() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const tabs: Tab[] = role === "admin" ? ["overview", "servers", "policies", "audit", "team", "settings"] : ["overview", "servers", "policies", "audit"];
+  const tabs: Tab[] = role === "admin" ? ["overview", "servers", "policies", "audit", "keys", "team", "settings"] : ["overview", "servers", "policies", "audit"];
 
   return (
     <div className="min-h-screen bg-muted">
@@ -135,7 +135,7 @@ function AdminPage() {
                   tab === t ? "bg-foreground text-background" : "text-muted-foreground hover:bg-accent"
                 }`}
               >
-                {t === "audit" ? "Audit log" : t}
+                {t === "audit" ? "Audit log" : t === "keys" ? "API keys" : t}
               </button>
             ))}
           </nav>
@@ -162,6 +162,7 @@ function AdminPage() {
             {tab === "policies" && <Policies />}
             {tab === "audit" && <AuditLog />}
             {tab === "team" && role === "admin" && <Team currentUserId={user.id} />}
+            {tab === "keys" && role === "admin" && <ApiKeys />}
             {tab === "settings" && role === "admin" && (
               <Settings
                 key={workspace.id}
@@ -539,6 +540,17 @@ function Servers() {
             <div className="min-w-40 flex-1">
               <p className="font-semibold">{s.name}</p>
               <p className="font-mono text-xs text-muted-foreground">{s.url} · v{s.version}</p>
+              <button
+                type="button"
+                title="Copy the address agents should use instead of the server's own URL"
+                onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/api/public/mcp/${s.id}`);
+                  toast.success("Gateway URL copied");
+                }}
+                className="mt-1 font-mono text-xs text-primary hover:underline"
+              >
+                Gateway: /api/public/mcp/{s.id.slice(0, 8)}… (copy)
+              </button>
             </div>
             <span
               className={`rounded px-2 py-0.5 font-mono text-xs ${
