@@ -19,7 +19,55 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 type Tab = "overview" | "servers" | "policies" | "audit" | "keys" | "team" | "settings";
 type Role = "admin" | "viewer";
-type Workspace = { id: string; name: string; created_by: string | null; default_action: "allow" | "flag" | "block"; audit_retention_days: number };
+type Workspace = { id: string; name: string; created_by: string | null; default_action: "allow" | "flag" | "block"; audit_retention_days: number; alert_webhook_url: string | null; alert_on: string };
+
+function AlertsCard({ workspace }: { workspace: Workspace }) {
+  const queryClient = useQueryClient();
+  const [url, setUrl] = useState(workspace.alert_webhook_url ?? "");
+  const [on, setOn] = useState(workspace.alert_on);
+  const [busy, setBusy] = useState(false);
+  async function save(e: React.FormEvent) {
+    e.preventDefault();
+    const v = url.trim();
+    if (v && !v.startsWith("https://")) return void toast.error("Webhook URL must start with https://");
+    setBusy(true);
+    const { error } = await supabase.from("workspaces").update({ alert_webhook_url: v || null, alert_on: on }).eq("id", workspace.id);
+    if (check(error, v ? "Alerts saved" : "Alerts turned off")) queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+    setBusy(false);
+  }
+  async function test() {
+    const v = url.trim();
+    if (!v.startsWith("https://")) return void toast.error("Enter an https:// webhook URL first");
+    try {
+      await fetch(v, { method: "POST", mode: "no-cors", headers: { "content-type": "text/plain" }, body: JSON.stringify({ text: "Agentwall test alert: alerts are working." }) });
+      toast.success("Test alert sent — check your channel");
+    } catch {
+      toast.error("Could not reach that URL");
+    }
+  }
+  return (
+    <form onSubmit={save} className="rounded-2xl border bg-card p-6 lg:col-span-2">
+      <h2 className="text-lg font-bold">Alerts</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Post a message to a webhook (Slack, Microsoft Teams, or your own endpoint) when the gateway stops a tool call. Leave empty to turn off.
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <input
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="https://hooks.slack.com/services/…"
+          className="min-w-64 flex-1 rounded-lg border bg-background px-4 py-2 font-mono text-sm outline-none focus:border-primary"
+        />
+        <select value={on} onChange={(e) => setOn(e.target.value)} className="rounded-lg border bg-background px-3 py-2 text-sm">
+          <option value="block">Blocked calls</option>
+          <option value="flag_block">Blocked + flagged calls</option>
+        </select>
+        <button type="button" onClick={test} className="rounded-lg border px-4 py-2 text-sm font-semibold">Send test</button>
+        <button disabled={busy} className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-60">Save</button>
+      </div>
+    </form>
+  );
+}
 
 type WorkspaceContextValue = { workspaceId: string; role: Role };
 const WorkspaceContext = createContext<WorkspaceContextValue>({ workspaceId: "", role: "viewer" });
@@ -456,6 +504,9 @@ function Settings({
           </button>
         </div>
       </form>
+
+      <AlertsCard workspace={workspace} />
+
 
       <div className="rounded-2xl border border-destructive/40 bg-card p-6 lg:col-span-2">
         <h2 className="text-lg font-bold text-destructive">Danger zone</h2>

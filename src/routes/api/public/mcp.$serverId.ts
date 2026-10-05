@@ -92,7 +92,7 @@ export const Route = createFileRoute("/api/public/mcp/$serverId")({
 
         if (calls.length) {
           const [{ data: ws }, { data: rules }] = await Promise.all([
-            supabaseAdmin.from("workspaces").select("default_action").eq("id", server.workspace_id).single(),
+            supabaseAdmin.from("workspaces").select("default_action, alert_webhook_url, alert_on").eq("id", server.workspace_id).single(),
             supabaseAdmin.from("policies").select("name, tool_pattern, effect, enabled").eq("workspace_id", server.workspace_id),
           ]);
           const fallback = (ws?.default_action ?? "block") as Effect;
@@ -106,6 +106,29 @@ export const Route = createFileRoute("/api/public/mcp/$serverId")({
               detail: d.policy ? `Matched policy "${d.policy}"` : `No policy matched; workspace default (${d.effect})`,
             })),
           );
+          if (ws?.alert_webhook_url) {
+            const alertable = decisions.filter(
+              (d) => d.effect === "block" || (ws.alert_on === "flag_block" && d.effect === "flag"),
+            );
+            if (alertable.length) {
+              const lines = alertable.map(
+                (d) => `${d.effect === "block" ? "Blocked" : "Flagged"}: ${server.name}.${d.tool} by ${actor}${d.policy ? ` (policy "${d.policy}")` : " (workspace default)"}`,
+              );
+              try {
+                await fetch(ws.alert_webhook_url, {
+                  method: "POST",
+                  headers: { "content-type": "application/json" },
+                  body: JSON.stringify({
+                    text: `Agentwall alert\n${lines.join("\n")}`,
+                    events: alertable.map((d) => ({ outcome: d.effect, server: server.name, tool: d.tool, actor, policy: d.policy ?? null })),
+                  }),
+                  signal: AbortSignal.timeout(3000),
+                });
+              } catch (e) {
+                console.error("Alert webhook failed", e);
+              }
+            }
+          }
           const blocked = decisions.find((d) => d.effect === "block");
           if (blocked) {
             return rpcError(
