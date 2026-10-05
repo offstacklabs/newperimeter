@@ -283,6 +283,8 @@ export type Database = {
       }
       workspaces: {
         Row: {
+          alert_on: string
+          alert_webhook_url: string | null
           audit_retention_days: number
           created_at: string
           created_by: string | null
@@ -291,6 +293,8 @@ export type Database = {
           name: string
         }
         Insert: {
+          alert_on?: string
+          alert_webhook_url?: string | null
           audit_retention_days?: number
           created_at?: string
           created_by?: string | null
@@ -299,6 +303,8 @@ export type Database = {
           name: string
         }
         Update: {
+          alert_on?: string
+          alert_webhook_url?: string | null
           audit_retention_days?: number
           created_at?: string
           created_by?: string | null
