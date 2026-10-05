@@ -192,20 +192,26 @@ export type Database = {
       }
       workspaces: {
         Row: {
+          audit_retention_days: number
           created_at: string
           created_by: string | null
+          default_action: string
           id: string
           name: string
         }
         Insert: {
+          audit_retention_days?: number
           created_at?: string
           created_by?: string | null
+          default_action?: string
           id?: string
           name: string
         }
         Update: {
+          audit_retention_days?: number
           created_at?: string
           created_by?: string | null
+          default_action?: string
           id?: string
           name?: string
         }
@@ -217,6 +223,7 @@ export type Database = {
     }
     Functions: {
       claim_first_admin: { Args: never; Returns: boolean }
+      delete_workspace: { Args: { _ws: string }; Returns: undefined }
       grant_role_by_email: {
         Args: { _email: string; _role: Database["public"]["Enums"]["app_role"] }
         Returns: undefined
