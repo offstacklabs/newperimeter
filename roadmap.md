@@ -4,7 +4,8 @@
 - [x] Security & roles: admin/viewer roles, tighter RLS, restricted sign-up
 - [x] Multi-team workspaces: per-workspace servers/policies/audit log, team switcher, per-workspace members (creation flow + isolation browser-verified)
 - [x] Enforcement layer: MCP gateway proxy + workspace API keys (browser + API verified)
-- [ ] Audit log search/filters, CSV export, alerts
+- [x] Audit log search/filters, CSV export
+- [ ] Alerts/notifications on blocked calls
 - [ ] Launch prep: security scan, custom domain, publish
 
 ## Site parity with RunLayer
