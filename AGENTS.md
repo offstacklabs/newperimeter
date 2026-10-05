@@ -12,3 +12,4 @@
 ## Architecture rules
 - Multi-tenancy: every row in `mcp_servers`, `policies`, `audit_logs` is scoped to a `workspace_id`; access is granted only through `workspace_members` (per-workspace admin/viewer roles) via the `is_workspace_member` / `has_workspace_role` security-definer functions. Global `user_roles` is deprecated — never grant access through it.
 - A signed-up user with no workspace sees a "Create a workspace" screen (creator becomes its admin); do not auto-join users to existing workspaces.
+- MCP gateway: agents call `/api/public/mcp/<serverId>` with a workspace API key (only its SHA-256 hash is stored); the route evaluates policies via `src/lib/policy-engine.ts` (block > flag > allow, else workspace default), writes audit_logs, then forwards to the upstream URL — keep enforcement server-side in that route.
