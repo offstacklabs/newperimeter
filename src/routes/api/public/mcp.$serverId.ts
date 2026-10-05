@@ -28,14 +28,15 @@ async function authorize(request: Request, serverId: string) {
     .select("id, name, url, status, workspace_id")
     .eq("id", serverId)
     .eq("workspace_id", apiKey.workspace_id)
+    .not("workspace_id", "is", null)
     .maybeSingle();
   if (!server) return { error: rpcError(null, -32002, "Unknown server", 404) };
 
   await supabaseAdmin.from("workspace_api_keys").update({ last_used_at: new Date().toISOString() }).eq("id", apiKey.id);
-  return { supabaseAdmin, apiKey, server };
+  return { supabaseAdmin, apiKey, server: { ...server, workspace_id: server.workspace_id as string } };
 }
 
-async function forward(request: Request, url: string, body?: string) {
+async function forward(request: Request, url: string, body: string | null = null) {
   const headers = new Headers();
   for (const h of FORWARD_HEADERS) {
     const v = request.headers.get(h);
