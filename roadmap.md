@@ -15,3 +15,5 @@
 - [x] Shared header (Product/Solutions dropdowns) and expanded footer across all pages
 - [x] Remove customers section (no customers pre-launch; revisit as case studies / early-access page after launch)
 - [ ] Legal pages (privacy, security addendum, trial terms) — user opted out for now
+- [x] Workspace invitations: invite links from Team tab, /invite/<token> accept page
+- [ ] Send invites by email (needs an email sending domain)
