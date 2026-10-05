@@ -711,24 +711,83 @@ function Policies() {
 
 function AuditLog() {
   const { workspaceId } = useWs();
+  const [search, setSearch] = useState("");
+  const [outcome, setOutcome] = useState<"all" | "allow" | "flag" | "block">("all");
+  const [server, setServer] = useState("all");
   const { data: logs = [] } = useQuery({
     queryKey: ["audit", workspaceId],
     queryFn: async () =>
-      (await supabase.from("audit_logs").select("*").eq("workspace_id", workspaceId).order("created_at", { ascending: false }).limit(100)).data ?? [],
+      (await supabase.from("audit_logs").select("*").eq("workspace_id", workspaceId).order("created_at", { ascending: false }).limit(500)).data ?? [],
   });
 
+  const servers = [...new Set(logs.map((l) => l.server))].sort();
+  const q = search.trim().toLowerCase();
+  const filtered = logs.filter(
+    (l) =>
+      (outcome === "all" || l.outcome === outcome) &&
+      (server === "all" || l.server === server) &&
+      (!q || l.tool.toLowerCase().includes(q) || l.server.toLowerCase().includes(q) || l.actor.toLowerCase().includes(q) || (l.detail ?? "").toLowerCase().includes(q)),
+  );
+
+  function exportCsv() {
+    const esc = (v: string | null) => `"${(v ?? "").replace(/"/g, '""')}"`;
+    const rows = [
+      ["time", "outcome", "tool", "server", "actor", "detail"].join(","),
+      ...filtered.map((l) => [l.created_at, l.outcome, l.tool, l.server, l.actor, l.detail].map(esc).join(",")),
+    ];
+    const url = URL.createObjectURL(new Blob([rows.join("\n")], { type: "text/csv" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `agentwall-audit-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  const selectCls = "rounded-lg border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
   return (
-    <div className="overflow-hidden rounded-2xl border bg-card">
-      {logs.map((l) => (
-        <div key={l.id} className="flex flex-wrap items-center gap-3 border-t px-5 py-3 font-mono text-sm first:border-t-0">
-          <span className={`w-14 rounded px-2 py-0.5 text-center text-xs ${outcomeStyles[l.outcome]}`}>{l.outcome}</span>
-          <span className="min-w-40 flex-1">{l.tool}</span>
-          <span className="text-muted-foreground">{l.server}</span>
-          <span className="text-muted-foreground">{l.actor}</span>
-          <span className="text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</span>
-        </div>
-      ))}
-      {logs.length === 0 && <p className="p-5 text-sm text-muted-foreground">No events logged yet.</p>}
+    <div>
+      <div className="flex flex-wrap items-center gap-2">
+        <input
+          placeholder="Search tool, server, actor or detail…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="min-w-56 flex-1 rounded-lg border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
+        />
+        <select value={outcome} onChange={(e) => setOutcome(e.target.value as typeof outcome)} className={selectCls}>
+          <option value="all">All outcomes</option>
+          <option value="allow">Allowed</option>
+          <option value="flag">Flagged</option>
+          <option value="block">Blocked</option>
+        </select>
+        <select value={server} onChange={(e) => setServer(e.target.value)} className={selectCls}>
+          <option value="all">All servers</option>
+          {servers.map((s) => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+        <button
+          onClick={exportCsv}
+          disabled={filtered.length === 0}
+          className="rounded-lg border px-4 py-2 text-sm font-semibold hover:bg-muted disabled:opacity-50"
+        >
+          Export CSV ({filtered.length})
+        </button>
+      </div>
+      <div className="mt-3 overflow-hidden rounded-2xl border bg-card">
+        {filtered.map((l) => (
+          <div key={l.id} className="flex flex-wrap items-center gap-3 border-t px-5 py-3 font-mono text-sm first:border-t-0">
+            <span className={`w-14 rounded px-2 py-0.5 text-center text-xs ${outcomeStyles[l.outcome]}`}>{l.outcome}</span>
+            <span className="min-w-40 flex-1">{l.tool}</span>
+            <span className="text-muted-foreground">{l.server}</span>
+            <span className="text-muted-foreground">{l.actor}</span>
+            <span className="text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</span>
+            {l.detail && <span className="w-full text-xs text-muted-foreground">{l.detail}</span>}
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <p className="p-5 text-sm text-muted-foreground">{logs.length === 0 ? "No events logged yet." : "No events match these filters."}</p>
+        )}
+      </div>
     </div>
   );
 }
