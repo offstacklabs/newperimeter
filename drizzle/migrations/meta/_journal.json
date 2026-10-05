@@ -50,6 +50,13 @@
       "when": 1791142258388,
       "tag": "0006_workspace_member_read_own",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791178002163,
+      "tag": "0007_workspace_settings",
+      "breakpoints": true
     }
   ]
 }

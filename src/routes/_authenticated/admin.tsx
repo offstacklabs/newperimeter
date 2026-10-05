@@ -16,9 +16,9 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type Tab = "overview" | "servers" | "policies" | "audit" | "team";
+type Tab = "overview" | "servers" | "policies" | "audit" | "team" | "settings";
 type Role = "admin" | "viewer";
-type Workspace = { id: string; name: string; created_by: string | null };
+type Workspace = { id: string; name: string; created_by: string | null; default_action: "allow" | "flag" | "block"; audit_retention_days: number };
 
 type WorkspaceContextValue = { workspaceId: string; role: Role };
 const WorkspaceContext = createContext<WorkspaceContextValue>({ workspaceId: "", role: "viewer" });
@@ -51,9 +51,9 @@ function AdminPage() {
   const { data: workspaces = [], isLoading } = useQuery({
     queryKey: ["workspaces", user.id],
     queryFn: async (): Promise<Workspace[]> => {
-      const { data, error } = await supabase.from("workspaces").select("id, name, created_by").order("created_at");
+      const { data, error } = await supabase.from("workspaces").select("id, name, created_by, default_action, audit_retention_days").order("created_at");
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []) as Workspace[];
     },
   });
 
@@ -81,7 +81,7 @@ function AdminPage() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const tabs: Tab[] = role === "admin" ? ["overview", "servers", "policies", "audit", "team"] : ["overview", "servers", "policies", "audit"];
+  const tabs: Tab[] = role === "admin" ? ["overview", "servers", "policies", "audit", "team", "settings"] : ["overview", "servers", "policies", "audit"];
 
   return (
     <div className="min-h-screen bg-muted">
@@ -162,6 +162,17 @@ function AdminPage() {
             {tab === "policies" && <Policies />}
             {tab === "audit" && <AuditLog />}
             {tab === "team" && role === "admin" && <Team currentUserId={user.id} />}
+            {tab === "settings" && role === "admin" && (
+              <Settings
+                key={workspace.id}
+                workspace={workspace}
+                onDeleted={() => {
+                  setWorkspaceId(null);
+                  setCreating(false);
+                  setTab("overview");
+                }}
+              />
+            )}
           </WorkspaceContext.Provider>
         )}
       </main>
@@ -273,6 +284,144 @@ function Team({ currentUserId }: { currentUserId: string }) {
             )}
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function Settings({
+  workspace,
+  onDeleted,
+}: {
+  workspace: Workspace;
+  onDeleted: () => void;
+}) {
+  const queryClient = useQueryClient();
+  const { user } = Route.useRouteContext();
+  const [name, setName] = useState(workspace.name);
+  const [defaultAction, setDefaultAction] = useState<"allow" | "flag" | "block">(workspace.default_action);
+  const [retention, setRetention] = useState(String(workspace.audit_retention_days));
+  const [confirmName, setConfirmName] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function saveGeneral(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    const { error } = await supabase.from("workspaces").update({ name }).eq("id", workspace.id);
+    if (check(error, "Workspace renamed")) queryClient.invalidateQueries({ queryKey: ["workspaces", user.id] });
+    setBusy(false);
+  }
+
+  async function saveEnforcement(e: React.FormEvent) {
+    e.preventDefault();
+    const days = Number(retention);
+    if (!Number.isInteger(days) || days < 7 || days > 3650) {
+      toast.error("Audit retention must be between 7 and 3650 days");
+      return;
+    }
+    setBusy(true);
+    const { error } = await supabase
+      .from("workspaces")
+      .update({ default_action: defaultAction, audit_retention_days: days })
+      .eq("id", workspace.id);
+    if (check(error, "Enforcement defaults saved")) queryClient.invalidateQueries({ queryKey: ["workspaces", user.id] });
+    setBusy(false);
+  }
+
+  async function deleteWorkspace() {
+    if (confirmName !== workspace.name) {
+      toast.error("Type the workspace name exactly to confirm");
+      return;
+    }
+    setBusy(true);
+    const { error } = await supabase.rpc("delete_workspace", { _ws: workspace.id });
+    if (!check(error, `Workspace "${workspace.name}" deleted`)) return setBusy(false);
+    setConfirmName("");
+    setBusy(false);
+    queryClient.invalidateQueries({ queryKey: ["workspaces", user.id] });
+    onDeleted();
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-2">
+      <form onSubmit={saveGeneral} className="rounded-2xl border bg-card p-6">
+        <h2 className="text-lg font-bold">General</h2>
+        <label className="mt-4 block text-sm font-semibold text-muted-foreground" htmlFor="ws-name">
+          Workspace name
+        </label>
+        <div className="mt-2 flex gap-2">
+          <input
+            id="ws-name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
+          />
+          <button disabled={busy || name === workspace.name} className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-60">
+            Save
+          </button>
+        </div>
+      </form>
+
+      <form onSubmit={saveEnforcement} className="rounded-2xl border bg-card p-6">
+        <h2 className="text-lg font-bold">Enforcement defaults</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Applied when the enforcement layer sees a tool call that no policy covers.
+        </p>
+        <label className="mt-4 block text-sm font-semibold text-muted-foreground" htmlFor="ws-action">
+          Default action for unlisted tools
+        </label>
+        <select
+          id="ws-action"
+          value={defaultAction}
+          onChange={(e) => setDefaultAction(e.target.value as "allow" | "flag" | "block")}
+          className="mt-2 w-full rounded-lg border bg-background px-3 py-2 text-sm"
+        >
+          <option value="block">block (fail closed)</option>
+          <option value="flag">flag (allow, mark for review)</option>
+          <option value="allow">allow (fail open)</option>
+        </select>
+        <label className="mt-4 block text-sm font-semibold text-muted-foreground" htmlFor="ws-retention">
+          Audit log retention (days)
+        </label>
+        <div className="mt-2 flex gap-2">
+          <input
+            id="ws-retention"
+            required
+            type="number"
+            min={7}
+            max={3650}
+            value={retention}
+            onChange={(e) => setRetention(e.target.value)}
+            className="w-32 rounded-lg border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
+          />
+          <button disabled={busy} className="ml-auto rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-60">
+            Save
+          </button>
+        </div>
+      </form>
+
+      <div className="rounded-2xl border border-destructive/40 bg-card p-6 lg:col-span-2">
+        <h2 className="text-lg font-bold text-destructive">Danger zone</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Deleting <span className="font-semibold">{workspace.name}</span> permanently removes its servers, policies,
+          audit log and team memberships. This cannot be undone.
+        </p>
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <input
+            placeholder={`Type "${workspace.name}" to confirm`}
+            value={confirmName}
+            onChange={(e) => setConfirmName(e.target.value)}
+            className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm outline-none focus:border-destructive"
+          />
+          <button
+            disabled={busy || confirmName !== workspace.name}
+            onClick={deleteWorkspace}
+            className="rounded-lg bg-destructive px-5 py-2 text-sm font-semibold text-destructive-foreground disabled:opacity-60"
+          >
+            Delete workspace
+          </button>
+        </div>
       </div>
     </div>
   );
