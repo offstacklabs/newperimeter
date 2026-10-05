@@ -2,7 +2,17 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+type AuthSearch = { redirect?: string | undefined; mode?: "signin" | "signup" | undefined; email?: string | undefined };
+
 export const Route = createFileRoute("/auth")({
+  validateSearch: (s: Record<string, unknown>): AuthSearch => {
+    const r = s["redirect"], m = s["mode"], e = s["email"];
+    return {
+      redirect: typeof r === "string" && /^\/invite\/[a-f0-9]+$/.test(r) ? r : undefined,
+      mode: m === "signup" ? "signup" : undefined,
+      email: typeof e === "string" ? e : undefined,
+    };
+  },
   head: () => ({
     meta: [
       { title: "Sign in — Agentwall" },
@@ -16,12 +26,14 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
+  const search = Route.useSearch();
+  const [mode, setMode] = useState<"signin" | "signup">(search.mode ?? "signin");
+  const [email, setEmail] = useState(search.email ?? "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const goNext = () => (search.redirect ? navigate({ href: search.redirect }) : navigate({ to: "/admin" }));
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,19 +44,19 @@ function AuthPage() {
       if (mode === "signin") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate({ to: "/admin" });
+        goNext();
       } else {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin },
+          options: { emailRedirectTo: window.location.origin + (search.redirect ?? "") },
         });
         if (error) throw error;
         if (!data.session) {
           setNotice("Check your email to confirm your account, then sign in.");
           setMode("signin");
         } else {
-          navigate({ to: "/admin" });
+          goNext();
         }
       }
     } catch (err) {

@@ -23,6 +23,7 @@ import { Route as WatchRouteImport } from './routes/watch'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as SolutionsAiPlatformRouteImport } from './routes/solutions/ai-platform'
 import { Route as SolutionsAiTransformationRouteImport } from './routes/solutions/ai-transformation'
 import { Route as SolutionsItSecurityRouteImport } from './routes/solutions/it-security'
@@ -97,6 +98,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SolutionsAiPlatformRoute = SolutionsAiPlatformRouteImport.update({
   id: '/solutions/ai-platform',
   path: '/solutions/ai-platform',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/watch': typeof WatchRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/watch'
     | '/admin'
     | '/blog/$slug'
+    | '/invite/$token'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/watch'
     | '/admin'
     | '/blog/$slug'
+    | '/invite/$token'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/watch'
     | '/_authenticated/admin'
     | '/blog/$slug'
+    | '/invite/$token'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
@@ -252,6 +264,7 @@ export interface RootRouteChildren {
   VisibilityRoute: typeof VisibilityRoute
   WatchRoute: typeof WatchRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  InviteTokenRoute: typeof InviteTokenRoute
   SolutionsAiPlatformRoute: typeof SolutionsAiPlatformRoute
   SolutionsAiTransformationRoute: typeof SolutionsAiTransformationRoute
   SolutionsItSecurityRoute: typeof SolutionsItSecurityRoute
@@ -359,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/solutions/ai-platform': {
       id: '/solutions/ai-platform'
       path: '/solutions/ai-platform'
@@ -414,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   VisibilityRoute: VisibilityRoute,
   WatchRoute: WatchRoute,
   BlogSlugRoute: BlogSlugRoute,
+  InviteTokenRoute: InviteTokenRoute,
   SolutionsAiPlatformRoute: SolutionsAiPlatformRoute,
   SolutionsAiTransformationRoute: SolutionsAiTransformationRoute,
   SolutionsItSecurityRoute: SolutionsItSecurityRoute,
