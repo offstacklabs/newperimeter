@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Catalog — New Perimeter";
-const D = "Keep approved MCP servers in one workspace. Add connections and control which servers agents can reach.";
+const D = "Build the approved toolset your agents can rely on. Bring MCP servers into a workspace, decide which connections are trusted and connect them through a policy-enforcing gateway.";
 
 export const Route = createFileRoute("/catalog")({
   head: () => ({
@@ -47,11 +47,11 @@ function CatalogPage() {
         <Link to="/visibility" className="rounded-full border bg-background px-6 py-3 font-semibold">View audit logs</Link>
       </PageHero>
 
-      <Section eyebrow="How it works" title="Manage your server list.">
+      <Section eyebrow="How it works" title="Turn a server list into an approved toolset.">
         <Steps items={steps} />
       </Section>
 
-      <Section eyebrow="Capabilities" title="Server controls" alternate>
+      <Section eyebrow="Capabilities" title="Shared tools. Deliberate access." alternate>
         <CardGrid items={capabilities} />
       </Section>
 

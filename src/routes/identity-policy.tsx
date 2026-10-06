@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Identity & Policy — New Perimeter";
-const D = "Control workspace access with admin and viewer roles, API keys and rules for individual tools.";
+const D = "Give teams and agents the access they need—not an open door. Manage workspace roles, issue revocable agent keys and enforce clear rules for the tools they can use.";
 
 export const Route = createFileRoute("/identity-policy")({
   head: () => ({
@@ -51,7 +51,7 @@ function IdentityPolicyPage() {
         <Steps items={steps} />
       </Section>
 
-      <Section eyebrow="Capabilities" title="How decisions work" alternate>
+      <Section eyebrow="Capabilities" title="Clear ownership. Predictable decisions." alternate>
         <CardGrid items={capabilities} />
       </Section>
 

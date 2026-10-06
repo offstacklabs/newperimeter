@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Runtime — New Perimeter";
-const D = "In development: content inspection for malicious instructions and sensitive data. Tool-policy enforcement is available today through Perimeter Gateway.";
+const D = "The next layer of agent defense: inspect tool content for hidden instructions and sensitive data. Perimeter Runtime is in development; gateway tool-access enforcement is available today.";
 
 export const Route = createFileRoute("/guard")({
   head: () => ({
@@ -42,7 +42,7 @@ function GuardPage() {
         <Link to="/watch" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore Discover</Link>
       </PageHero>
 
-      <Section eyebrow="Detection" title="Planned inspection areas">
+      <Section eyebrow="Detection" title="Look beyond which tool is called.">
         <CardGrid items={detections} />
       </Section>
 

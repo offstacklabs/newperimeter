@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, EmailForm } from "@/components/marketing";
 
 const T = "Book a demo — New Perimeter";
-const D = "Explore New Perimeter’s MCP gateway, workspace policies and audit log.";
+const D = "See how New Perimeter turns MCP connections into controlled agent access, with enforceable tool policies and reviewable gateway decisions.";
 
 export const Route = createFileRoute("/book-a-demo")({
   head: () => ({
@@ -23,9 +23,9 @@ export const Route = createFileRoute("/book-a-demo")({
 });
 
 const agenda: [string, string][] = [
-  ["Your setup", "The agents and MCP servers you want to connect."],
-  ["Gateway walkthrough", "A tool policy in action and the resulting audit record."],
-  ["Next steps", "What a small pilot could include."],
+  ["Your setup", "Start with your agents, MCP servers and the access boundaries your team needs."],
+  ["Gateway walkthrough", "Follow a tool call through policy enforcement and see the decision in the audit log."],
+  ["Next steps", "Discuss a focused pilot: the tools to approve, the rules to test and the activity to review."],
 ];
 
 function BookADemoPage() {
@@ -35,7 +35,7 @@ function BookADemoPage() {
       <PageHero
         eyebrow="Book a demo"
         title={<> Book a New Perimeter demo </>}
-        lead="A walkthrough of MCP connections, tool rules and gateway activity."
+        lead="Bring your agent use case. Explore how to connect the right tools, enforce access boundaries and get a clear record of gateway activity."
       />
 
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-2">

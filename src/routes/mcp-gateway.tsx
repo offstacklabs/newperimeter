@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, LogPanel, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Gateway — New Perimeter";
-const D = "Connect agents to approved MCP servers through one gateway. Each request is checked against workspace policies and logged.";
+const D = "Put a controlled entry point between your agents and MCP tools. Approve connections, stop unwanted calls before they reach a server and keep a record of each gateway decision.";
 
 export const Route = createFileRoute("/mcp-gateway")({
   head: () => ({
@@ -29,9 +29,9 @@ const steps: [string, string][] = [
 ];
 
 const capabilities: [string, string][] = [
-  ["Workspace API keys", "Create and revoke keys. Only a hash of each key is stored."],
-  ["Tool rules", "Allow, flag or block tools by name or server-and-tool pattern."],
-  ["Default action", "Choose what happens when no policy matches. New workspaces default to block."],
+  ["Workspace API keys", "Give each agent or integration its own workspace key so you can revoke access independently. Raw keys are shown once; only their hashes are stored."],
+  ["Tool rules", "Keep the tools your agents need available while blocking actions they should never take. Match rules to a tool name or a server-and-tool pattern."],
+  ["Default action", "Decide how unfamiliar tool calls are handled, rather than leaving access to chance. New workspaces block calls with no matching rule."],
 ];
 
 const logs: [string, string, string][] = [
@@ -54,7 +54,7 @@ function McpGatewayPage() {
         <Link to="/catalog" className="rounded-full border bg-background px-6 py-3 font-semibold">See the Catalog</Link>
       </PageHero>
 
-      <Section eyebrow="How it works" title="Connect, check, forward.">
+      <Section eyebrow="How it works" title="From connection to control in three steps.">
         <Steps items={steps} />
       </Section>
 
@@ -65,7 +65,7 @@ function McpGatewayPage() {
         </div>
       </Section>
 
-      <Section eyebrow="Capabilities" title="Gateway controls">
+      <Section eyebrow="Capabilities" title="Let useful work through. Keep unwanted actions out.">
         <CardGrid items={capabilities} />
       </Section>
 

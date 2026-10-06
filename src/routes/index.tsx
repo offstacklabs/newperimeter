@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { LogPanel } from "@/components/marketing";
 
 const T = "New Perimeter — Secure MCP for the enterprise";
-const D = "Control which MCP tools your agents can use. Block unwanted calls and keep a record of every decision.";
+const D = "Give your AI agents room to work—not unrestricted access. New Perimeter connects them to approved MCP tools, enforces your rules and makes every gateway decision visible.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,7 +62,7 @@ function Index() {
       </section>
 
       <section id="features" className="mx-auto max-w-6xl px-6 py-24">
-        <h2 className="max-w-xl text-4xl font-extrabold tracking-tight">Control access. See what happened.</h2>
+        <h2 className="max-w-xl text-4xl font-extrabold tracking-tight">One perimeter for your agents, tools and teams.</h2>
         <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border bg-border md:grid-cols-3">
           {features.map((f, i) => (
             <Link key={f.t} to={f.to} className="group bg-card p-8 transition-colors hover:bg-muted">
@@ -77,7 +77,7 @@ function Index() {
       <section className="border-t bg-muted">
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
           <h2 className="text-4xl font-extrabold tracking-tight">See New Perimeter in action</h2>
-          <p className="mt-3 text-muted-foreground">See the gateway, policies and audit log in a walkthrough.</p>
+          <p className="mt-3 text-muted-foreground">See how to connect your agents, stop unwanted tool calls and review the decisions that matter.</p>
           <div className="mt-8 flex justify-center gap-3">
             <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
             <Link to="/blog" className="rounded-full border bg-background px-6 py-3 font-semibold">Read the blog</Link>
