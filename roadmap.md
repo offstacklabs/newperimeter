@@ -9,7 +9,7 @@
 - [ ] Launch prep: security scan, custom domain, publish
 
 ## Site parity with RunLayer
-- [ ] Simplify public website copy and remove duplicate or unsupported claims
+- [x] Refine public website copy: modern, persuasive benefits without repetition or unsupported claims
 - [x] Map RunLayer's full site structure against New Perimeter
 - [x] Add 6 product pages (Perimeter Gateway, Identity & Policy, Runtime, Catalog, Audit, Discover)
 - [x] Rebrand Agentwall → New Perimeter (hosting target: newperimeter.dev)

@@ -40,7 +40,7 @@ export function SiteFooter() {
             New Perimeter
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-            Access control and audit logs for MCP.
+            A new boundary for AI agents. Controlled MCP access. Reviewable decisions.
           </p>
         </div>
         {columns.map((col) => (

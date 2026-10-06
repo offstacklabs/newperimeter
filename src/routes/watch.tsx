@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Discover — New Perimeter";
-const D = "In development: find unapproved AI clients and MCP servers on managed devices. Discovery integrations are not available yet.";
+const D = "Bring unapproved AI tools into view. Perimeter Discover is being developed to identify AI clients and MCP servers on managed devices, so teams can review what belongs in their approved setup. Discovery integrations are not available yet.";
 
 export const Route = createFileRoute("/watch")({
   head: () => ({
@@ -47,7 +47,7 @@ function WatchPage() {
         <Link to="/mcp-gateway" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore the Gateway</Link>
       </PageHero>
 
-      <Section eyebrow="How it works" title="Planned discovery workflow">
+      <Section eyebrow="How it works" title="Find the gaps in your approved setup.">
         <Steps items={steps} />
       </Section>
 

@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "IT & Security — New Perimeter";
-const D = "Control which MCP servers and tools agents can use. Review gateway decisions and export activity for investigation.";
+const D = "Put agent access under security’s control. Approve MCP servers, block unwanted tool calls before they run and trace gateway decisions when your team needs answers.";
 
 export const Route = createFileRoute("/solutions/it-security")({
   head: () => ({
@@ -42,7 +42,7 @@ function ItSecurityPage() {
         <Link to="/guard" className="rounded-full border bg-background px-6 py-3 font-semibold">See Perimeter Runtime</Link>
       </PageHero>
 
-      <Section eyebrow="Capabilities" title="Access rules you can inspect.">
+      <Section eyebrow="Capabilities" title="Enforce the boundary. Keep the evidence.">
         <CardGrid items={capabilities} columns={2} />
       </Section>
 

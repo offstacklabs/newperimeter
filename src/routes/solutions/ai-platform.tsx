@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "AI Platform Teams — New Perimeter";
-const D = "Manage shared MCP servers, tool policies and agent keys without maintaining a separate setup for every team.";
+const D = "Give teams a shared foundation for agent access. Centralize MCP connections and tool policies while keeping workspace membership and keys separate—without managing each agent’s access rules in isolation.";
 
 export const Route = createFileRoute("/solutions/ai-platform")({
   head: () => ({
@@ -42,7 +42,7 @@ function AiPlatformPage() {
         <Link to="/catalog" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore the Catalog</Link>
       </PageHero>
 
-      <Section eyebrow="Capabilities" title="One place to manage connections.">
+      <Section eyebrow="Capabilities" title="Standardize access without flattening team boundaries.">
         <CardGrid items={capabilities} columns={2} />
       </Section>
 

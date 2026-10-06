@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "AI Transformation — New Perimeter";
-const D = "Start with a small set of approved tools, clear access rules and a record of how agents use them.";
+const D = "Move from AI experiments to a controlled rollout. Give your pilot the tools it needs, set clear boundaries and use gateway activity to decide when—and where—to expand.";
 
 export const Route = createFileRoute("/solutions/ai-transformation")({
   head: () => ({

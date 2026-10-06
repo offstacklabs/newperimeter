@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Audit — New Perimeter";
-const D = "Search gateway activity by tool, server or key. Filter decisions and export the results as CSV.";
+const D = "Know what happened—and why. Trace gateway calls to their tool, server and key, investigate blocked or flagged activity and export the records your team needs.";
 
 export const Route = createFileRoute("/visibility")({
   head: () => ({
@@ -23,9 +23,9 @@ export const Route = createFileRoute("/visibility")({
 });
 
 const capabilities: [string, string][] = [
-  ["Search activity", "Find calls by tool, server, key or decision detail."],
-  ["Filter decisions", "Show allowed, flagged or blocked calls for a selected server."],
-  ["Export CSV", "Download the filtered results for review or reporting."],
+  ["Search activity", "Follow a question to the relevant calls. Search by tool, server, key or decision detail without sifting through unrelated activity."],
+  ["Filter decisions", "Focus on blocked or flagged calls, or review what was allowed. Narrow the results to a server for a closer investigation."],
+  ["Export CSV", "Take the evidence with you. Export the filtered results as CSV for investigation, review or reporting."],
 ];
 
 
@@ -43,7 +43,7 @@ function VisibilityPage() {
       </PageHero>
 
 
-      <Section eyebrow="Capabilities" title="Find the calls that matter." alternate>
+      <Section eyebrow="Capabilities" title="From gateway activity to actionable answers." alternate>
         <CardGrid items={capabilities} />
       </Section>
 
