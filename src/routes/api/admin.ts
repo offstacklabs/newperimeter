@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { auth, authBaseUrl } from "@/lib/auth.server";
+import { auth, authBaseUrl, isTrustedRequestOrigin } from "@/lib/auth.server";
 import { db } from "@/lib/db.server";
 import { escapeHtml, sendEmail } from "@/lib/email.server";
 import { randomHex } from "@/lib/random";
@@ -12,7 +12,7 @@ function jsonError(message: string, status: number) {
 
 async function handle(request: Request) {
   const origin = request.headers.get("origin");
-  if (origin !== new URL(authBaseUrl).origin) return jsonError("Invalid request origin", 403);
+  if (!isTrustedRequestOrigin(origin)) return jsonError("Invalid request origin", 403);
 
   const session = await auth.api.getSession({ headers: request.headers });
   if (!session) return jsonError("Sign in required", 401);

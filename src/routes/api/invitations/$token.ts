@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { auth, authBaseUrl } from "@/lib/auth.server";
+import { auth, authBaseUrl, isTrustedRequestOrigin } from "@/lib/auth.server";
 import { db } from "@/lib/db.server";
 
 export const Route = createFileRoute("/api/invitations/$token")({
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/api/invitations/$token")({
         }
       },
       POST: async ({ request, params }) => {
-        if (request.headers.get("origin") !== new URL(authBaseUrl).origin) {
+        if (!isTrustedRequestOrigin(request.headers.get("origin"))) {
           return Response.json({ error: "Invalid request origin" }, { status: 403 });
         }
         const session = await auth.api.getSession({ headers: request.headers });
