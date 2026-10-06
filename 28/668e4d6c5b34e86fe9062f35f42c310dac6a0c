@@ -1,0 +1,94 @@
+src/lib/auth.functions.ts
+  s_e987fb4442cc7e::t_d3cb096500d785 1-15
+src/routes/invite.$token.tsx
+  s_e987fb4442cc7e::t_a5815390ba6b1c 3,25,29,32-35,41-42,44-45,50
+src/lib/admin-api.ts
+  s_e987fb4442cc7e::t_d838befc04f671 1-19
+README.md
+  s_e987fb4442cc7e::t_214e335d554606 25-27,29
+  s_e987fb4442cc7e::t_d9dd2f8edbf961 20-24,30-31
+  s_e987fb4442cc7e::t_c4bf013fee8610 28
+src/lib/admin-types.ts
+  s_e987fb4442cc7e::t_3f24e60afee7d4 1-44
+src/routes/api/admin.ts
+  s_e987fb4442cc7e::t_a63683f375b83c 29
+  s_e987fb4442cc7e::t_c9f4ba6e9ead89 4,164-169,171,173,176-193
+  s_e987fb4442cc7e::t_41ccd73bbb8f67 15
+  s_e987fb4442cc7e::t_b9b63c8ff7017c 5,170
+  s_e987fb4442cc7e::t_59c3aad910358b 2
+  s_e987fb4442cc7e::t_b620fddcb82ca1 1,3,6-14,16-28,30-163,172,174-175,194-340
+src/lib/db.server.ts
+  s_e987fb4442cc7e::t_80e66f72cd1731 1
+  s_e987fb4442cc7e::t_d3cb096500d785 2,4-9
+  s_e987fb4442cc7e::t_a63683f375b83c 3
+src/routes/api/auth/$.ts
+  s_e987fb4442cc7e::t_d3cb096500d785 1-11
+src/lib/random.ts
+  s_e987fb4442cc7e::t_b9b63c8ff7017c 1-4
+.gitignore
+  s_e987fb4442cc7e::t_339a75e075a87b 19-23
+  s_e987fb4442cc7e::t_a2cb9b287e1388 27
+src/routes/_authenticated/admin.tsx
+  s_e987fb4442cc7e::t_6f8520972fc2f2 575,578,587,665,673,826-827,839
+  s_e987fb4442cc7e::t_8da92db9e3cd36 6,8,36,109,121,123,130,243-244,312,318,391,404,415
+  s_e987fb4442cc7e::t_c9f4ba6e9ead89 304-305
+  s_e987fb4442cc7e::t_f1d3dbe0b79cab 7,280,288,515,519,523,568,657,737,817
+drizzle/standalone.sql
+  s_e987fb4442cc7e::t_008cc3bf4e30d9 3-51
+  s_e987fb4442cc7e::t_4dde5cb37dfbe1 1-2,52-63,65-191
+  s_e987fb4442cc7e::t_ecdf766af00f2b 64
+drizzle.config.ts
+  s_e987fb4442cc7e::t_574f214f7c00a3 8
+src/routes/_authenticated/route.tsx
+  s_e987fb4442cc7e::t_aea519e1e26f95 2,6-8
+src/routeTree.gen.ts
+  s_e987fb4442cc7e::t_45cd6f37d9c119 24,31-32,94-98,130-139,158,165-166,181,188-189,206,213-214,231,238-239,254,261-262,278,285-286,302,309-310,400-406,449-462,496,503-504
+src/lib/email.server.ts
+  s_e987fb4442cc7e::t_f82f70c2cf6264 1-44
+src/routes/__root.tsx
+  s_e987fb4442cc7e::t_bbb1c6d11df155 15,120,123-125
+src/routes/api/invitations/$token.ts
+  s_e987fb4442cc7e::t_59c3aad910358b 2,20
+  s_e987fb4442cc7e::t_c23cc4a6e88bc6 1,3-19,21-40
+src/routes/auth.tsx
+  s_e987fb4442cc7e::t_60de527316c14a 3,45-46,49,52-53,55-57
+src/lib/auth.server.ts
+  s_e987fb4442cc7e::t_4e8bafeb8b1311 11,20
+  s_e987fb4442cc7e::t_e286581688bbcd 39-41
+  s_e987fb4442cc7e::t_c9f4ba6e9ead89 4,31-35
+  s_e987fb4442cc7e::t_d5eb502d171380 7
+  s_e987fb4442cc7e::t_d3cb096500d785 1-3,6,10,12-13,15-19,21-30,36-38,42-43
+  s_e987fb4442cc7e::t_b9b63c8ff7017c 5,9
+  s_e987fb4442cc7e::t_a63683f375b83c 8,14
+src/routes/api/public/mcp.$serverId.ts
+  s_e987fb4442cc7e::t_e9f4e7e8acfd65 3,19-23,26-31,34-45,76,91-95,101-109,111-112,118-121
+package.json
+  s_e987fb4442cc7e::t_fbaea2c89940ba 73
+  s_e987fb4442cc7e::t_94bf08dd1213a9 53
+  s_e987fb4442cc7e::t_db6932e8d5d846 21
+src/lib/auth-client.ts
+  s_e987fb4442cc7e::t_d3cb096500d785 1-3
+bun.lock
+  s_e987fb4442cc7e::t_2041ac5ec63198 9,41,61,137-154,273-278,287-288,681-684,773-774,959-960,979-980,1039-1040,1157-1158,1293,1363-1364,1451-1454,1509-1510
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "28668e4d6c5b34e86fe9062f35f42c310dac6a0c",
+  "prompts": {},
+  "humans": {
+    "h_cc24da95f2fbcc": {
+      "author": "orbitmint <orbitmint@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_e987fb4442cc7e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a11334-146d-7930-b582-a23369a80741",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "orbitmint <orbitmint@users.noreply.github.com>"
+    }
+  }
+}
