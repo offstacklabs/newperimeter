@@ -10,7 +10,8 @@
 
 ## Site parity with RunLayer
 - [x] Map RunLayer's full site structure against New Perimeter
-- [x] Add 6 product pages (MCP Gateway, Identity & Policy, Runtime Security, Catalog, Observability, Shadow AI)
+- [x] Add 6 product pages (Perimeter Gateway, Identity & Policy, Runtime, Catalog, Audit, Discover)
+- [x] Rebrand Agentwall → New Perimeter (hosting target: newperimeter.dev)
 - [x] Add 3 solution pages (AI Transformation, AI Platform, IT & Security)
 - [x] Add company pages: About, Blog + 3 posts, Book a demo
 - [x] Shared header (Product/Solutions dropdowns) and expanded footer across all pages
