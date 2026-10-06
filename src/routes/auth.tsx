@@ -70,7 +70,7 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted px-4">
       <div className="w-full max-w-sm rounded-2xl border bg-card p-8 shadow-xl">
         <div className="flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">NP</span>
           New Perimeter
         </div>
         <h1 className="mt-6 text-2xl font-extrabold tracking-tight">

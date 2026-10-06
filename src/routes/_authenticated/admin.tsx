@@ -93,8 +93,8 @@ function AdminPage() {
   const [tab, setTab] = useState<Tab>("overview");
   const [creating, setCreating] = useState(false);
   const [workspaceId, setWorkspaceId] = useState<string | null>(() => {
-    const ws = sessionStorage.getItem("aw_ws");
-    sessionStorage.removeItem("aw_ws");
+    const ws = sessionStorage.getItem("np_ws");
+    sessionStorage.removeItem("np_ws");
     return ws;
   });
   const navigate = useNavigate();
@@ -142,7 +142,7 @@ function AdminPage() {
       <header className="border-b bg-card">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2 font-extrabold tracking-tight">
-            <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">NP</span>
             New Perimeter <span className="font-mono text-xs font-normal text-muted-foreground">console</span>
           </div>
           <div className="flex items-center gap-3">
