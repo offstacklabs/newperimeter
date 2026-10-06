@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Identity & Policy — New Perimeter";
-const D = "Tie every agent request to an actor, a credential source, a policy decision and an audit record — across autonomous and delegated access models.";
+const D = "Control workspace access with admin and viewer roles, API keys and rules for individual tools.";
 
 export const Route = createFileRoute("/identity-policy")({
   head: () => ({
@@ -23,18 +23,15 @@ export const Route = createFileRoute("/identity-policy")({
 });
 
 const steps: [string, string][] = [
-  ["Agents inherit human identity", "Sign in through Okta, Entra or Google and every agent session maps to an employee. No orphaned credentials, no anonymous agents."],
-  ["Credentials are brokered, never shared", "The gateway issues short-lived, scoped credentials per request. Revoking a person revokes their agents instantly."],
-  ["Policies resolve per request", "Team, role, environment and data class decide what each call may do — evaluated at runtime, not frozen into a config file."],
+  ["Invite your team", "Invite people as admins or viewers. Each workspace has its own members."],
+  ["Create agent keys", "Issue a workspace key for each agent or integration. Revoke it when access is no longer needed."],
+  ["Set tool rules", "Choose which tools to allow, flag or block, plus a default for unmatched calls."],
 ];
 
 const capabilities: [string, string][] = [
-  ["SSO & SCIM", "Provisioning and deprovisioning follow your identity provider. Offboarded employees lose agent access in the same refresh cycle as everything else."],
-  ["Delegated access models", "Act-on-behalf-of with full attribution: the agent acts, the human owns the decision, the audit log shows both."],
-  ["Autonomous access, scoped tight", "Agents that run unattended get least-privilege credentials with hard expiry and spend limits."],
-  ["Readable policies", "Rules are written per tool pattern and effect — allow, block, flag — so the teams they constrain can actually read them."],
-  ["Break-glass approvals", "Destructive or out-of-policy calls route to a named approver. The approval, the reviewer and the outcome are all in the audit trail."],
-  ["Policy versioning", "Every policy change is versioned and diffable. Roll back in one click when a rule turns out to be too broad."],
+  ["Admin or viewer", "Admins manage workspace settings, servers, keys and policies. Viewers can review workspace data."],
+  ["Block takes priority", "When rules overlap, block wins over flag, and flag wins over allow."],
+  ["Recorded decisions", "The audit log identifies the key, tool and policy decision for each call."],
 ];
 
 function IdentityPolicyPage() {
@@ -43,18 +40,18 @@ function IdentityPolicyPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Perimeter Identity & Policy"
-        title={<>Every request has an owner, a rule and a record.</>}
+        title={<> Perimeter Identity & Policy </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-        <Link to="/mcp-gateway" className="rounded-full border bg-background px-6 py-3 font-semibold">How the gateway enforces it</Link>
+        <Link to="/mcp-gateway" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore the Gateway</Link>
       </PageHero>
 
-      <Section eyebrow="How it works" title="Identity in, decision out, evidence everywhere.">
+      <Section eyebrow="How it works" title="Set access in three steps.">
         <Steps items={steps} />
       </Section>
 
-      <Section eyebrow="Capabilities" title="Access control your security team can stand behind." alternate>
+      <Section eyebrow="Capabilities" title="How decisions work" alternate>
         <CardGrid items={capabilities} />
       </Section>
 

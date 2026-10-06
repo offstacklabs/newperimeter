@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Discover — New Perimeter";
-const D = "Discover and control unmanaged AI across managed devices through your existing MDM — then approve, migrate or block unmanaged clients, servers, skills and plugins.";
+const D = "In development: find unapproved AI clients and MCP servers on managed devices. Discovery integrations are not available yet.";
 
 export const Route = createFileRoute("/watch")({
   head: () => ({
@@ -23,18 +23,15 @@ export const Route = createFileRoute("/watch")({
 });
 
 const steps: [string, string][] = [
-  ["Discover without agents or opt-ins", "New Perimeter reads inventory your MDM already collects. Within days you see every AI client, MCP server and plugin running on managed devices."],
-  ["Classify what you find", "Each finding is labeled managed, shadow, outdated or risky — with the user, device and data it touches."],
-  ["Approve, migrate or block", "Push findings into a single review queue. Good tools move into the catalog, redundant ones migrate to the golden path, dangerous ones are blocked."],
+  ["Find tools", "Use device inventory to identify AI clients and MCP servers."],
+  ["Review findings", "Compare installed tools with the approved server list."],
+  ["Decide what stays", "Approve useful connections and identify those that need removal."],
 ];
 
 const capabilities: [string, string][] = [
-  ["MDM-native deployment", "Works with the device management you already run. No new endpoint agent, no employee action required."],
-  ["Client & server inventory", "Every AI client, MCP server, skill and plugin in use — even the ones installed outside IT's blessing."],
-  ["Risk scoring", "Findings ranked by data sensitivity, tool permissions and known-bad patterns, so the queue starts with what matters."],
-  ["Guided migration", "One-click paths from a shadow setup to its approved catalog equivalent, config included."],
-  ["Continuous monitoring", "Discovery isn't a point-in-time audit. New installs and new versions surface automatically."],
-  ["Policy follow-through", "Blocked doesn't mean invisible: blocked tools keep generating findings until they're removed, so cleanup actually completes."],
+  ["Device inventory", "Planned integrations with existing device management tools."],
+  ["Unapproved connections", "Highlight servers and clients outside the approved setup."],
+  ["Ongoing review", "Surface new installations and changes for review."],
 ];
 
 function WatchPage() {
@@ -43,18 +40,18 @@ function WatchPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Perimeter Discover"
-        title={<>Find the AI your security team doesn't know about.</>}
+        title={<> Perimeter Discover </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-        <Link to="/guard" className="rounded-full border bg-background px-6 py-3 font-semibold">Then secure what you found</Link>
+        <Link to="/mcp-gateway" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore the Gateway</Link>
       </PageHero>
 
-      <Section eyebrow="How it works" title="From unknown unknowns to a clean inventory.">
+      <Section eyebrow="How it works" title="Planned discovery workflow">
         <Steps items={steps} />
       </Section>
 
-      <Section eyebrow="Capabilities" title="Shadow AI is a rollout problem. Treat it like one." alternate>
+      <Section eyebrow="Capabilities" title="Discovery scope" alternate>
         <CardGrid items={capabilities} />
       </Section>
 

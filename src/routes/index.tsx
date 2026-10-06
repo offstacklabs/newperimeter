@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { LogPanel } from "@/components/marketing";
 
 const T = "New Perimeter — Secure MCP for the enterprise";
-const D = "One control plane for every MCP server and AI agent: access policies, threat detection and full audit logs.";
+const D = "Control which MCP tools your agents can use. Block unwanted calls and keep a record of every decision.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,12 +24,12 @@ export const Route = createFileRoute("/")({
 
 // Feature cards double as navigation into the product pages.
 const features: { to: string; t: string; d: string }[] = [
-  { to: "/catalog", t: "Perimeter Catalog", d: "Approve, version and catalog every MCP server your teams connect to Claude, Cursor or ChatGPT." },
-  { to: "/identity-policy", t: "Perimeter Policy", d: "Per-tool permissions by team, role and data class. Block destructive calls before they run." },
-  { to: "/guard", t: "Perimeter Runtime", d: "Catch prompt injection, tool poisoning and data exfiltration in real time." },
-  { to: "/visibility", t: "Perimeter Audit", d: "Every agent call logged with user, tool, arguments and outcome. Export to your SIEM." },
-  { to: "/identity-policy", t: "Perimeter Identity", d: "Plug into Okta, Entra or Google. Access follows your identity provider." },
-  { to: "/watch", t: "Perimeter Discover", d: "Find unmanaged clients and servers through your MDM — then approve, migrate or block." },
+  { to: "/catalog", t: "Perimeter Catalog", d: "Manage which MCP servers your workspace can connect to." },
+  { to: "/identity-policy", t: "Perimeter Identity & Policy", d: "Use workspace keys and tool rules to control access." },
+  { to: "/guard", t: "Perimeter Runtime", d: "In development: inspect tool content for hidden instructions and sensitive data." },
+  { to: "/visibility", t: "Perimeter Audit", d: "Search gateway activity, review decisions and export CSV." },
+  { to: "/mcp-gateway", t: "Perimeter Gateway", d: "Check each request before forwarding it to an approved server." },
+  { to: "/watch", t: "Perimeter Discover", d: "In development: find AI tools outside your approved setup." },
 ];
 
 const logs: [string, string, string][] = [
@@ -47,14 +47,14 @@ function Index() {
       <section className="grid-bg border-y">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-primary">MCP security platform</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-primary">MCP security</p>
             <h1 className="mt-4 text-5xl font-extrabold leading-[1.05] tracking-tight md:text-6xl">
-              Let your AI agents in.<br />Keep the risk out.
+              New Perimeter
             </h1>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">{D}</p>
             <div className="mt-8 flex gap-3">
-              <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Get started</Link>
-              <a href="#features" className="rounded-full border bg-background px-6 py-3 font-semibold">How it works</a>
+              <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
+              <a href="#features" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore capabilities</a>
             </div>
           </div>
           <LogPanel rows={logs} />
@@ -62,7 +62,7 @@ function Index() {
       </section>
 
       <section id="features" className="mx-auto max-w-6xl px-6 py-24">
-        <h2 className="max-w-xl text-4xl font-extrabold tracking-tight">Everything security teams need to say yes to MCP.</h2>
+        <h2 className="max-w-xl text-4xl font-extrabold tracking-tight">Control access. See what happened.</h2>
         <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border bg-border md:grid-cols-3">
           {features.map((f, i) => (
             <Link key={f.t} to={f.to} className="group bg-card p-8 transition-colors hover:bg-muted">
@@ -77,7 +77,7 @@ function Index() {
       <section className="border-t bg-muted">
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
           <h2 className="text-4xl font-extrabold tracking-tight">See New Perimeter in action</h2>
-          <p className="mt-3 text-muted-foreground">30-minute walkthrough with our team, tailored to your stack.</p>
+          <p className="mt-3 text-muted-foreground">See the gateway, policies and audit log in a walkthrough.</p>
           <div className="mt-8 flex justify-center gap-3">
             <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
             <Link to="/blog" className="rounded-full border bg-background px-6 py-3 font-semibold">Read the blog</Link>

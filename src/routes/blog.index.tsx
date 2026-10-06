@@ -5,7 +5,7 @@ import { PageHero, CtaBand } from "@/components/marketing";
 import { blogPosts } from "@/lib/content";
 
 const T = "Blog — New Perimeter";
-const D = "Essays and engineering notes on MCP security, agent governance and enterprise AI adoption.";
+const D = "Practical notes on MCP access control and agent security.";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
@@ -29,8 +29,8 @@ function BlogPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Blog"
-        title={<>Notes from the control plane.</>}
-        lead="Essays and engineering notes on MCP security, agent governance and making enterprise AI adoption boring."
+        title={<> MCP security notes </>}
+        lead="Practical notes on MCP access control and agent security."
       />
 
       <section className="mx-auto max-w-4xl px-6 py-16">

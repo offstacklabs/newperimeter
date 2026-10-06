@@ -6,9 +6,9 @@ export const Route = createFileRoute("/invite/$token")({
   head: () => ({
     meta: [
       { title: "Workspace invitation — New Perimeter" },
-      { name: "description", content: "Accept your invitation to join an New Perimeter workspace." },
+      { name: "description", content: "Accept your invitation to join a New Perimeter workspace." },
       { property: "og:title", content: "Workspace invitation — New Perimeter" },
-      { property: "og:description", content: "Accept your invitation to join an New Perimeter workspace." },
+      { property: "og:description", content: "Accept your invitation to join a New Perimeter workspace." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },

@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, LogPanel, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Gateway — New Perimeter";
-const D = "Make approved MCP access the default across Claude, Cursor, ChatGPT and Codex — with policy, identity, runtime security and an audit trail on every request.";
+const D = "Connect agents to approved MCP servers through one gateway. Each request is checked against workspace policies and logged.";
 
 export const Route = createFileRoute("/mcp-gateway")({
   head: () => ({
@@ -23,18 +23,15 @@ export const Route = createFileRoute("/mcp-gateway")({
 });
 
 const steps: [string, string][] = [
-  ["Point every client at one endpoint", "Claude, Cursor, ChatGPT, Codex and internal agents connect to a single governed gateway. Employees keep the clients they already use — the config change is one line."],
-  ["Every request is identified and policy-checked", "The gateway maps each call to an employee through SSO, resolves the tool against the approved catalog, and applies the policies for that team and data class before anything executes."],
-  ["Risky behavior never reaches your systems", "Tool definitions, inputs and outputs are scanned inline. Injection, exfiltration and destructive calls are blocked or flagged in 50–100ms — and logged either way."],
+  ["Connect a server", "Add its MCP address and approve it in your workspace."],
+  ["Give your agent a key", "Create a workspace API key and connect to the server’s gateway address."],
+  ["Check every call", "Allowed and flagged calls are forwarded. Blocked calls stop at the gateway."],
 ];
 
 const capabilities: [string, string][] = [
-  ["OAuth & credential brokering", "Agents authenticate through your identity provider. Credentials are issued, scoped and rotated by the gateway — never pasted into client configs."],
-  ["Per-tool policies", "Allow, block or flag any tool call by team, role, environment and data class. Destructive actions require explicit approval."],
-  ["Streaming audit trail", "Actor, tool, arguments, decision and outcome on every request — exportable to your SIEM in real time."],
-  ["Zero client-side trust", "Enforcement happens at the gateway. A tampered or unmanaged client still can't reach an unapproved server."],
-  ["Works with 300+ clients", "One endpoint for every MCP-compatible client, from Claude Code to internal agents built on the SDK."],
-  ["Fail-closed by design", "If the gateway can't evaluate a request, the request doesn't run. Availability degrades to safety, never the reverse."],
+  ["Workspace API keys", "Create and revoke keys. Only a hash of each key is stored."],
+  ["Tool rules", "Allow, flag or block tools by name or server-and-tool pattern."],
+  ["Default action", "Choose what happens when no policy matches. New workspaces default to block."],
 ];
 
 const logs: [string, string, string][] = [
@@ -50,33 +47,25 @@ function McpGatewayPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Perimeter Gateway"
-        title={<>One governed entry point for every AI client.</>}
+        title={<> Perimeter Gateway </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
         <Link to="/catalog" className="rounded-full border bg-background px-6 py-3 font-semibold">See the Catalog</Link>
       </PageHero>
 
-      <Section eyebrow="How it works" title="Approved access by default, enforced at the gateway.">
+      <Section eyebrow="How it works" title="Connect, check, forward.">
         <Steps items={steps} />
       </Section>
 
-      <Section eyebrow="Live enforcement" title="Every call, decided and logged in milliseconds." alternate>
+      <Section eyebrow="Example decisions" title="Allow, flag or block." alternate>
         <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:items-center">
           <LogPanel rows={logs} />
-          <div className="space-y-4">
-            <p className="text-lg text-muted-foreground">
-              The gateway evaluates every request against your policies before execution. Allowed calls pass through untouched.
-              Flagged calls run with review. Blocked calls never reach the server.
-            </p>
-            <p className="text-lg text-muted-foreground">
-              Because enforcement is centralized, a new policy takes effect for every client and every team the moment you save it — no config drift, no per-machine rollouts.
-            </p>
-          </div>
+          <p className="text-lg text-muted-foreground">Flagging lets a call run and records it for review. If any call in a batch is blocked, the whole batch is rejected.</p>
         </div>
       </Section>
 
-      <Section eyebrow="Capabilities" title="Everything a gateway should do. Nothing it shouldn't.">
+      <Section eyebrow="Capabilities" title="Gateway controls">
         <CardGrid items={capabilities} />
       </Section>
 

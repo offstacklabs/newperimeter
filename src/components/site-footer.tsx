@@ -40,7 +40,7 @@ export function SiteFooter() {
             New Perimeter
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-            Secure MCP for the enterprise. One control plane for every server, agent and tool call.
+            Access control and audit logs for MCP.
           </p>
         </div>
         {columns.map((col) => (
@@ -58,8 +58,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 py-6 text-sm text-muted-foreground">
-          <span>© 2026 New Perimeter, Inc.</span>
-          <span className="font-mono text-xs">SOC 2 Type II · GDPR ready · Self-host or cloud</span>
+          <span>© 2026 New Perimeter</span>
         </div>
       </div>
     </footer>

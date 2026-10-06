@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, EmailForm } from "@/components/marketing";
 
 const T = "Book a demo — New Perimeter";
-const D = "See New Perimeter in action: a 30-minute walkthrough of the MCP gateway, catalog, policies and audit trail, tailored to your stack.";
+const D = "Explore New Perimeter’s MCP gateway, workspace policies and audit log.";
 
 export const Route = createFileRoute("/book-a-demo")({
   head: () => ({
@@ -23,9 +23,9 @@ export const Route = createFileRoute("/book-a-demo")({
 });
 
 const agenda: [string, string][] = [
-  ["Your stack", "Which AI clients and MCP servers you run today, and where governance hurts."],
-  ["Live walkthrough", "The gateway enforcing a real policy, a catalog review and the audit trail end to end."],
-  ["Rollout plan", "A concrete path from pilot to company-wide — with the controls security needs attached."],
+  ["Your setup", "The agents and MCP servers you want to connect."],
+  ["Gateway walkthrough", "A tool policy in action and the resulting audit record."],
+  ["Next steps", "What a small pilot could include."],
 ];
 
 function BookADemoPage() {
@@ -34,8 +34,8 @@ function BookADemoPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Book a demo"
-        title={<>See the control plane in 30 minutes.</>}
-        lead="Tell us where to reach you and we'll set up a walkthrough tailored to your stack — clients, servers, policies and all."
+        title={<> Book a New Perimeter demo </>}
+        lead="A walkthrough of MCP connections, tool rules and gateway activity."
       />
 
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-2">
@@ -56,7 +56,6 @@ function BookADemoPage() {
         <div className="rounded-2xl border bg-card p-8">
           <h2 className="text-xl font-extrabold tracking-tight">Request a time</h2>
           <EmailForm />
-          <p className="mt-4 text-xs text-muted-foreground">We'll reply from a human, within one business day.</p>
         </div>
       </section>
 

@@ -62,7 +62,7 @@ export function Steps({ items }: { items: readonly Pair[] }) {
 export function LogPanel({ rows }: { rows: readonly (readonly [string, string, string])[] }) {
   return (
     <div className="rounded-2xl border bg-card p-5 shadow-xl">
-      <div className="mb-2 flex justify-between font-mono text-xs text-muted-foreground"><span>live · gateway</span><span>{rows.length} events</span></div>
+      <div className="mb-2 flex justify-between font-mono text-xs text-muted-foreground"><span>example · gateway</span><span>{rows.length} events</span></div>
       {rows.map(([s, tool, who], i) => (
         <div key={`${tool}-${i}`} className="flex items-center justify-between border-t py-3 font-mono text-sm">
           <span className={`w-14 rounded px-2 py-0.5 text-center text-xs ${s === "block" ? "bg-destructive text-destructive-foreground" : s === "flag" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{s}</span>
@@ -78,11 +78,10 @@ export function CtaBand() {
   return (
     <section className="border-t bg-muted">
       <div className="mx-auto max-w-3xl px-6 py-20 text-center">
-        <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">Ready to govern your agents?</h2>
-        <p className="mt-3 text-muted-foreground">A 30-minute walkthrough of the New Perimeter control plane, tailored to your stack.</p>
+        <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">See New Perimeter in action</h2>
+        <p className="mt-3 text-muted-foreground">Explore the gateway, policies and audit log.</p>
         <div className="mt-8 flex justify-center gap-3">
           <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-          <Link to="/" className="rounded-full border bg-background px-6 py-3 font-semibold">Back to overview</Link>
         </div>
       </div>
     </section>

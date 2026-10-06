@@ -1,18 +1,18 @@
 import { Link } from "@tanstack/react-router";
 
 const product = [
-  { to: "/mcp-gateway", name: "Perimeter Gateway", desc: "One governed entry point for every AI client" },
-  { to: "/identity-policy", name: "Perimeter Identity & Policy", desc: "Identity, credentials and policy decisions" },
-  { to: "/guard", name: "Perimeter Runtime", desc: "Catch risky behavior before it runs" },
-  { to: "/catalog", name: "Perimeter Catalog", desc: "Registry of approved servers and skills" },
-  { to: "/visibility", name: "Perimeter Audit", desc: "Usage, spend and audit history" },
-  { to: "/watch", name: "Perimeter Discover", desc: "Find and control unmanaged AI" },
+  { to: "/mcp-gateway", name: "Perimeter Gateway", desc: "Check requests before they reach a server" },
+  { to: "/identity-policy", name: "Perimeter Identity & Policy", desc: "Workspace keys and tool access rules" },
+  { to: "/guard", name: "Perimeter Runtime", desc: "Content inspection · in development" },
+  { to: "/catalog", name: "Perimeter Catalog", desc: "Manage approved MCP servers" },
+  { to: "/visibility", name: "Perimeter Audit", desc: "Search activity and export logs" },
+  { to: "/watch", name: "Perimeter Discover", desc: "Unapproved tool discovery · in development" },
 ] as const;
 
 const solutions = [
-  { to: "/solutions/ai-transformation", name: "AI Transformation", desc: "A golden path to governed agent adoption" },
-  { to: "/solutions/ai-platform", name: "AI Platform Teams", desc: "Publish approved tools as reusable infrastructure" },
-  { to: "/solutions/it-security", name: "IT & Security", desc: "Access control, runtime security and audit" },
+  { to: "/solutions/ai-transformation", name: "AI Transformation", desc: "Roll out AI with clear access rules" },
+  { to: "/solutions/ai-platform", name: "AI Platform Teams", desc: "Manage shared MCP connections" },
+  { to: "/solutions/it-security", name: "IT & Security", desc: "Control access and review activity" },
 ] as const;
 
 const company = [
@@ -56,7 +56,7 @@ export function SiteHeader() {
         <nav className="hidden items-center gap-6 md:flex">
           <Dropdown label="Product" items={product} />
           <Dropdown label="Solutions" items={solutions} />
-          {company.slice(0, 3).map((item) => (
+          {company.slice(0, 2).map((item) => (
             <Link key={item.to} to={item.to} className="py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
               {item.name}
             </Link>
