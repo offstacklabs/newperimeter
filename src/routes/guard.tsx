@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { PageHero, Section, CardGrid, LogPanel, CtaBand } from "@/components/marketing";
+import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Runtime — New Perimeter";
-const D = "Catch risky behavior before it runs: inspect tool definitions, inputs, outputs and agent behavior inline — before risky actions reach company systems.";
+const D = "In development: content inspection for malicious instructions and sensitive data. Tool-policy enforcement is available today through Perimeter Gateway.";
 
 export const Route = createFileRoute("/guard")({
   head: () => ({
@@ -23,20 +23,11 @@ export const Route = createFileRoute("/guard")({
 });
 
 const detections: [string, string][] = [
-  ["Tool poisoning", "Malicious instructions hidden in tool descriptions and metadata, caught by scanning definitions at connect time and call time."],
-  ["Prompt injection", "Untrusted content trying to redirect the agent — flagged in tool outputs, web pages and file contents before the model acts on them."],
-  ["Data exfiltration", "Secrets, PII and source code leaving toward unknown destinations, detected inline and blocked before the request leaves."],
-  ["Privilege escalation", "Tool chains that combine into capabilities no single tool should have — scoped credentials make the escalation fail."],
-  ["Destructive actions", "Drops, deletes and overwrites gated behind explicit approval, with the requester and approver on record."],
-  ["Task drift & manipulation", "Session-level monitoring catches agents veering off-task or being steered mid-run, and pauses them for review."],
+  ["Hidden instructions", "Identify tool descriptions or responses that try to redirect an agent."],
+  ["Sensitive data", "Check for secrets and personal data sent to unexpected destinations."],
+  ["Risky actions", "Add content-aware checks alongside existing tool access rules."],
 ];
 
-const logs: [string, string, string][] = [
-  ["block", "exfil: ssh keys → unknown.tld", "agent:cursor-42"],
-  ["flag", "pii in output: 3 records redacted", "agent:claude-7"],
-  ["allow", "github.create_pr", "maria@acme.io"],
-  ["block", "tool poison: connect-time scan", "server:community-mcp"],
-];
 
 function GuardPage() {
   return (
@@ -44,35 +35,17 @@ function GuardPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Perimeter Runtime"
-        title={<>Catch risky behavior before it runs.</>}
+        title={<> Perimeter Runtime </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-        <Link to="/watch" className="rounded-full border bg-background px-6 py-3 font-semibold">Also: find shadow AI</Link>
+        <Link to="/watch" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore Discover</Link>
       </PageHero>
 
-      <Section eyebrow="Detection" title="What the scanner looks for.">
-        <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Scans run inline at 50–100ms per call. Anything flagged is logged with full context; anything blocked never
-          reaches your systems. Static review of a server happens once — runtime scanning happens on every single call.
-        </p>
+      <Section eyebrow="Detection" title="Planned inspection areas">
         <CardGrid items={detections} />
       </Section>
 
-      <Section eyebrow="Live telemetry" title="See the decisions as they happen." alternate>
-        <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:items-center">
-          <LogPanel rows={logs} />
-          <div className="space-y-4">
-            <p className="text-lg text-muted-foreground">
-              Every scan result is an event: what was inspected, which detector fired, what the decision was, and what
-              the agent did next. Feed it to your SIEM or review it in the console.
-            </p>
-            <p className="text-lg text-muted-foreground">
-              Tuning is a policy change, not a code change — sensitivity per detector, per team, per data class.
-            </p>
-          </div>
-        </div>
-      </Section>
 
       <CtaBand />
       <SiteFooter />

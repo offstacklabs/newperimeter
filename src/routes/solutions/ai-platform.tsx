@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "AI Platform Teams — New Perimeter";
-const D = "Publish approved tools and agents as reusable infrastructure across teams — with ownership, dependencies and usage signals built in.";
+const D = "Manage shared MCP servers, tool policies and agent keys without maintaining a separate setup for every team.";
 
 export const Route = createFileRoute("/solutions/ai-platform")({
   head: () => ({
@@ -23,12 +23,10 @@ export const Route = createFileRoute("/solutions/ai-platform")({
 });
 
 const capabilities: [string, string][] = [
-  ["Ship internal skills once", "Package internal tools as governed catalog entries. Every team consumes the same reviewed version instead of wiring their own."],
-  ["Own what you publish", "Named owners, dependency declarations and version pinning — infrastructure practices, applied to agent tooling."],
-  ["Kill config drift", "Clients point at the gateway and pull from the catalog. There is nothing per-machine to drift."],
-  ["Measure everything", "Adoption per skill, spend per tool, call volume per workflow. Your roadmap writes itself from the usage data."],
-  ["Reuse across clients", "A skill published once works for Claude, Cursor, ChatGPT and internal agents alike — one artifact, every client."],
-  ["Golden-path onboarding", "New engineers pick from the catalog on day one. Ramp time on internal tooling drops to minutes."],
+  ["Shared server list", "Manage approved connections in each workspace."],
+  ["Central tool rules", "Update gateway policies without editing every agent’s configuration."],
+  ["Separate team access", "Use workspaces to keep members, servers and policies separate."],
+  ["Call history", "Search activity and export results when investigating a problem."],
 ];
 
 function AiPlatformPage() {
@@ -37,14 +35,14 @@ function AiPlatformPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Solutions · AI Platform Teams"
-        title={<>Stop wiring MCP by hand. Start shipping platform.</>}
+        title={<> For AI platform teams </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
         <Link to="/catalog" className="rounded-full border bg-background px-6 py-3 font-semibold">Explore the Catalog</Link>
       </PageHero>
 
-      <Section eyebrow="Capabilities" title="Platform engineering for the agent layer.">
+      <Section eyebrow="Capabilities" title="One place to manage connections.">
         <CardGrid items={capabilities} columns={2} />
       </Section>
 

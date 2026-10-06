@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "About — New Perimeter";
-const D = "New Perimeter is the control plane for enterprise AI agents — built by security and platform operators who lived the problem.";
+const D = "New Perimeter helps teams control MCP access and understand what their agents do.";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -23,10 +23,10 @@ export const Route = createFileRoute("/about")({
 });
 
 const values: [string, string][] = [
-  ["Governance should enable, not gate", "Every control we ship comes with a golden path that makes the governed way the convenient way. Blocking without enabling just pushes AI underground."],
-  ["Security is a product surface", "Policies that only engineers can read, logs only auditors open, dashboards nobody checks — that's security theater. We design controls people actually use."],
-  ["Fail closed, ship fast", "Availability never outranks safety: unresolvable requests don't execute. Within that boundary, we obsess over the 50–100ms that keeps enforcement invisible."],
-  ["Open where it matters", "MCP is an open standard and we build on it as-is — no proprietary lock-in on the wire, exportable logs, self-hosting in your VPC."],
+  ["Clear rules", "People should be able to understand what a policy allows and blocks."],
+  ["Checks before action", "Access decisions belong at the gateway, before a tool runs."],
+  ["Useful records", "Logs should help answer a specific question, not just collect events."],
+  ["Open connections", "Build on MCP and make activity exportable."],
 ];
 
 function AboutPage() {
@@ -35,33 +35,21 @@ function AboutPage() {
       <SiteHeader />
       <PageHero
         eyebrow="About New Perimeter"
-        title={<>The control plane for enterprise AI agents.</>}
+        title={<> About New Perimeter </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
         <Link to="/blog" className="rounded-full border bg-background px-6 py-3 font-semibold">Read the blog</Link>
       </PageHero>
 
-      <Section eyebrow="Why we exist" title="Agents arrived before governance did.">
+      <Section eyebrow="Why we exist" title="Why we’re building it">
         <div className="mt-6 max-w-2xl space-y-4 text-lg text-muted-foreground">
-          <p>
-            In 2025, MCP turned AI assistants into actors: agents that read your code, query your databases and post to
-            your systems. Adoption outran oversight everywhere — every team wired its own servers, nobody could say
-            which tools touched production data, and security teams were left answering yes or no with no evidence.
-          </p>
-          <p>
-            New Perimeter is the layer that was missing: a single control plane that sits between the AI clients employees
-            already use and the systems agents act on. One catalog of what's approved, one policy engine deciding every
-            call, one audit trail answering every question.
-          </p>
-          <p>
-            The pattern is old — APIs got gateways, databases got access control, SaaS got SSO. We're building the same
-            layer for agents, because it's how enterprises say yes.
-          </p>
+          <p>AI agents can read data and act on company systems. Teams need a way to choose which tools they can use and review what happened.</p>
+          <p>We’re starting with a gateway, workspace access rules and searchable audit logs.</p>
         </div>
       </Section>
 
-      <Section eyebrow="Principles" title="What we optimize for." alternate>
+      <Section eyebrow="Principles" title="Our principles" alternate>
         <CardGrid items={values} columns={2} />
       </Section>
 

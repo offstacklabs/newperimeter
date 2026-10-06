@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "AI Transformation — New Perimeter";
-const D = "Give every employee a golden path to useful agents, with platform and security controls built in from day one.";
+const D = "Start with a small set of approved tools, clear access rules and a record of how agents use them.";
 
 export const Route = createFileRoute("/solutions/ai-transformation")({
   head: () => ({
@@ -23,16 +23,16 @@ export const Route = createFileRoute("/solutions/ai-transformation")({
 });
 
 const steps: [string, string][] = [
-  ["Stand up the golden path", "One approved catalog, one gateway, one set of readable policies. Employees get a self-serve way in — security gets a single place to look."],
-  ["Onboard teams in days, not quarters", "New teams inherit the approved tools and policy bundles instead of starting from scratch. Adoption spreads on its own because the path is the easiest one."],
-  ["Measure and expand", "Adoption and spend dashboards show where agents create value. Double down on the workflows that work; retire the rest."],
+  ["Choose a pilot", "Pick a team and the MCP servers it needs."],
+  ["Set access rules", "Approve servers, issue keys and define which tools can run."],
+  ["Review before expanding", "Check the audit log, adjust policies and add teams as needed."],
 ];
 
 const wins: [string, string][] = [
-  ["Employees", "Pick approved agents from a catalog and ship real work in their first week — no configs, no waiting on security review."],
-  ["Platform teams", "Publish internal skills once and distribute them everywhere, with usage data to guide the roadmap."],
-  ["Security", "Say yes faster: policies and audit are part of the path, so every approval comes with controls attached."],
-  ["Leadership", "Adoption, savings and risk posture in one report — and a story auditors can follow end to end."],
+  ["Employees", "Use approved tools with clear access boundaries."],
+  ["Platform teams", "Manage shared connections and workspace keys."],
+  ["Security teams", "Review blocked and flagged calls."],
+  ["Leadership", "Start with a scoped pilot rather than a company-wide commitment."],
 ];
 
 function AiTransformationPage() {
@@ -41,18 +41,18 @@ function AiTransformationPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Solutions · AI Transformation"
-        title={<>Make governed AI the easiest AI.</>}
+        title={<> Roll out AI with clear boundaries </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
         <Link to="/blog" className="rounded-full border bg-background px-6 py-3 font-semibold">Read the blog</Link>
       </PageHero>
 
-      <Section eyebrow="The playbook" title="Three moves, in order.">
+      <Section eyebrow="The playbook" title="Start small, review, expand.">
         <Steps items={steps} />
       </Section>
 
-      <Section eyebrow="Who wins" title="One rollout, four happy audiences." alternate>
+      <Section eyebrow="For your teams" title="What each team gets" alternate>
         <CardGrid items={wins} columns={2} />
       </Section>
 

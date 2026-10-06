@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
 const T = "Perimeter Catalog — New Perimeter";
-const D = "A governed registry of approved MCP servers, skills and plugins — with ownership, dependencies, access and usage signals on every entry.";
+const D = "Keep approved MCP servers in one workspace. Add connections and control which servers agents can reach.";
 
 export const Route = createFileRoute("/catalog")({
   head: () => ({
@@ -23,18 +23,15 @@ export const Route = createFileRoute("/catalog")({
 });
 
 const steps: [string, string][] = [
-  ["Publish with an owner", "Every server, skill and plugin enters the catalog with a named owner, a version and a dependency declaration. Unowned entries can't be approved."],
-  ["Review once, distribute everywhere", "Security reviews the entry — tool scopes, data access, permissions — and approves it for the whole company. One review instead of one per team."],
-  ["Employees pick, nobody configures", "Users select approved entries from the catalog instead of hand-editing client configs. What's approved is what's connectable."],
+  ["Add a server", "Save its name and MCP address."],
+  ["Approve the connection", "The gateway rejects requests to unapproved servers."],
+  ["Connect through the gateway", "Copy the server’s gateway address and use a workspace API key."],
 ];
 
 const capabilities: [string, string][] = [
-  ["Ownership & accountability", "Every entry names a person. When a version misbehaves, you know who fixes it and who to page."],
-  ["Dependency awareness", "Entries declare what they depend on, so an upstream change is a tracked event, not a surprise."],
-  ["Version pinning", "Teams run reviewed versions. Upgrades are a published, reviewable event — not a silent remote change."],
-  ["Usage signals", "Adoption, call volume and spend per entry. Retire what nobody uses; invest where everyone does."],
-  ["Private & public sources", "Publish internal skills alongside vetted public MCP servers, all behind the same review flow."],
-  ["Instant revocation", "Removing an entry removes it from every client at once. Offboarding a tool takes one click, not a config sweep."],
+  ["Separate workspaces", "Each team manages its own server list."],
+  ["Tool policies", "Set rules for tools on a specific server or across the workspace."],
+  ["Activity history", "Review server calls and their outcomes in the audit log."],
 ];
 
 function CatalogPage() {
@@ -43,18 +40,18 @@ function CatalogPage() {
       <SiteHeader />
       <PageHero
         eyebrow="Perimeter Catalog"
-        title={<>An app store for everything your agents may touch.</>}
+        title={<> Perimeter Catalog </>}
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-        <Link to="/visibility" className="rounded-full border bg-background px-6 py-3 font-semibold">See usage signals</Link>
+        <Link to="/visibility" className="rounded-full border bg-background px-6 py-3 font-semibold">View audit logs</Link>
       </PageHero>
 
-      <Section eyebrow="How it works" title="From unreviewed connections to a governed registry.">
+      <Section eyebrow="How it works" title="Manage your server list.">
         <Steps items={steps} />
       </Section>
 
-      <Section eyebrow="Capabilities" title="The registry is the control plane's memory." alternate>
+      <Section eyebrow="Capabilities" title="Server controls" alternate>
         <CardGrid items={capabilities} />
       </Section>
 
