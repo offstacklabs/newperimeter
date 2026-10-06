@@ -1,24 +1,19 @@
-# Layered Creativity
+## New Perimeter
 
-want to build https://www.runlayer.com/ alternative
+The security and control layer between AI and your systems.
 
-This project was built with [Lovable](https://lovable.dev).
+New Perimeter sits between AI applications and the tools, APIs, data, and infrastructure they can access.
 
-## Build with Lovable
+It answers five fundamental questions:
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/46c089d5-6460-40e8-85e6-31710972b2b2).
+- Who is acting?
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- What are they trying to access?
 
-## Development
+- Are they allowed to do it?
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+- Is the action safe?
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+- What happened?
+
+The platform provides a unified layer for AI identity, access, policy, runtime protection, and audit.
