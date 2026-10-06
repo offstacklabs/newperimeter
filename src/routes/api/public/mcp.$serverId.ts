@@ -12,7 +12,7 @@ const FORWARD_HEADERS = ["content-type", "accept", "mcp-session-id", "mcp-protoc
 async function authorize(request: Request, serverId: string) {
   const auth = request.headers.get("authorization") ?? "";
   const key = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
-  if (!key.startsWith("aw_")) return { error: rpcError(null, -32001, "Missing or invalid Agentwall API key", 401) };
+  if (!key.startsWith("aw_")) return { error: rpcError(null, -32001, "Missing or invalid New Perimeter API key", 401) };
   if (!/^[0-9a-f-]{36}$/i.test(serverId)) return { error: rpcError(null, -32002, "Unknown server", 404) };
 
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -119,7 +119,7 @@ export const Route = createFileRoute("/api/public/mcp/$serverId")({
                   method: "POST",
                   headers: { "content-type": "application/json" },
                   body: JSON.stringify({
-                    text: `Agentwall alert\n${lines.join("\n")}`,
+                    text: `New Perimeter alert\n${lines.join("\n")}`,
                     events: alertable.map((d) => ({ outcome: d.effect, server: server.name, tool: d.tool, actor, policy: d.policy ?? null })),
                   }),
                   signal: AbortSignal.timeout(3000),
@@ -133,7 +133,7 @@ export const Route = createFileRoute("/api/public/mcp/$serverId")({
           if (blocked) {
             return rpcError(
               blocked.call.id, -32005,
-              `Blocked by Agentwall: ${blocked.policy ? `policy "${blocked.policy}"` : "workspace default"}`,
+              `Blocked by New Perimeter: ${blocked.policy ? `policy "${blocked.policy}"` : "workspace default"}`,
             );
           }
         }

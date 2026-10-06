@@ -3,8 +3,8 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "About — Agentwall";
-const D = "Agentwall is the control plane for enterprise AI agents — built by security and platform operators who lived the problem.";
+const T = "About — New Perimeter";
+const D = "New Perimeter is the control plane for enterprise AI agents — built by security and platform operators who lived the problem.";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -34,7 +34,7 @@ function AboutPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="About Agentwall"
+        eyebrow="About New Perimeter"
         title={<>The control plane for enterprise AI agents.</>}
         lead={D}
       >
@@ -50,7 +50,7 @@ function AboutPage() {
             which tools touched production data, and security teams were left answering yes or no with no evidence.
           </p>
           <p>
-            Agentwall is the layer that was missing: a single control plane that sits between the AI clients employees
+            New Perimeter is the layer that was missing: a single control plane that sits between the AI clients employees
             already use and the systems agents act on. One catalog of what's approved, one policy engine deciding every
             call, one audit trail answering every question.
           </p>

@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { LogPanel } from "@/components/marketing";
 
-const T = "Agentwall — Secure MCP for the enterprise";
+const T = "New Perimeter — Secure MCP for the enterprise";
 const D = "One control plane for every MCP server and AI agent: access policies, threat detection and full audit logs.";
 
 export const Route = createFileRoute("/")({
@@ -76,7 +76,7 @@ function Index() {
 
       <section className="border-t bg-muted">
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight">See Agentwall in action</h2>
+          <h2 className="text-4xl font-extrabold tracking-tight">See New Perimeter in action</h2>
           <p className="mt-3 text-muted-foreground">30-minute walkthrough with our team, tailored to your stack.</p>
           <div className="mt-8 flex justify-center gap-3">
             <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>

@@ -37,7 +37,7 @@ export function SiteFooter() {
         <div>
           <div className="flex items-center gap-2 font-extrabold tracking-tight">
             <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-            Agentwall
+            New Perimeter
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Secure MCP for the enterprise. One control plane for every server, agent and tool call.
@@ -58,7 +58,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 py-6 text-sm text-muted-foreground">
-          <span>© 2026 Agentwall, Inc.</span>
+          <span>© 2026 New Perimeter, Inc.</span>
           <span className="font-mono text-xs">SOC 2 Type II · GDPR ready · Self-host or cloud</span>
         </div>
       </div>

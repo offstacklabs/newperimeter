@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "AI Transformation — Agentwall";
+const T = "AI Transformation — New Perimeter";
 const D = "Give every employee a golden path to useful agents, with platform and security controls built in from day one.";
 
 export const Route = createFileRoute("/solutions/ai-transformation")({

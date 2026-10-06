@@ -50,7 +50,7 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-2 font-extrabold tracking-tight">
           <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-          Agentwall
+          New Perimeter
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

@@ -1,6 +1,6 @@
 # Roadmap
 
-## Production-ready Agentwall
+## Production-ready New Perimeter
 - [x] Security & roles: admin/viewer roles, tighter RLS, restricted sign-up
 - [x] Multi-team workspaces: per-workspace servers/policies/audit log, team switcher, per-workspace members (creation flow + isolation browser-verified)
 - [x] Enforcement layer: MCP gateway proxy + workspace API keys (browser + API verified)
@@ -9,7 +9,7 @@
 - [ ] Launch prep: security scan, custom domain, publish
 
 ## Site parity with RunLayer
-- [x] Map RunLayer's full site structure against Agentwall
+- [x] Map RunLayer's full site structure against New Perimeter
 - [x] Add 6 product pages (MCP Gateway, Identity & Policy, Runtime Security, Catalog, Observability, Shadow AI)
 - [x] Add 3 solution pages (AI Transformation, AI Platform, IT & Security)
 - [x] Add company pages: About, Blog + 3 posts, Book a demo
