@@ -50,7 +50,7 @@ function AuthPage() {
           email,
           password,
           name: email.split("@")[0] ?? email,
-          callbackURL: window.location.origin + (search.redirect ?? "/admin"),
+          callbackURL: search.redirect ?? "/admin",
         });
         if (error) throw new Error(error.message);
         setNotice("Check your email to verify your account, then sign in.");
