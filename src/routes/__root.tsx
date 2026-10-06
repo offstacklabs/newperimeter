@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "New Perimeter — Secure MCP for the enterprise" },
-      { name: "description", content: "Govern every MCP server and AI agent in one place." },
+      { name: "description", content: "Control MCP tool access and review gateway activity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
