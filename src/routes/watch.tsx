@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "Shadow AI — New Perimeter";
+const T = "Perimeter Discover — New Perimeter";
 const D = "Discover and control unmanaged AI across managed devices through your existing MDM — then approve, migrate or block unmanaged clients, servers, skills and plugins.";
 
 export const Route = createFileRoute("/watch")({
@@ -42,7 +42,7 @@ function WatchPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="New Perimeter Shadow AI"
+        eyebrow="Perimeter Discover"
         title={<>Find the AI your security team doesn't know about.</>}
         lead={D}
       >

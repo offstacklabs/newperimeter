@@ -4,12 +4,12 @@ const columns: { title: string; links: { to: string; name: string }[] }[] = [
   {
     title: "Product",
     links: [
-      { to: "/mcp-gateway", name: "MCP Gateway" },
-      { to: "/identity-policy", name: "Agent IAM & Policy" },
-      { to: "/guard", name: "Runtime Security" },
-      { to: "/catalog", name: "Catalog" },
-      { to: "/visibility", name: "Observability & ROI" },
-      { to: "/watch", name: "Shadow AI" },
+      { to: "/mcp-gateway", name: "Perimeter Gateway" },
+      { to: "/identity-policy", name: "Perimeter Identity & Policy" },
+      { to: "/guard", name: "Perimeter Runtime" },
+      { to: "/catalog", name: "Perimeter Catalog" },
+      { to: "/visibility", name: "Perimeter Audit" },
+      { to: "/watch", name: "Perimeter Discover" },
     ],
   },
   {

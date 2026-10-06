@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "Observability & ROI — New Perimeter";
+const T = "Perimeter Audit — New Perimeter";
 const D = "See usage, spend, adoption and audit history across the users, clients, tools, agents and workflows behind AI work.";
 
 export const Route = createFileRoute("/visibility")({
@@ -42,7 +42,7 @@ function VisibilityPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="New Perimeter Observability"
+        eyebrow="Perimeter Audit"
         title={<>Know what your agents actually do — and what it's worth.</>}
         lead={D}
       >

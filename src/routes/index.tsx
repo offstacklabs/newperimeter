@@ -24,12 +24,12 @@ export const Route = createFileRoute("/")({
 
 // Feature cards double as navigation into the product pages.
 const features: { to: string; t: string; d: string }[] = [
-  { to: "/catalog", t: "Server registry", d: "Approve, version and catalog every MCP server your teams connect to Claude, Cursor or ChatGPT." },
-  { to: "/identity-policy", t: "Granular policies", d: "Per-tool permissions by team, role and data class. Block destructive calls before they run." },
-  { to: "/guard", t: "Threat detection", d: "Catch prompt injection, tool poisoning and data exfiltration in real time." },
-  { to: "/visibility", t: "Full audit trail", d: "Every agent call logged with user, tool, arguments and outcome. Export to your SIEM." },
-  { to: "/identity-policy", t: "SSO & SCIM", d: "Plug into Okta, Entra or Google. Access follows your identity provider." },
-  { to: "/watch", t: "Shadow AI detection", d: "Find unmanaged clients and servers through your MDM — then approve, migrate or block." },
+  { to: "/catalog", t: "Perimeter Catalog", d: "Approve, version and catalog every MCP server your teams connect to Claude, Cursor or ChatGPT." },
+  { to: "/identity-policy", t: "Perimeter Policy", d: "Per-tool permissions by team, role and data class. Block destructive calls before they run." },
+  { to: "/guard", t: "Perimeter Runtime", d: "Catch prompt injection, tool poisoning and data exfiltration in real time." },
+  { to: "/visibility", t: "Perimeter Audit", d: "Every agent call logged with user, tool, arguments and outcome. Export to your SIEM." },
+  { to: "/identity-policy", t: "Perimeter Identity", d: "Plug into Okta, Entra or Google. Access follows your identity provider." },
+  { to: "/watch", t: "Perimeter Discover", d: "Find unmanaged clients and servers through your MDM — then approve, migrate or block." },
 ];
 
 const logs: [string, string, string][] = [

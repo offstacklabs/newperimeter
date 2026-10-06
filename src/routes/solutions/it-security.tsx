@@ -41,7 +41,7 @@ function ItSecurityPage() {
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-        <Link to="/guard" className="rounded-full border bg-background px-6 py-3 font-semibold">See Runtime Security</Link>
+        <Link to="/guard" className="rounded-full border bg-background px-6 py-3 font-semibold">See Perimeter Runtime</Link>
       </PageHero>
 
       <Section eyebrow="Capabilities" title="Controls first, enablement close behind.">

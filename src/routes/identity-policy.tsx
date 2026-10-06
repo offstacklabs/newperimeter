@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "Agent IAM & Policy — New Perimeter";
+const T = "Perimeter Identity & Policy — New Perimeter";
 const D = "Tie every agent request to an actor, a credential source, a policy decision and an audit record — across autonomous and delegated access models.";
 
 export const Route = createFileRoute("/identity-policy")({
@@ -42,7 +42,7 @@ function IdentityPolicyPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="New Perimeter Identity & Policy"
+        eyebrow="Perimeter Identity & Policy"
         title={<>Every request has an owner, a rule and a record.</>}
         lead={D}
       >
