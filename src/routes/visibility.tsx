@@ -26,7 +26,7 @@ const capabilities: [string, string][] = [
   ["Adoption by team", "Who is using agents, how often, and for what — so rollout decisions follow data instead of anecdotes."],
   ["Spend per tool", "Costs attributed to the servers, clients and workflows that generate them. Kill zombie tools, fund the ones that work."],
   ["Complete audit history", "Every request with actor, tool, arguments and outcome — retained, searchable and exportable to your SIEM."],
-  ["Risk review queue", "Flagged events from Runtime Security land in one queue with full context, so reviewers decide in minutes."],
+  ["Risk review queue", "Flagged events from Perimeter Runtime land in one queue with full context, so reviewers decide in minutes."],
   ["Per-client breakdown", "Claude, Cursor, ChatGPT, Codex and internal agents, compared side by side on usage and value."],
   ["Board-ready reporting", "One-page summaries of adoption, savings and risk posture — the numbers leadership actually asks for."],
 ];
