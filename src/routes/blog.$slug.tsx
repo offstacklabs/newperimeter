@@ -12,10 +12,10 @@ export const Route = createFileRoute("/blog/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Blog — Agentwall" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Blog — New Perimeter" }, { name: "robots", content: "noindex" }] };
     }
     const { post } = loaderData;
-    const title = `${post.title} — Agentwall Blog`;
+    const title = `${post.title} — New Perimeter Blog`;
     return {
       meta: [
         { title },

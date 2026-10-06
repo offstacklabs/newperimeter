@@ -5,10 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/invite/$token")({
   head: () => ({
     meta: [
-      { title: "Workspace invitation — Agentwall" },
-      { name: "description", content: "Accept your invitation to join an Agentwall workspace." },
-      { property: "og:title", content: "Workspace invitation — Agentwall" },
-      { property: "og:description", content: "Accept your invitation to join an Agentwall workspace." },
+      { title: "Workspace invitation — New Perimeter" },
+      { name: "description", content: "Accept your invitation to join an New Perimeter workspace." },
+      { property: "og:title", content: "Workspace invitation — New Perimeter" },
+      { property: "og:description", content: "Accept your invitation to join an New Perimeter workspace." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
@@ -38,7 +38,7 @@ function InvitePage() {
     const { data, error } = await supabase.rpc("accept_invitation", { _token: token });
     setBusy(false);
     if (error) return setError(error.message);
-    sessionStorage.setItem("aw_ws", data as string);
+    sessionStorage.setItem("np_ws", data as string);
     navigate({ to: "/admin" });
   }
 
@@ -83,8 +83,8 @@ function InvitePage() {
     <div className="flex min-h-screen items-center justify-center bg-muted px-4">
       <div className="w-full max-w-sm rounded-2xl border bg-card p-8 shadow-xl">
         <div className="mb-6 flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-          Agentwall
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">NP</span>
+          New Perimeter
         </div>
         {body}
       </div>

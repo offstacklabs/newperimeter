@@ -9,7 +9,7 @@ import { sha256Hex } from "@/lib/policy-engine";
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Admin console — Agentwall" },
+      { title: "Admin console — New Perimeter" },
       { name: "description", content: "Manage MCP servers, policies and audit logs." },
       { name: "robots", content: "noindex" },
     ],
@@ -39,7 +39,7 @@ function AlertsCard({ workspace }: { workspace: Workspace }) {
     const v = url.trim();
     if (!v.startsWith("https://")) return void toast.error("Enter an https:// webhook URL first");
     try {
-      await fetch(v, { method: "POST", mode: "no-cors", headers: { "content-type": "text/plain" }, body: JSON.stringify({ text: "Agentwall test alert: alerts are working." }) });
+      await fetch(v, { method: "POST", mode: "no-cors", headers: { "content-type": "text/plain" }, body: JSON.stringify({ text: "New Perimeter test alert: alerts are working." }) });
       toast.success("Test alert sent — check your channel");
     } catch {
       toast.error("Could not reach that URL");
@@ -93,8 +93,8 @@ function AdminPage() {
   const [tab, setTab] = useState<Tab>("overview");
   const [creating, setCreating] = useState(false);
   const [workspaceId, setWorkspaceId] = useState<string | null>(() => {
-    const ws = sessionStorage.getItem("aw_ws");
-    sessionStorage.removeItem("aw_ws");
+    const ws = sessionStorage.getItem("np_ws");
+    sessionStorage.removeItem("np_ws");
     return ws;
   });
   const navigate = useNavigate();
@@ -142,8 +142,8 @@ function AdminPage() {
       <header className="border-b bg-card">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2 font-extrabold tracking-tight">
-            <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-            Agentwall <span className="font-mono text-xs font-normal text-muted-foreground">console</span>
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">NP</span>
+            New Perimeter <span className="font-mono text-xs font-normal text-muted-foreground">console</span>
           </div>
           <div className="flex items-center gap-3">
             {workspaces.length > 0 && (
@@ -789,7 +789,7 @@ function AuditLog() {
     const url = URL.createObjectURL(new Blob([rows.join("\n")], { type: "text/csv" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = `agentwall-audit-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `newperimeter-audit-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   }

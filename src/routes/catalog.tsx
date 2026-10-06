@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "Catalog — Agentwall";
+const T = "Perimeter Catalog — New Perimeter";
 const D = "A governed registry of approved MCP servers, skills and plugins — with ownership, dependencies, access and usage signals on every entry.";
 
 export const Route = createFileRoute("/catalog")({
@@ -42,7 +42,7 @@ function CatalogPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="Agentwall Catalog"
+        eyebrow="Perimeter Catalog"
         title={<>An app store for everything your agents may touch.</>}
         lead={D}
       >

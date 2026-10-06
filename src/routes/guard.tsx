@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, LogPanel, CtaBand } from "@/components/marketing";
 
-const T = "Runtime Security — Agentwall";
+const T = "Perimeter Runtime — New Perimeter";
 const D = "Catch risky behavior before it runs: inspect tool definitions, inputs, outputs and agent behavior inline — before risky actions reach company systems.";
 
 export const Route = createFileRoute("/guard")({
@@ -43,7 +43,7 @@ function GuardPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="Agentwall Runtime Security"
+        eyebrow="Perimeter Runtime"
         title={<>Catch risky behavior before it runs.</>}
         lead={D}
       >

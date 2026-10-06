@@ -15,10 +15,10 @@ export const Route = createFileRoute("/auth")({
   },
   head: () => ({
     meta: [
-      { title: "Sign in — Agentwall" },
-      { name: "description", content: "Sign in to the Agentwall admin console." },
-      { property: "og:title", content: "Sign in — Agentwall" },
-      { property: "og:description", content: "Sign in to the Agentwall admin console." },
+      { title: "Sign in — New Perimeter" },
+      { name: "description", content: "Sign in to the New Perimeter admin console." },
+      { property: "og:title", content: "Sign in — New Perimeter" },
+      { property: "og:description", content: "Sign in to the New Perimeter admin console." },
     ],
   }),
   component: AuthPage,
@@ -70,8 +70,8 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted px-4">
       <div className="w-full max-w-sm rounded-2xl border bg-card p-8 shadow-xl">
         <div className="flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-          Agentwall
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">NP</span>
+          New Perimeter
         </div>
         <h1 className="mt-6 text-2xl font-extrabold tracking-tight">
           {mode === "signin" ? "Sign in to the console" : "Create an admin account"}

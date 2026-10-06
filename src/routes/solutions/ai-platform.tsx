@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "AI Platform Teams — Agentwall";
+const T = "AI Platform Teams — New Perimeter";
 const D = "Publish approved tools and agents as reusable infrastructure across teams — with ownership, dependencies and usage signals built in.";
 
 export const Route = createFileRoute("/solutions/ai-platform")({

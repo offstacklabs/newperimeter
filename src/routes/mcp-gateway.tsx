@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, LogPanel, CtaBand } from "@/components/marketing";
 
-const T = "MCP Gateway — Agentwall";
+const T = "Perimeter Gateway — New Perimeter";
 const D = "Make approved MCP access the default across Claude, Cursor, ChatGPT and Codex — with policy, identity, runtime security and an audit trail on every request.";
 
 export const Route = createFileRoute("/mcp-gateway")({
@@ -49,7 +49,7 @@ function McpGatewayPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="Agentwall MCP Gateway"
+        eyebrow="Perimeter Gateway"
         title={<>One governed entry point for every AI client.</>}
         lead={D}
       >

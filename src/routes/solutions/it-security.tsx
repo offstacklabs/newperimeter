@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "IT & Security — Agentwall";
+const T = "IT & Security — New Perimeter";
 const D = "Shadow AI detection, access control, runtime security and audit — the agent governance stack security teams can stand behind.";
 
 export const Route = createFileRoute("/solutions/it-security")({
@@ -41,12 +41,12 @@ function ItSecurityPage() {
         lead={D}
       >
         <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
-        <Link to="/guard" className="rounded-full border bg-background px-6 py-3 font-semibold">See Runtime Security</Link>
+        <Link to="/guard" className="rounded-full border bg-background px-6 py-3 font-semibold">See Perimeter Runtime</Link>
       </PageHero>
 
       <Section eyebrow="Capabilities" title="Controls first, enablement close behind.">
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Security teams that only block push AI usage underground — where it's invisible and riskier. Agentwall pairs
+          Security teams that only block push AI usage underground — where it's invisible and riskier. New Perimeter pairs
           hard controls with a golden path, so the secure route is also the convenient one.
         </p>
         <CardGrid items={capabilities} columns={2} />

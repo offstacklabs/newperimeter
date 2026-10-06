@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 
 const product = [
-  { to: "/mcp-gateway", name: "MCP Gateway", desc: "One governed entry point for every AI client" },
-  { to: "/identity-policy", name: "Agent IAM & Policy", desc: "Identity, credentials and policy decisions" },
-  { to: "/guard", name: "Runtime Security", desc: "Catch risky behavior before it runs" },
-  { to: "/catalog", name: "Catalog", desc: "Registry of approved servers and skills" },
-  { to: "/visibility", name: "Observability & ROI", desc: "Usage, spend and audit history" },
-  { to: "/watch", name: "Shadow AI", desc: "Find and control unmanaged AI" },
+  { to: "/mcp-gateway", name: "Perimeter Gateway", desc: "One governed entry point for every AI client" },
+  { to: "/identity-policy", name: "Perimeter Identity & Policy", desc: "Identity, credentials and policy decisions" },
+  { to: "/guard", name: "Perimeter Runtime", desc: "Catch risky behavior before it runs" },
+  { to: "/catalog", name: "Perimeter Catalog", desc: "Registry of approved servers and skills" },
+  { to: "/visibility", name: "Perimeter Audit", desc: "Usage, spend and audit history" },
+  { to: "/watch", name: "Perimeter Discover", desc: "Find and control unmanaged AI" },
 ] as const;
 
 const solutions = [
@@ -49,8 +49,8 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-          Agentwall
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">NP</span>
+          New Perimeter
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

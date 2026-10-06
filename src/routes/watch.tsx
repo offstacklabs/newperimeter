@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, Section, Steps, CardGrid, CtaBand } from "@/components/marketing";
 
-const T = "Shadow AI — Agentwall";
+const T = "Perimeter Discover — New Perimeter";
 const D = "Discover and control unmanaged AI across managed devices through your existing MDM — then approve, migrate or block unmanaged clients, servers, skills and plugins.";
 
 export const Route = createFileRoute("/watch")({
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/watch")({
 });
 
 const steps: [string, string][] = [
-  ["Discover without agents or opt-ins", "Agentwall reads inventory your MDM already collects. Within days you see every AI client, MCP server and plugin running on managed devices."],
+  ["Discover without agents or opt-ins", "New Perimeter reads inventory your MDM already collects. Within days you see every AI client, MCP server and plugin running on managed devices."],
   ["Classify what you find", "Each finding is labeled managed, shadow, outdated or risky — with the user, device and data it touches."],
   ["Approve, migrate or block", "Push findings into a single review queue. Good tools move into the catalog, redundant ones migrate to the golden path, dangerous ones are blocked."],
 ];
@@ -42,7 +42,7 @@ function WatchPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <PageHero
-        eyebrow="Agentwall Shadow AI"
+        eyebrow="Perimeter Discover"
         title={<>Find the AI your security team doesn't know about.</>}
         lead={D}
       >

@@ -79,7 +79,7 @@ export function CtaBand() {
     <section className="border-t bg-muted">
       <div className="mx-auto max-w-3xl px-6 py-20 text-center">
         <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">Ready to govern your agents?</h2>
-        <p className="mt-3 text-muted-foreground">A 30-minute walkthrough of the Agentwall control plane, tailored to your stack.</p>
+        <p className="mt-3 text-muted-foreground">A 30-minute walkthrough of the New Perimeter control plane, tailored to your stack.</p>
         <div className="mt-8 flex justify-center gap-3">
           <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>
           <Link to="/" className="rounded-full border bg-background px-6 py-3 font-semibold">Back to overview</Link>

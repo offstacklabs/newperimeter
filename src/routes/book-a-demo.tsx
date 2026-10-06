@@ -3,8 +3,8 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero, EmailForm } from "@/components/marketing";
 
-const T = "Book a demo — Agentwall";
-const D = "See Agentwall in action: a 30-minute walkthrough of the MCP gateway, catalog, policies and audit trail, tailored to your stack.";
+const T = "Book a demo — New Perimeter";
+const D = "See New Perimeter in action: a 30-minute walkthrough of the MCP gateway, catalog, policies and audit trail, tailored to your stack.";
 
 export const Route = createFileRoute("/book-a-demo")({
   head: () => ({

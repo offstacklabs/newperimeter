@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { LogPanel } from "@/components/marketing";
 
-const T = "Agentwall — Secure MCP for the enterprise";
+const T = "New Perimeter — Secure MCP for the enterprise";
 const D = "One control plane for every MCP server and AI agent: access policies, threat detection and full audit logs.";
 
 export const Route = createFileRoute("/")({
@@ -24,12 +24,12 @@ export const Route = createFileRoute("/")({
 
 // Feature cards double as navigation into the product pages.
 const features: { to: string; t: string; d: string }[] = [
-  { to: "/catalog", t: "Server registry", d: "Approve, version and catalog every MCP server your teams connect to Claude, Cursor or ChatGPT." },
-  { to: "/identity-policy", t: "Granular policies", d: "Per-tool permissions by team, role and data class. Block destructive calls before they run." },
-  { to: "/guard", t: "Threat detection", d: "Catch prompt injection, tool poisoning and data exfiltration in real time." },
-  { to: "/visibility", t: "Full audit trail", d: "Every agent call logged with user, tool, arguments and outcome. Export to your SIEM." },
-  { to: "/identity-policy", t: "SSO & SCIM", d: "Plug into Okta, Entra or Google. Access follows your identity provider." },
-  { to: "/watch", t: "Shadow AI detection", d: "Find unmanaged clients and servers through your MDM — then approve, migrate or block." },
+  { to: "/catalog", t: "Perimeter Catalog", d: "Approve, version and catalog every MCP server your teams connect to Claude, Cursor or ChatGPT." },
+  { to: "/identity-policy", t: "Perimeter Policy", d: "Per-tool permissions by team, role and data class. Block destructive calls before they run." },
+  { to: "/guard", t: "Perimeter Runtime", d: "Catch prompt injection, tool poisoning and data exfiltration in real time." },
+  { to: "/visibility", t: "Perimeter Audit", d: "Every agent call logged with user, tool, arguments and outcome. Export to your SIEM." },
+  { to: "/identity-policy", t: "Perimeter Identity", d: "Plug into Okta, Entra or Google. Access follows your identity provider." },
+  { to: "/watch", t: "Perimeter Discover", d: "Find unmanaged clients and servers through your MDM — then approve, migrate or block." },
 ];
 
 const logs: [string, string, string][] = [
@@ -76,7 +76,7 @@ function Index() {
 
       <section className="border-t bg-muted">
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight">See Agentwall in action</h2>
+          <h2 className="text-4xl font-extrabold tracking-tight">See New Perimeter in action</h2>
           <p className="mt-3 text-muted-foreground">30-minute walkthrough with our team, tailored to your stack.</p>
           <div className="mt-8 flex justify-center gap-3">
             <Link to="/book-a-demo" className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground">Book a demo</Link>

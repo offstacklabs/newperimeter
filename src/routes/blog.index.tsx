@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero, CtaBand } from "@/components/marketing";
 import { blogPosts } from "@/lib/content";
 
-const T = "Blog — Agentwall";
+const T = "Blog — New Perimeter";
 const D = "Essays and engineering notes on MCP security, agent governance and enterprise AI adoption.";
 
 export const Route = createFileRoute("/blog/")({

@@ -4,12 +4,12 @@ const columns: { title: string; links: { to: string; name: string }[] }[] = [
   {
     title: "Product",
     links: [
-      { to: "/mcp-gateway", name: "MCP Gateway" },
-      { to: "/identity-policy", name: "Agent IAM & Policy" },
-      { to: "/guard", name: "Runtime Security" },
-      { to: "/catalog", name: "Catalog" },
-      { to: "/visibility", name: "Observability & ROI" },
-      { to: "/watch", name: "Shadow AI" },
+      { to: "/mcp-gateway", name: "Perimeter Gateway" },
+      { to: "/identity-policy", name: "Perimeter Identity & Policy" },
+      { to: "/guard", name: "Perimeter Runtime" },
+      { to: "/catalog", name: "Perimeter Catalog" },
+      { to: "/visibility", name: "Perimeter Audit" },
+      { to: "/watch", name: "Perimeter Discover" },
     ],
   },
   {
@@ -36,8 +36,8 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 font-extrabold tracking-tight">
-            <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-            Agentwall
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-primary text-primary-foreground">NP</span>
+            New Perimeter
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Secure MCP for the enterprise. One control plane for every server, agent and tool call.
@@ -58,7 +58,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 py-6 text-sm text-muted-foreground">
-          <span>© 2026 Agentwall, Inc.</span>
+          <span>© 2026 New Perimeter, Inc.</span>
           <span className="font-mono text-xs">SOC 2 Type II · GDPR ready · Self-host or cloud</span>
         </div>
       </div>
