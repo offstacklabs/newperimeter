@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/invite/$token")({
   head: () => ({
@@ -22,29 +22,32 @@ type Invite = { workspace_name: string; email: string; role: string; status: str
 function InvitePage() {
   const { token } = Route.useParams();
   const navigate = useNavigate();
+  const { data: session, isPending: sessionPending } = authClient.useSession();
   const [invite, setInvite] = useState<Invite | null | undefined>(undefined);
-  const [userEmail, setUserEmail] = useState<string | null | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const userEmail = sessionPending ? undefined : session?.user.email ?? null;
 
   useEffect(() => {
-    supabase.rpc("get_invitation", { _token: token }).then(({ data }) => setInvite(data?.[0] ?? null));
-    supabase.auth.getUser().then(({ data }) => setUserEmail(data.user?.email ?? null));
+    fetch(`/api/invitations/${encodeURIComponent(token)}`)
+      .then((response) => response.json())
+      .then((body: { invite?: Invite | null }) => setInvite(body.invite ?? null))
+      .catch(() => setInvite(null));
   }, [token]);
 
   async function accept() {
     setBusy(true);
     setError(null);
-    const { data, error } = await supabase.rpc("accept_invitation", { _token: token });
+    const response = await fetch(`/api/invitations/${encodeURIComponent(token)}`, { method: "POST" });
+    const body = (await response.json()) as { workspaceId?: string; error?: string };
     setBusy(false);
-    if (error) return setError(error.message);
-    sessionStorage.setItem("np_ws", data as string);
+    if (!response.ok || !body.workspaceId) return setError(body.error ?? "Could not accept invitation");
+    sessionStorage.setItem("np_ws", body.workspaceId);
     navigate({ to: "/admin" });
   }
 
   async function switchAccount() {
-    await supabase.auth.signOut();
-    setUserEmail(null);
+    await authClient.signOut();
   }
 
   const redirect = `/invite/${token}`;

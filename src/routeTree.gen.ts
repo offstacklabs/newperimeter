@@ -21,12 +21,15 @@ import { Route as McpGatewayRouteImport } from './routes/mcp-gateway'
 import { Route as VisibilityRouteImport } from './routes/visibility'
 import { Route as WatchRouteImport } from './routes/watch'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiAdminRouteImport } from './routes/api/admin'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as SolutionsAiPlatformRouteImport } from './routes/solutions/ai-platform'
 import { Route as SolutionsAiTransformationRouteImport } from './routes/solutions/ai-transformation'
 import { Route as SolutionsItSecurityRouteImport } from './routes/solutions/it-security'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiInvitationsTokenRouteImport } from './routes/api/invitations/$token'
 import { Route as ApiPublicMcpServerIdRouteImport } from './routes/api/public/mcp.$serverId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -88,6 +91,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiAdminRoute = ApiAdminRouteImport.update({
+  id: '/api/admin',
+  path: '/api/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -119,6 +127,16 @@ const SolutionsItSecurityRoute = SolutionsItSecurityRouteImport.update({
   path: '/solutions/it-security',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInvitationsTokenRoute = ApiInvitationsTokenRouteImport.update({
+  id: '/api/invitations/$token',
+  path: '/api/invitations/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicMcpServerIdRoute = ApiPublicMcpServerIdRouteImport.update({
   id: '/api/public/mcp/$serverId',
   path: '/api/public/mcp/$serverId',
@@ -137,12 +155,15 @@ export interface FileRoutesByFullPath {
   '/visibility': typeof VisibilityRoute
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/admin': typeof ApiAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog/': typeof BlogIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/invitations/$token': typeof ApiInvitationsTokenRoute
   '/api/public/mcp/$serverId': typeof ApiPublicMcpServerIdRoute
 }
 export interface FileRoutesByTo {
@@ -157,12 +178,15 @@ export interface FileRoutesByTo {
   '/visibility': typeof VisibilityRoute
   '/watch': typeof WatchRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/admin': typeof ApiAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog': typeof BlogIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/invitations/$token': typeof ApiInvitationsTokenRoute
   '/api/public/mcp/$serverId': typeof ApiPublicMcpServerIdRoute
 }
 export interface FileRoutesById {
@@ -179,12 +203,15 @@ export interface FileRoutesById {
   '/visibility': typeof VisibilityRoute
   '/watch': typeof WatchRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/api/admin': typeof ApiAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/solutions/ai-platform': typeof SolutionsAiPlatformRoute
   '/solutions/ai-transformation': typeof SolutionsAiTransformationRoute
   '/solutions/it-security': typeof SolutionsItSecurityRoute
   '/blog/': typeof BlogIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/invitations/$token': typeof ApiInvitationsTokenRoute
   '/api/public/mcp/$serverId': typeof ApiPublicMcpServerIdRoute
 }
 export interface FileRouteTypes {
@@ -201,12 +228,15 @@ export interface FileRouteTypes {
     | '/visibility'
     | '/watch'
     | '/admin'
+    | '/api/admin'
     | '/blog/$slug'
     | '/invite/$token'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog/'
+    | '/api/auth/$'
+    | '/api/invitations/$token'
     | '/api/public/mcp/$serverId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -221,12 +251,15 @@ export interface FileRouteTypes {
     | '/visibility'
     | '/watch'
     | '/admin'
+    | '/api/admin'
     | '/blog/$slug'
     | '/invite/$token'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog'
+    | '/api/auth/$'
+    | '/api/invitations/$token'
     | '/api/public/mcp/$serverId'
   id:
     | '__root__'
@@ -242,12 +275,15 @@ export interface FileRouteTypes {
     | '/visibility'
     | '/watch'
     | '/_authenticated/admin'
+    | '/api/admin'
     | '/blog/$slug'
     | '/invite/$token'
     | '/solutions/ai-platform'
     | '/solutions/ai-transformation'
     | '/solutions/it-security'
     | '/blog/'
+    | '/api/auth/$'
+    | '/api/invitations/$token'
     | '/api/public/mcp/$serverId'
   fileRoutesById: FileRoutesById
 }
@@ -263,12 +299,15 @@ export interface RootRouteChildren {
   McpGatewayRoute: typeof McpGatewayRoute
   VisibilityRoute: typeof VisibilityRoute
   WatchRoute: typeof WatchRoute
+  ApiAdminRoute: typeof ApiAdminRoute
   BlogSlugRoute: typeof BlogSlugRoute
   InviteTokenRoute: typeof InviteTokenRoute
   SolutionsAiPlatformRoute: typeof SolutionsAiPlatformRoute
   SolutionsAiTransformationRoute: typeof SolutionsAiTransformationRoute
   SolutionsItSecurityRoute: typeof SolutionsItSecurityRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiInvitationsTokenRoute: typeof ApiInvitationsTokenRoute
   ApiPublicMcpServerIdRoute: typeof ApiPublicMcpServerIdRoute
 }
 
@@ -358,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/admin': {
+      id: '/api/admin'
+      path: '/api/admin'
+      fullPath: '/api/admin'
+      preLoaderRoute: typeof ApiAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -400,6 +446,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsItSecurityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/invitations/$token': {
+      id: '/api/invitations/$token'
+      path: '/api/invitations/$token'
+      fullPath: '/api/invitations/$token'
+      preLoaderRoute: typeof ApiInvitationsTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/mcp/$serverId': {
       id: '/api/public/mcp/$serverId'
       path: '/api/public/mcp/$serverId'
@@ -433,12 +493,15 @@ const rootRouteChildren: RootRouteChildren = {
   McpGatewayRoute: McpGatewayRoute,
   VisibilityRoute: VisibilityRoute,
   WatchRoute: WatchRoute,
+  ApiAdminRoute: ApiAdminRoute,
   BlogSlugRoute: BlogSlugRoute,
   InviteTokenRoute: InviteTokenRoute,
   SolutionsAiPlatformRoute: SolutionsAiPlatformRoute,
   SolutionsAiTransformationRoute: SolutionsAiTransformationRoute,
   SolutionsItSecurityRoute: SolutionsItSecurityRoute,
   BlogIndexRoute: BlogIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiInvitationsTokenRoute: ApiInvitationsTokenRoute,
   ApiPublicMcpServerIdRoute: ApiPublicMcpServerIdRoute,
 }
 export const routeTree = rootRouteImport

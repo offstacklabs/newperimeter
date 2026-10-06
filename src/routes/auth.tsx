@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { authClient } from "@/lib/auth-client";
 
 type AuthSearch = { redirect?: string | undefined; mode?: "signin" | "signup" | undefined; email?: string | undefined };
 
@@ -42,22 +42,19 @@ function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        const { error } = await authClient.signIn.email({ email, password });
+        if (error) throw new Error(error.message);
         goNext();
       } else {
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await authClient.signUp.email({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin + (search.redirect ?? "") },
+          name: email.split("@")[0] ?? email,
+          callbackURL: window.location.origin + (search.redirect ?? "/admin"),
         });
-        if (error) throw error;
-        if (!data.session) {
-          setNotice("Check your email to confirm your account, then sign in.");
-          setMode("signin");
-        } else {
-          goNext();
-        }
+        if (error) throw new Error(error.message);
+        setNotice("Check your email to verify your account, then sign in.");
+        setMode("signin");
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");

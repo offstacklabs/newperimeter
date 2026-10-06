@@ -3,7 +3,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { adminApi } from "@/lib/admin-api";
+import type { ApiKeyRow, AuditLogRow, InvitationRow, MemberRow, PolicyRow, ServerRow } from "@/lib/admin-types";
+import { authClient } from "@/lib/auth-client";
 import { sha256Hex } from "@/lib/policy-engine";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -31,7 +33,7 @@ function AlertsCard({ workspace }: { workspace: Workspace }) {
     const v = url.trim();
     if (v && !v.startsWith("https://")) return void toast.error("Webhook URL must start with https://");
     setBusy(true);
-    const { error } = await supabase.from("workspaces").update({ alert_webhook_url: v || null, alert_on: on }).eq("id", workspace.id);
+    const { error } = await adminApi("updateAlertSettings", { workspaceId: workspace.id, alert_webhook_url: v || null, alert_on: on });
     if (check(error, v ? "Alerts saved" : "Alerts turned off")) queryClient.invalidateQueries({ queryKey: ["workspaces"] });
     setBusy(false);
   }
@@ -104,7 +106,7 @@ function AdminPage() {
   const { data: workspaces = [], isLoading } = useQuery({
     queryKey: ["workspaces", user.id],
     queryFn: async (): Promise<Workspace[]> => {
-      const { data, error } = await supabase.from("workspaces").select("id, name, created_by, default_action, audit_retention_days").order("created_at");
+      const { data, error } = await adminApi<Workspace[]>("getWorkspaces");
       if (error) throw error;
       return (data ?? []) as Workspace[];
     },
@@ -116,21 +118,16 @@ function AdminPage() {
     queryKey: ["my-role", workspace?.id, user.id],
     enabled: !!workspace,
     queryFn: async (): Promise<Role | null> => {
-      const { data, error } = await supabase
-        .from("workspace_members")
-        .select("role")
-        .eq("workspace_id", workspace!.id)
-        .eq("user_id", user.id);
+      const { data, error } = await adminApi<Role | null>("getMyRole", { workspaceId: workspace!.id });
       if (error) throw error;
-      const roles = (data ?? []).map((r) => r.role);
-      return roles.includes("admin") ? "admin" : roles.includes("viewer") ? "viewer" : null;
+      return data;
     },
   });
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
-    await supabase.auth.signOut();
+    await authClient.signOut();
     navigate({ to: "/auth", replace: true });
   }
 
@@ -243,16 +240,8 @@ function CreateWorkspace({ onCreated }: { onCreated?: (id: string) => void }) {
   async function create(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const { data: ws, error: wsError } = await supabase
-      .from("workspaces")
-      .insert({ name, created_by: user.id })
-      .select("id")
-      .single();
-    if (!check(wsError) || !ws) return setBusy(false);
-    const { error: memberError } = await supabase
-      .from("workspace_members")
-      .insert({ workspace_id: ws.id, user_id: user.id, role: "admin" });
-    if (!check(memberError)) return setBusy(false);
+    const { data: ws, error } = await adminApi<{ id: string }>("createWorkspace", { name });
+    if (!check(error) || !ws) return setBusy(false);
     toast.success(`Workspace "${name}" created`);
     setName("");
     setBusy(false);
@@ -288,7 +277,7 @@ function Team({ currentUserId }: { currentUserId: string }) {
   const { data: members = [] } = useQuery({
     queryKey: ["members", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("list_workspace_members", { _ws: workspaceId });
+      const { data, error } = await adminApi<MemberRow[]>("listMembers", { workspaceId });
       if (error) throw error;
       return data ?? [];
     },
@@ -296,14 +285,7 @@ function Team({ currentUserId }: { currentUserId: string }) {
   const { data: invites = [] } = useQuery({
     queryKey: ["invites", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("workspace_invitations")
-        .select("id, email, role, token, expires_at")
-        .eq("workspace_id", workspaceId)
-        .is("accepted_at", null)
-        .is("revoked_at", null)
-        .gt("expires_at", new Date().toISOString())
-        .order("created_at", { ascending: false });
+      const { data, error } = await adminApi<InvitationRow[]>("listInvitations", { workspaceId });
       if (error) throw error;
       return data ?? [];
     },
@@ -319,26 +301,21 @@ function Team({ currentUserId }: { currentUserId: string }) {
 
   async function grant(e: React.FormEvent) {
     e.preventDefault();
-    const { data, error } = await supabase
-      .from("workspace_invitations")
-      .insert({ workspace_id: workspaceId, email: email.trim().toLowerCase(), role })
-      .select("token")
-      .single();
-    if (check(error, `Invite created for ${email} — link copied, send it to them`)) {
+    const { error } = await adminApi("createInvitation", { workspaceId, email, role });
+    if (check(error, `Invitation email sent to ${email}`)) {
       setEmail("");
-      if (data) navigator.clipboard.writeText(linkFor(data.token)).catch(() => {});
     }
     queryClient.invalidateQueries({ queryKey: ["invites", workspaceId] });
   }
 
   async function revokeInvite(id: string) {
-    const { error } = await supabase.from("workspace_invitations").update({ revoked_at: new Date().toISOString() }).eq("id", id);
+    const { error } = await adminApi("revokeInvitation", { workspaceId, id });
     check(error, "Invite revoked");
     queryClient.invalidateQueries({ queryKey: ["invites", workspaceId] });
   }
 
   async function revoke(userId: string) {
-    const { error } = await supabase.rpc("remove_from_workspace", { _ws: workspaceId, _user: userId });
+    const { error } = await adminApi("removeMember", { workspaceId, userId });
     check(error, "Access removed");
     queryClient.invalidateQueries({ queryKey: ["members", workspaceId] });
   }
@@ -411,7 +388,7 @@ function Settings({
   async function saveGeneral(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const { error } = await supabase.from("workspaces").update({ name }).eq("id", workspace.id);
+    const { error } = await adminApi("updateWorkspace", { workspaceId: workspace.id, name });
     if (check(error, "Workspace renamed")) queryClient.invalidateQueries({ queryKey: ["workspaces", user.id] });
     setBusy(false);
   }
@@ -424,10 +401,7 @@ function Settings({
       return;
     }
     setBusy(true);
-    const { error } = await supabase
-      .from("workspaces")
-      .update({ default_action: defaultAction, audit_retention_days: days })
-      .eq("id", workspace.id);
+    const { error } = await adminApi("updateWorkspace", { workspaceId: workspace.id, default_action: defaultAction, audit_retention_days: days });
     if (check(error, "Enforcement defaults saved")) queryClient.invalidateQueries({ queryKey: ["workspaces", user.id] });
     setBusy(false);
   }
@@ -438,7 +412,7 @@ function Settings({
       return;
     }
     setBusy(true);
-    const { error } = await supabase.rpc("delete_workspace", { _ws: workspace.id });
+    const { error } = await adminApi("deleteWorkspace", { workspaceId: workspace.id });
     if (!check(error, `Workspace "${workspace.name}" deleted`)) return setBusy(false);
     setConfirmName("");
     setBusy(false);
@@ -538,18 +512,15 @@ function Overview() {
   const { workspaceId } = useWs();
   const { data: servers = [] } = useQuery({
     queryKey: ["servers", workspaceId],
-    queryFn: async () =>
-      (await supabase.from("mcp_servers").select("*").eq("workspace_id", workspaceId)).data ?? [],
+    queryFn: async () => (await adminApi<ServerRow[]>("listServers", { workspaceId })).data ?? [],
   });
   const { data: policies = [] } = useQuery({
     queryKey: ["policies", workspaceId],
-    queryFn: async () =>
-      (await supabase.from("policies").select("*").eq("workspace_id", workspaceId)).data ?? [],
+    queryFn: async () => (await adminApi<PolicyRow[]>("listPolicies", { workspaceId })).data ?? [],
   });
   const { data: logs = [] } = useQuery({
     queryKey: ["audit", workspaceId],
-    queryFn: async () =>
-      (await supabase.from("audit_logs").select("*").eq("workspace_id", workspaceId).order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () => (await adminApi<AuditLogRow[]>("listAuditLogs", { workspaceId })).data ?? [],
   });
 
   const blocked = logs.filter((l) => l.outcome === "block").length;
@@ -594,20 +565,17 @@ function Servers() {
   const isAdmin = useIsAdmin();
   const { data: servers = [] } = useQuery({
     queryKey: ["servers", workspaceId],
-    queryFn: async () =>
-      (await supabase.from("mcp_servers").select("*").eq("workspace_id", workspaceId).order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () => (await adminApi<ServerRow[]>("listServers", { workspaceId })).data ?? [],
   });
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
 
   async function addServer(e: React.FormEvent) {
     e.preventDefault();
-    const { data: userData } = await supabase.auth.getUser();
-    const { error } = await supabase.from("mcp_servers").insert({
+    const { error } = await adminApi("createServer", {
       name,
       url,
-      workspace_id: workspaceId,
-      created_by: userData.user?.id ?? null,
+      workspaceId,
     });
     if (!check(error, "Server registered")) return;
     setName("");
@@ -616,7 +584,7 @@ function Servers() {
   }
 
   async function setStatus(id: string, status: "approved" | "blocked" | "pending") {
-    const { error } = await supabase.from("mcp_servers").update({ status }).eq("id", id).eq("workspace_id", workspaceId);
+    const { error } = await adminApi("setServerStatus", { id, status, workspaceId });
     check(error);
     queryClient.invalidateQueries({ queryKey: ["servers", workspaceId] });
   }
@@ -686,8 +654,7 @@ function Policies() {
   const isAdmin = useIsAdmin();
   const { data: policies = [] } = useQuery({
     queryKey: ["policies", workspaceId],
-    queryFn: async () =>
-      (await supabase.from("policies").select("*").eq("workspace_id", workspaceId).order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () => (await adminApi<PolicyRow[]>("listPolicies", { workspaceId })).data ?? [],
   });
   const [name, setName] = useState("");
   const [pattern, setPattern] = useState("");
@@ -695,7 +662,7 @@ function Policies() {
 
   async function addPolicy(e: React.FormEvent) {
     e.preventDefault();
-    const { error } = await supabase.from("policies").insert({ name, tool_pattern: pattern, effect, workspace_id: workspaceId });
+    const { error } = await adminApi("createPolicy", { name, tool_pattern: pattern, effect, workspaceId });
     if (!check(error, "Policy added")) return;
     setName("");
     setPattern("");
@@ -703,7 +670,7 @@ function Policies() {
   }
 
   async function toggle(id: string, enabled: boolean) {
-    const { error } = await supabase.from("policies").update({ enabled: !enabled }).eq("id", id).eq("workspace_id", workspaceId);
+    const { error } = await adminApi("togglePolicy", { id, workspaceId });
     check(error);
     queryClient.invalidateQueries({ queryKey: ["policies", workspaceId] });
   }
@@ -767,8 +734,7 @@ function AuditLog() {
   const [server, setServer] = useState("all");
   const { data: logs = [] } = useQuery({
     queryKey: ["audit", workspaceId],
-    queryFn: async () =>
-      (await supabase.from("audit_logs").select("*").eq("workspace_id", workspaceId).order("created_at", { ascending: false }).limit(500)).data ?? [],
+    queryFn: async () => (await adminApi<AuditLogRow[]>("listAuditLogs", { workspaceId })).data ?? [],
   });
 
   const servers = [...new Set(logs.map((l) => l.server))].sort();
@@ -848,12 +814,7 @@ function ApiKeys() {
   const queryClient = useQueryClient();
   const { data: keys = [] } = useQuery({
     queryKey: ["api-keys", workspaceId],
-    queryFn: async () =>
-      (await supabase
-        .from("workspace_api_keys")
-        .select("id, name, key_prefix, created_at, last_used_at, revoked_at")
-        .eq("workspace_id", workspaceId)
-        .order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () => (await adminApi<ApiKeyRow[]>("listApiKeys", { workspaceId })).data ?? [],
   });
   const [name, setName] = useState("");
   const [fresh, setFresh] = useState<string | null>(null);
@@ -862,8 +823,8 @@ function ApiKeys() {
     e.preventDefault();
     const bytes = crypto.getRandomValues(new Uint8Array(24));
     const key = "aw_" + Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
-    const { error } = await supabase.from("workspace_api_keys").insert({
-      workspace_id: workspaceId,
+    const { error } = await adminApi("createApiKey", {
+      workspaceId,
       name,
       key_prefix: key.slice(0, 10),
       key_hash: await sha256Hex(key),
@@ -875,11 +836,7 @@ function ApiKeys() {
   }
 
   async function revoke(id: string) {
-    const { error } = await supabase
-      .from("workspace_api_keys")
-      .update({ revoked_at: new Date().toISOString() })
-      .eq("id", id)
-      .eq("workspace_id", workspaceId);
+    const { error } = await adminApi("revokeApiKey", { id, workspaceId });
     check(error, "Key revoked");
     queryClient.invalidateQueries({ queryKey: ["api-keys", workspaceId] });
   }

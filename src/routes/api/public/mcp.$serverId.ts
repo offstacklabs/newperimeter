@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { evaluate, sha256Hex, type Effect } from "@/lib/policy-engine";
+import { db } from "@/lib/db.server";
 
 type RpcMessage = { jsonrpc?: string; id?: string | number | null; method?: string; params?: { name?: string } };
 
@@ -15,25 +16,33 @@ async function authorize(request: Request, serverId: string) {
   if (!key.startsWith("aw_")) return { error: rpcError(null, -32001, "Missing or invalid New Perimeter API key", 401) };
   if (!/^[0-9a-f-]{36}$/i.test(serverId)) return { error: rpcError(null, -32002, "Unknown server", 404) };
 
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data: apiKey } = await supabaseAdmin
-    .from("workspace_api_keys")
-    .select("id, name, workspace_id, revoked_at")
-    .eq("key_hash", await sha256Hex(key))
-    .maybeSingle();
+  const keyResult = await db.query<{ id: string; name: string; workspace_id: string; revoked_at: string | null }>(
+    "select id, name, workspace_id, revoked_at from public.workspace_api_keys where key_hash = $1 limit 1",
+    [await sha256Hex(key)],
+  );
+  const apiKey = keyResult.rows[0];
   if (!apiKey || apiKey.revoked_at) return { error: rpcError(null, -32001, "API key revoked or not found", 401) };
 
-  const { data: server } = await supabaseAdmin
-    .from("mcp_servers")
-    .select("id, name, url, status, workspace_id")
-    .eq("id", serverId)
-    .eq("workspace_id", apiKey.workspace_id)
-    .not("workspace_id", "is", null)
-    .maybeSingle();
+  const serverResult = await db.query<{ id: string; name: string; url: string; status: string; workspace_id: string }>(
+    `select id, name, url, status, workspace_id from public.mcp_servers
+      where id = $1::uuid and workspace_id = $2::uuid limit 1`,
+    [serverId, apiKey.workspace_id],
+  );
+  const server = serverResult.rows[0];
   if (!server) return { error: rpcError(null, -32002, "Unknown server", 404) };
 
-  await supabaseAdmin.from("workspace_api_keys").update({ last_used_at: new Date().toISOString() }).eq("id", apiKey.id);
-  return { supabaseAdmin, apiKey, server: { ...server, workspace_id: server.workspace_id as string } };
+  await db.query("update public.workspace_api_keys set last_used_at = now() where id = $1::uuid", [apiKey.id]);
+  return { apiKey, server };
+}
+
+async function writeAudit(rows: Array<{ workspaceId: string; actor: string; server: string; tool: string; outcome: Effect; detail: string }>) {
+  for (const row of rows) {
+    await db.query(
+      `insert into public.audit_logs(workspace_id, actor, server, tool, outcome, detail)
+       values ($1::uuid, $2, $3, $4, $5, $6)`,
+      [row.workspaceId, row.actor, row.server, row.tool, row.outcome, row.detail],
+    );
+  }
 }
 
 async function forward(request: Request, url: string, body: string | null = null) {
@@ -64,7 +73,7 @@ export const Route = createFileRoute("/api/public/mcp/$serverId")({
       POST: async ({ request, params }) => {
         const ctx = await authorize(request, params.serverId);
         if ("error" in ctx) return ctx.error;
-        const { supabaseAdmin, apiKey, server } = ctx;
+        const { apiKey, server } = ctx;
         const actor = `key:${apiKey.name}`;
 
         const raw = await request.text();
@@ -79,33 +88,37 @@ export const Route = createFileRoute("/api/public/mcp/$serverId")({
 
         if (server.status !== "approved") {
           if (calls.length) {
-            await supabaseAdmin.from("audit_logs").insert(
-              calls.map((c) => ({
-                workspace_id: server.workspace_id, actor, server: server.name,
-                tool: String(c.params?.name ?? "unknown"), outcome: "block",
-                detail: `Server is ${server.status}, not approved`,
-              })),
-            );
+            await writeAudit(calls.map((c) => ({
+              workspaceId: server.workspace_id, actor, server: server.name,
+              tool: String(c.params?.name ?? "unknown"), outcome: "block" as const,
+              detail: `Server is ${server.status}, not approved`,
+            })));
           }
           return rpcError(messages[0]?.id, -32004, `Server "${server.name}" is ${server.status}; an admin must approve it`, 403);
         }
 
         if (calls.length) {
-          const [{ data: ws }, { data: rules }] = await Promise.all([
-            supabaseAdmin.from("workspaces").select("default_action, alert_webhook_url, alert_on").eq("id", server.workspace_id).single(),
-            supabaseAdmin.from("policies").select("name, tool_pattern, effect, enabled").eq("workspace_id", server.workspace_id),
+          const [wsResult, rulesResult] = await Promise.all([
+            db.query<{ default_action: Effect; alert_webhook_url: string | null; alert_on: string }>(
+              "select default_action, alert_webhook_url, alert_on from public.workspaces where id = $1::uuid",
+              [server.workspace_id],
+            ),
+            db.query<Array<{ name: string; tool_pattern: string; effect: Effect; enabled: boolean }>[number]>(
+              "select name, tool_pattern, effect, enabled from public.policies where workspace_id = $1::uuid",
+              [server.workspace_id],
+            ),
           ]);
+          const ws = wsResult.rows[0];
+          const rules = rulesResult.rows;
           const fallback = (ws?.default_action ?? "block") as Effect;
           const decisions = calls.map((c) => {
             const tool = String(c.params?.name ?? "unknown");
             return { call: c, tool, ...evaluate(rules ?? [], tool, server.name, fallback) };
           });
-          await supabaseAdmin.from("audit_logs").insert(
-            decisions.map((d) => ({
-              workspace_id: server.workspace_id, actor, server: server.name, tool: d.tool, outcome: d.effect,
-              detail: d.policy ? `Matched policy "${d.policy}"` : `No policy matched; workspace default (${d.effect})`,
-            })),
-          );
+          await writeAudit(decisions.map((d) => ({
+            workspaceId: server.workspace_id, actor, server: server.name, tool: d.tool, outcome: d.effect,
+            detail: d.policy ? `Matched policy "${d.policy}"` : `No policy matched; workspace default (${d.effect})`,
+          })));
           if (ws?.alert_webhook_url) {
             const alertable = decisions.filter(
               (d) => d.effect === "block" || (ws.alert_on === "flag_block" && d.effect === "flag"),
