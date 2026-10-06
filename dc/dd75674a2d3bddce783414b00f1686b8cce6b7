@@ -1,0 +1,28 @@
+src/lib/auth.server.ts
+  s_e987fb4442cc7e::t_36d9c7082ec28d 8-26,40,64-67
+src/routes/api/admin.ts
+  s_e987fb4442cc7e::t_36d9c7082ec28d 2,15
+src/routes/api/invitations/$token.ts
+  s_e987fb4442cc7e::t_36d9c7082ec28d 2,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "dcdd75674a2d3bddce783414b00f1686b8cce6b7",
+  "prompts": {},
+  "humans": {
+    "h_cc24da95f2fbcc": {
+      "author": "orbitmint <orbitmint@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_e987fb4442cc7e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a11334-146d-7930-b582-a23369a80741",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "orbitmint <orbitmint@users.noreply.github.com>"
+    }
+  }
+}
