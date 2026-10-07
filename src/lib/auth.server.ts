@@ -57,7 +57,7 @@ export const auth = betterAuth({
     },
   },
   advanced: {
-    database: { generateId: "uuid" },
+    database: { generateId: () => globalThis.crypto.randomUUID() },
   },
   plugins: [tanstackStartCookies()],
 });
