@@ -1,0 +1,24 @@
+src/lib/auth.server.ts
+  s_e987fb4442cc7e::t_9c7fbc829c6aff 60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "c794ac2d0baf678669299ae78a38b92af3863343",
+  "prompts": {},
+  "humans": {
+    "h_cc24da95f2fbcc": {
+      "author": "orbitmint <orbitmint@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_e987fb4442cc7e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a11334-146d-7930-b582-a23369a80741",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "orbitmint <orbitmint@users.noreply.github.com>"
+    }
+  }
+}
